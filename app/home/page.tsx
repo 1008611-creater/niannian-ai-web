@@ -667,7 +667,7 @@ export default function HomePage() {
               {selectedOutputTask ? (
                 <video key={selectedOutputTask.id} className="generator-result-preview" autoPlay muted controls playsInline preload="auto" src={selectedOutputTask.outputUrl ?? undefined} />
               ) : ziyuJob?.previewUrl ? (
-                <div className="generator-ziyu-result"><video key={ziyuJob.id} className="generator-result-preview" autoPlay muted controls playsInline preload="auto" src={`/api/ziyu/jobs/${encodeURIComponent(ziyuJob.id)}/media`} /><a href={`/api/ziyu/jobs/${encodeURIComponent(ziyuJob.id)}/media`} download>下载视频</a></div>
+                <div className="generator-ziyu-result"><video key={ziyuJob.id} className="generator-result-preview" autoPlay muted controls playsInline preload="auto" src={`/api/ziyu/media?jobId=${encodeURIComponent(ziyuJob.id)}`} /><a href={`/api/ziyu/media?jobId=${encodeURIComponent(ziyuJob.id)}`} download>下载视频</a></div>
               ) : assets.character[0] || assets.scene[0] ? (
                 <div className="preview-composition">
                   {assets.scene[0] ? <img className="preview-scene" src={assets.scene[0].url} alt="场景预览" /> : null}
