@@ -19,10 +19,7 @@ export async function GET(request: NextRequest) {
       error = cause instanceof ZiyuApiError ? cause.message : "紫域模型目录暂时不可用";
     }
   }
-  const clientModels = models.map((model, index) => ({
-    ...model,
-    name: model.modes.every((mode) => mode === "t2i") ? `图像渠道 ${String(index + 1).padStart(2, "0")}` : `视频渠道 ${String(index + 1).padStart(2, "0")}`,
-  }));
+  const clientModels = models;
   return NextResponse.json({
     providers: providerDescriptors.map((provider) => provider.id === "ziyu" ? { ...provider, label: "智能视频渠道", purpose: "实时可用的视频与图片生成渠道", configured, state, models: clientModels } : provider),
     ziyu: { configured, state, models: clientModels, ...(error ? { error } : {}) },

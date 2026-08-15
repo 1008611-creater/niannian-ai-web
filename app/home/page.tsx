@@ -537,7 +537,7 @@ export default function HomePage() {
                     <option value="video_s">全能视频 S</option>
                     <option value="video_smini">全能视频 Smini</option>
                     <option value="image_g">全能图片 G</option>
-                    {ziyuModels.length ? <optgroup label="智能渠道">{ziyuModels.map((model, index) => <option key={model.id} value={`ziyu:${model.id}`}>{model.modes.every((item) => item === "t2i") ? `图像渠道 ${String(index + 1).padStart(2, "0")}` : `视频渠道 ${String(index + 1).padStart(2, "0")}`}</option>)}</optgroup> : null}
+                    {ziyuModels.length ? <optgroup label="智能渠道">{ziyuModels.map((model) => <option key={model.id} value={`ziyu:${model.id}`}>{model.name}</option>)}</optgroup> : null}
                   </select></label>
                 </div>
                 <div className="generator-options">
