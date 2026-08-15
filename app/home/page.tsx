@@ -326,7 +326,6 @@ export default function HomePage() {
   const imageProductSelected = product === "image_g";
   const currentCreditCost = ziyuProductSelected ? 0 : credits?.pricing.automatic[String(durationSeconds)] ?? 0;
   const ziyuCost = selectedZiyuModel ? duration ? selectedZiyuModel.durationCosts[String(durationSeconds)] ?? (selectedZiyuModel.costPerSecond ? selectedZiyuModel.costPerSecond * durationSeconds : selectedZiyuModel.cost) : selectedZiyuModel.cost : null;
-  const ziyuCostUnit = selectedZiyuModel && selectedZiyuModel.durationCosts[String(durationSeconds)] !== undefined ? " / 次" : selectedZiyuModel?.costPerSecond ? " / 秒" : " / 次";
   const hasEnoughCredits = Boolean(credits && currentCreditCost > 0 && credits.balance >= currentCreditCost);
   const missingCredits = Math.max(0, currentCreditCost - (credits?.balance ?? 0));
   const validationMessage = imageProductSelected ? "全能图片 G 即将开放" : ziyuProductSelected && !selectedZiyuModel ? "正在读取可用渠道" : !prompt.trim() ? "请先填写视频描述" : !ziyuProductSelected && !credits ? "正在读取积分余额" : !ziyuProductSelected && currentCreditCost <= 0 ? "当前时长暂时不可用" : !ziyuProductSelected && !hasEnoughCredits ? `积分不足，还需要 ${missingCredits} 积分` : "";
@@ -596,7 +595,7 @@ export default function HomePage() {
                   </select></label>
                   {ziyuProductSelected && selectedZiyuModel ? <div className="generator-channel-contract" aria-label="渠道规格">
                     <span>模式：{selectedZiyuModel.modes.map((item) => item === "i2v" ? "图生视频" : item === "t2v" ? "文生视频" : "文生图").join("、")}</span>
-                    <span>费用：{ziyuCost ?? "--"} 积分{ziyuCostUnit}</span>
+                    <span>费用：{ziyuCost ?? "--"} 积分 / 次</span>
                     <span>参考：{selectedZiyuModel.allowedAssetTypes.length ? selectedZiyuModel.allowedAssetTypes.map((type) => `${type === "image" ? "图片" : type === "video" ? "视频" : "音频"} ${type === "image" ? imageAssetCount : 0}/${selectedZiyuModel.assetLimits[type] ?? "-"}个`).join("、") : "无需素材"}</span>
                   </div> : null}
                 </div>
