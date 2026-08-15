@@ -454,7 +454,7 @@ export default function HomePage() {
       if (!uploadResponse.ok) throw new Error(uploadPayload.error || "ZIYU_UPLOAD_FAILED");
       (uploadPayload.assets ?? []).forEach((asset: { url?: string }, index: number) => { if (asset.url && sourceAssets[index]) uploaded[sourceAssets[index].type].push({ url: asset.url }); });
     }
-    const response = await fetch("/api/ziyu/jobs", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelId: selectedZiyuModel.id, mode: ziyuMode, prompt: prompt.trim(), ratio: aspectRatio || undefined, duration: ziyuMode === "t2i" ? undefined : "15", assets: uploaded }) });
+    const response = await fetch("/api/ziyu/jobs", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelId: selectedZiyuModel.id, mode: ziyuMode, prompt: prompt.trim(), ratio: aspectRatio || undefined, duration: ziyuMode === "t2i" ? undefined : "15秒", assets: uploaded }) });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || "ZIYU_JOB_CREATE_FAILED");
     if (payload.job?.id) setZiyuJob({ id: payload.job.id, status: payload.job.status ?? "queued", previewUrl: payload.job.previewUrl ?? null, failureReason: null, message: null });
