@@ -101,7 +101,7 @@ export default function HomePage() {
   const [prompt, setPrompt] = useState("");
   const [ziyuModels, setZiyuModels] = useState<ZiyuModel[]>([]);
   const [ziyuMode, setZiyuMode] = useState<ZiyuMode>("i2v");
-  const [duration, setDuration] = useState("5 秒");
+  const [duration, setDuration] = useState("15 秒");
   const [aspectRatio, setAspectRatio] = useState("9:16");
   const [product, setProduct] = useState<StudioProduct>("video_s");
   const [assets, setAssets] = useState<Record<AssetRole, PendingAsset[]>>(emptyAssets);
@@ -194,7 +194,7 @@ export default function HomePage() {
       try {
         const draft = JSON.parse(storedDraft);
         setPrompt(draft.prompt ?? "");
-        setDuration(draft.duration ?? "5 秒");
+        setDuration("15 秒");
         setAspectRatio(draft.aspectRatio ?? "9:16");
         setProduct(draft.product ?? "video_s");
       } catch {
@@ -213,7 +213,7 @@ export default function HomePage() {
   useEffect(() => {
     if (!selectedZiyuModel) return;
     setZiyuMode((current) => selectedZiyuModel.modes.includes(current) ? current : selectedZiyuModel.modes[0]);
-    setDuration((current) => selectedZiyuModel.allowedDurations.includes(Number(current.replace(/\D/g, ""))) ? current : durationOptions[0] ?? "");
+    setDuration("15 秒");
     setAspectRatio((current) => selectedZiyuModel.allowedRatios.includes(current) ? current : ratioOptions[0] ?? "");
   }, [selectedZiyuModel?.id]);
 
@@ -380,7 +380,7 @@ export default function HomePage() {
       if (!uploadResponse.ok) throw new Error(uploadPayload.error || "ZIYU_UPLOAD_FAILED");
       (uploadPayload.assets ?? []).forEach((asset: { url?: string }, index: number) => { if (asset.url && sourceAssets[index]) uploaded[sourceAssets[index].type].push({ url: asset.url }); });
     }
-    const response = await fetch("/api/ziyu/jobs", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelId: selectedZiyuModel.id, mode: ziyuMode, prompt: prompt.trim(), ratio: aspectRatio || undefined, duration: durationSeconds ? String(durationSeconds) : undefined, assets: uploaded }) });
+    const response = await fetch("/api/ziyu/jobs", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelId: selectedZiyuModel.id, mode: ziyuMode, prompt: prompt.trim(), ratio: aspectRatio || undefined, duration: ziyuMode === "t2i" ? undefined : "15", assets: uploaded }) });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || "ZIYU_JOB_CREATE_FAILED");
     setMessage(`任务已创建${payload.job?.id ? `：${payload.job.id}` : ""}，正在处理中。`);
@@ -559,7 +559,7 @@ export default function HomePage() {
                   <div className="generator-fixed-option"><span>分辨率</span><b>{resolution}</b></div>
                   <label>
                     <span>时长</span>
-                    <select value={duration} disabled={imageProductSelected || Boolean(selectedZiyuModel && !selectedZiyuModel.allowedDurations.length)} onChange={(event) => setDuration(event.target.value)}>
+                    <select value={duration} disabled onChange={() => undefined}>
                       {durationOptions.map((item) => <option key={item}>{item}</option>)}
                     </select>
                   </label>
