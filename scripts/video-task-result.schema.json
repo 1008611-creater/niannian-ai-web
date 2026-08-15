@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "providerTaskId",
+    "outputPath",
+    "blocker",
+    "summary",
+    "mediaProbePassed",
+    "contentQaPassed",
+    "ledgerPath"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["completed", "running", "blocked", "failed"]
+    },
+    "providerTaskId": { "type": ["string", "null"] },
+    "outputPath": { "type": ["string", "null"] },
+    "blocker": { "type": ["string", "null"] },
+    "summary": { "type": "string", "maxLength": 2000 },
+    "mediaProbePassed": { "type": "boolean" },
+    "contentQaPassed": { "type": "boolean" },
+    "ledgerPath": { "type": ["string", "null"] }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "task": {
+    "task_id": "NIANNIAN-WB-DISPATCHER-CUTOVER-20260728-01",
+    "lane": "writer",
+    "kind": "controlled_dispatcher_cutover_preflight",
+    "target_user_visible_gate": "controlled_dispatcher_cutover_preflight",
+    "value_hypothesis": "冻结并切换唯一控制器写入者，以便只恢复既有正式任务的最早未满足节点",
+    "prerequisites": ["dispatcher_candidate_accepted", "pcr_level_1_passed", "current_harness_revision_49"],
+    "write_set": ["video-workbench-harness ledger/state", "tencent-niannian dispatcher runtime only"],
+    "irreversibility": false,
+    "cost": false,
+    "evidence_needed": ["exact_cutover_snapshot", "local_writer_freeze", "single_server_writer_readback", "rollback_handle"],
+    "produces_evidence_for": "controlled_dispatcher_cutover_preflight",
+    "owner_id": "019fa6e9-e092-7962-afed-d2e35b6fa10a"
+  },
+  "route_state": {
+    "earliest_unsatisfied_gate": "controlled_dispatcher_cutover_preflight",
+    "next_user_visible_gate": "controlled_dispatcher_cutover_preflight",
+    "baseline_parity_state": "passed",
+    "candidate_state": "frozen",
+    "satisfied_prerequisites": ["dispatcher_candidate_accepted", "pcr_level_1_passed", "current_harness_revision_49"],
+    "current_wip_by_lane": {"writer": 0},
+    "safe_checkpoint": true
+  },
+  "project_controls": {
+    "agents_binding": "AGENTS.md",
+    "hle_registry": "harness-evolution-v1",
+    "dual_track_state": "project_scope_no_promotion",
+    "production_authority": {
+      "track": "production_authority",
+      "worktree_id": "tencent-niannian-live-workbench",
+      "candidate_id": "dispatcher-candidate-revision-49",
+      "writer_lease_id": "server-controller-pending-cutover",
+      "manifest_sha256": "1af227493a61902e950df399c72aca975070a9d2e0e5fdc3b52f708154b54d93",
+      "state": "accepted_frozen"
+    },
+    "local_next": {
+      "track": "local_next",
+      "worktree_id": "E:/codex/aisp/aidaihuo/niannian-ai-web",
+      "candidate_id": "dispatcher-local-revision-49",
+      "writer_lease_id": "local-controller-until-freeze",
+      "manifest_sha256": "1af227493a61902e950df399c72aca975070a9d2e0e5fdc3b52f708154b54d93",
+      "state": "frozen_no_promotion"
+    }
+  }
+}

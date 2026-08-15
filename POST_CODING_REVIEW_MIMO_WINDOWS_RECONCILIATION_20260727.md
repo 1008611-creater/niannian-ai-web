@@ -1,0 +1,7 @@
+# Post-Coding Review: Windows Mimo Reconciliation (2026-07-27)
+
+1. **Real path checked:** the administrator action `reconcile_official_frontend` is the recovery path for a manually held task with a pre-existing official Provider task ID. It now writes `codex_skill + mimo + approved_for_execution`, which is the only task shape `claimMimoTask` selects for the Windows Worker.
+2. **Changed surface:** `lib/admin.ts` rejects non-Mimo reconciliation, persists the Mimo-only Skill route and `reconciliation_only=true`, and no longer writes `mac_codex`. `scripts/mimo-windows-reconciliation.contract.test.mjs` protects that contract end to end through the Windows claim and Agent branch.
+3. **Evidence:** Windows default-route, overview, reconciliation, and visible-sync contracts passed `7/7`; `npm run worker:mimo-windows:contract` and `npm run lint` passed. The Agent's `providerTaskId` branch skips submission and reports it is syncing only.
+4. **Boundary:** no local authenticated API integration was run because the existing integration harness imports `.env.local`, which this automation must not read. No Windows heartbeat, claim, Provider sync, upload, submission, cost, deployment, or customer delivery occurred.
+5. **Earliest external blocker:** a controlled Windows Server connection is still required to run the no-cost Agent preflight and heartbeat. That validates runtime state, not this source-level recovery contract.

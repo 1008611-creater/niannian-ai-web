@@ -1,0 +1,7 @@
+# Post-Coding Review: Mimo 4-15 second production deployment (2026-07-28)
+
+- Real path: `/home` now offers every integer duration from 4 through 15 seconds; `createVideoTask` accepts only integer `4-15`, and the credit contract quotes each value at 4 website credits per second. Public pricing also shows `4-15` and the `4s=16` example.
+- Runtime: production app image `niannian-ai-video-workbench:2026.07.28-duration-4-15-r1` (`sha256:3b24924a8ee1ed272406b6cfc6b9811df40997754aedb85fb33d0f518bf7a2ea`) is healthy. `/api/health` and `/home` return HTTP 200; the public HTML contains the new pricing and the deployed `/home` bundle contains `Array.from({length:12})`.
+- Verification: `npm run test:mimo-text-queue` passed 6/6, the Windows reconciliation contract passed 1/1, `npm run lint` passed, and both local and remote Docker production builds generated all 48 routes. Database task/asset/ledger counts and task status distribution remain unchanged.
+- Reliability correction: a Mimo failure without a Provider receipt no longer switches to `manual_assist`; it remains a blocked Mimo-owned task with automatic retry disabled. Existing Provider receipts remain sync-only.
+- Completion boundary: the duration feature is deployed, but Windows has no active interactive Administrator session. The Edge CDP and Worker Interactive tasks are stopped, port 9226 is not listening, and Worker readiness is false. No real task, Generate, Provider receipt, credit charge, download, ffprobe result, ledger, COS object, or website playback/download was produced by this change.

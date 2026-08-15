@@ -1,0 +1,7 @@
+services:
+  app:
+    image: niannian-ai-video-workbench:higgsfield-channel-20260729-01
+  video-worker:
+    image: niannian-ai-video-workbench:higgsfield-channel-20260729-01
+    environment:
+      HOME: /app/data/higgsfield-home

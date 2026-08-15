@@ -1,0 +1,21 @@
+{
+  "task_id": "MIMO-LOCAL-DELIVERY-RECOVERY-20260730-01",
+  "manager": "video-workbench-task-manager",
+  "status": "completed",
+  "current_action": null,
+  "last_event": "final_delivery",
+  "terminal_result": {
+    "result_type": "final_delivery",
+    "task_id": "D-yKHX6ezMuac97DZyp7Cm0w",
+    "evidence_path_or_url": "https://sd2.cauai.fun/projects",
+    "verified_result": "The completed 4-second 9:16 Mimo task exposes working playback and download entries in the signed-in project list. The recovered media probe is H.264 720x1280, 4.096 seconds, AAC stereo.",
+    "next_action_or_blocker": "none"
+  },
+  "post_delivery_repair": {
+    "observed_trigger": "five stale Windows Mimo run-loop processes were present after recovery",
+    "protected_action": "future automatic Mimo task claims",
+    "owner": "video-workbench-task-manager",
+    "exit_condition": "the scheduled task owns exactly one run-loop process",
+    "verified_result": "Niannian Windows Mimo CDP Agent now owns exactly one run-loop process (PID 8680)."
+  }
+}

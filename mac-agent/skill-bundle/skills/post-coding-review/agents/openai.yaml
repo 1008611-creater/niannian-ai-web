@@ -1,0 +1,4 @@
+interface:
+  display_name: "Post Coding Review"
+  short_description: "Review coding changes before handoff."
+  default_prompt: "After making code changes, review the changed files, execution path, and verification coverage before reporting completion."

@@ -1,0 +1,7 @@
+interface:
+  display_name: "ai视频基本功skill"
+  short_description: "AI视频冠军方法层：从本地知识库提炼Mx-Shell三段式提示词、资产、抽卡和后期方法"
+  default_prompt: "Use $ai-video-fundamentals-skill to apply the Obsidian AI video knowledge base method: classify the video type, write three-part prompts, define assets/first frames, plan Seedance2 generation and reroll strategy, then diagnose editability and post-production."
+
+policy:
+  allow_implicit_invocation: true

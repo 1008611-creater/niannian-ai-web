@@ -1,0 +1,5 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+# Reuse the deployed Linux runtime and replace only the locally compiled app.
+COPY .next /app/.next

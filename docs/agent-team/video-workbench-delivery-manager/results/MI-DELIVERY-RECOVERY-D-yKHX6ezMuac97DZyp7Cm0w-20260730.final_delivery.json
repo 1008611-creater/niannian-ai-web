@@ -1,0 +1,18 @@
+{
+  "result_type": "final_delivery",
+  "task_id": "MI-DELIVERY-RECOVERY-D-yKHX6ezMuac97DZyp7Cm0w-20260730",
+  "evidence_path_or_url": "https://sd2.cauai.fun/projects",
+  "verified_result": {
+    "video_task_id": "D-yKHX6ezMuac97DZyp7Cm0w",
+    "website_state": "completed with playback and download links",
+    "media": {
+      "codec": "h264",
+      "width": 720,
+      "height": 1280,
+      "duration_seconds": 4.096,
+      "audio": "aac"
+    },
+    "provider_resubmission": false
+  },
+  "next_action_or_blocker": "Mimo delivery recovery completed; continue with the next independently queued video task."
+}

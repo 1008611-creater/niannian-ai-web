@@ -1,0 +1,14 @@
+{
+  "task_id": "AS-CDP-AUTO-20260730",
+  "manager": "video-workbench-delivery-manager",
+  "writer_lease": "held",
+  "current_action": "authenticate_astorie_project_canvas_in_account_slot_001",
+  "next_action": "run_one_astorie_seedance_2_mini_four_second_task_to_real_delivery",
+  "slot_status": {
+    "implementation": "completed",
+    "evidence_repair": "completed",
+    "acceptance": "completed"
+  },
+  "provider_submit_allowed": true,
+  "last_event": "status_update: AStorie is the only active channel; recover account-slot-001 CDP 9301, verify the authenticated project canvas, then continue the same 4-second task through download, ffprobe, ledger, and workbench readback"
+}

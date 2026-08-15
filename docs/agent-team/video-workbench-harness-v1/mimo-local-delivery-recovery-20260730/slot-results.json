@@ -1,0 +1,23 @@
+{
+  "implementation": {
+    "result_type": "final_delivery",
+    "task_id": "MIMO-LOCAL-DELIVERY-RECOVERY-IMPLEMENTATION-01",
+    "evidence_path_or_url": "lib/mimo-windows-worker.ts; scripts/niannian-windows-mimo-agent.mjs",
+    "verified_result": "A completed result can be accepted only for the exact blocked task and exact persisted Provider ID. The recovery command has no Generate or Provider polling branch.",
+    "next_action_or_blocker": "manager deployed the narrow recovery path"
+  },
+  "evidence_repair": {
+    "result_type": "final_delivery",
+    "task_id": "MIMO-LOCAL-DELIVERY-RECOVERY-EVIDENCE-01",
+    "evidence_path_or_url": "C:\\Users\\Administrator\\niannian-windows-mimo-worker\\jobs\\D-yKHX6ezMuac97DZyp7Cm0w\\output\\result.mp4",
+    "verified_result": "2,913,735-byte result matched the persisted Provider receipt wf12026073000234737093847794178 and passed H.264 720x1280, 4.096-second, AAC-stereo probing.",
+    "next_action_or_blocker": "manager uploaded the verified existing artifact"
+  },
+  "acceptance": {
+    "result_type": "final_delivery",
+    "task_id": "MIMO-LOCAL-DELIVERY-RECOVERY-ACCEPTANCE-01",
+    "evidence_path_or_url": "https://sd2.cauai.fun/projects",
+    "verified_result": "Signed-in project history displayed the task as completed with one playback URL and one download URL; both routes were read back.",
+    "next_action_or_blocker": "none"
+  }
+}

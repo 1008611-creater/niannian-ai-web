@@ -1,0 +1,7 @@
+# Post-Coding Review: Windows Mimo Default Route (2026-07-27)
+
+1. **Real path checked:** `POST /api/video-tasks` creates every new non-Miora request with `execution_mode=codex_skill` and `channel=mimo`; `claimMimoTask` selects only authorized `codex_skill + mimo + approved_for_execution` rows.
+2. **Changed surface:** `README.md` and `.env.example` now document that contract, `lib/video-tasks.ts` no longer describes Mac as the current default, and `scripts/manual-task.integration.mjs` asserts `codex_skill` rather than the obsolete `mac_codex` default.
+3. **Evidence:** the new default-route contract plus the existing Windows overview and visible-sync contracts passed `6/6`; `npm run worker:mimo-windows:contract` and `npm run lint` passed. The rebuilt candidate archive lists only the Windows Agent runtime files and has SHA-256 `ec93ea4793f06bce9f364b78e09f3fd6d0c9a67497cfa5ed3f67a5e8bd76ac50`.
+4. **Boundary:** this verifies source and candidate-package contracts only. No Windows host heartbeat, browser/CDP preflight, credential read, task claim, upload, Mimo submission, media QA, deployment, or customer delivery was executed.
+5. **Earliest external blocker:** the designated Windows Server still lacks an approved programmable control channel; without it, the first real no-cost acceptance check is the local Windows Agent preflight and heartbeat proving `authenticated` and `readyToClaim`.

@@ -1,0 +1,7 @@
+# Post-Coding Review: Legacy Mimo Backfill Observability (2026-07-27)
+
+- Real path checked: an administrator invokes `review_output` only for a receipt-backed legacy Mimo task already blocked on `awaiting_content_qa`; it validates the owned output and ledger, probes duration, uploads and reads back COS, then records final task completion. It contains no claim, submit, retry, or Provider Generate path.
+- Changed surface: [lib/admin.ts](lib/admin.ts) writes structured `legacy_mimo_delivery_backfill` events for output path, ledger, ffprobe, COS upload, COS verification, and final database state. [lib/legacy-mimo-delivery-backfill.mjs](lib/legacy-mimo-delivery-backfill.mjs) converts failed stage errors to safe codes and records exactly one first-failure diagnostic.
+- Evidence: `npm run test:legacy-mimo-backfill`, `npm run test:video-cos`, `npm run lint`, `npm run build`, and syntax checks passed. The focused test proves a ledger failure stops before COS and a post-upload COS failure is attributed to verification.
+- Packaging: [Dockerfile](Dockerfile) now copies the new runtime module into the production stage. A local `docker build` could not complete because Docker Hub OAuth networking timed out before fetching `node:24-alpine`; no image, deployment, database row, or Provider task was changed.
+- Completion boundary: this is a local candidate only. The real legacy task was not retried, re-submitted, modified, or delivered by this work; production needs a later app-only deployment and an administrator-triggered review to produce runtime evidence.

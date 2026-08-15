@@ -1,0 +1,13 @@
+services:
+  app:
+    image: niannian-ai-video-workbench:2026.07.28-mimo-efficiency-rc1
+    build: null
+    env_file:
+      - /run/niannian-cos/tencent-cos.env
+    environment:
+      TENCENT_COS_SECURITY_TOKEN: ""
+      TENCENT_COS_BUCKET: niannian-step01-artifacts-prod-1412440010
+      TENCENT_COS_REGION: ap-beijing
+      TENCENT_COS_PREFIX: video-workbench
+      TENCENT_COS_PUBLIC_HOST: media.sd2.cauai.fun
+      VIDEO_DELIVERY_COS_REQUIRED: "true"

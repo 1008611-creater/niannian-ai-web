@@ -1,0 +1,7 @@
+# Post-Coding Review: Harness Claimed-State Projection
+
+- **Requested outcome and real path:** Level 1 reviewed the local reducer path from immutable revision-7 `task_claimed` event to materialized controller, active claim, writer locks, earliest node, and next action. No new event was appended and the existing claim was not retried.
+- **Files changed:** `scripts/video-workbench-harness-state.mjs`, `scripts/validate-video-workbench-harness.mjs`, `scripts/video-workbench-harness.contract.test.mjs`, and the materialized Harness `state.json`. The I2V packet and event ledger bytes were not modified.
+- **Evidence:** Validator passed with revision 7, exact active task, four expected locks, event head `26e23d73118d5bea6b0c38d9b0883f29ac9d0c9122d358a0b70f014ee5f3c36e`, controller status `claimed`, and earliest node `NIANNIAN-WB-REAL-I2V-4S-20260728-01:no_cost_preflight`. Focused Harness tests passed 11/11, including the new claimed projection case; `tsc --noEmit` passed.
+- **Completion boundary:** The local source-of-truth projection defect is repaired. The claimed real task has not advanced beyond no-cost preflight; no deployment, task creation, credit reservation, face processing, Provider action, or Generate ran as part of this repair.
+- **Remaining gate:** Candidate implementation correction and its independent acceptance must pass before controlled deployment becomes eligible. The parallel-Harness extension remains unadopted and has no authority.

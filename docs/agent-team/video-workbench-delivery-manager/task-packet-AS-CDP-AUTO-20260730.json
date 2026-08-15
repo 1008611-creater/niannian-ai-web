@@ -1,0 +1,31 @@
+{
+  "project_id": "niannian-ai-video-workbench",
+  "task_id": "AS-CDP-AUTO-20260730",
+  "owner": "video-workbench-delivery-manager",
+  "current_action": "Implement and deploy one Windows AStorie CDP executor that immediately persists receipt identity and auto-delivers playable media.",
+  "authority": {
+    "windows_host": "psyidc-windows",
+    "provider_submit": "one authorized task at a time",
+    "delivery": "automatic after download, ffprobe, and ledger",
+    "spec_mismatch": "deliver automatically, record a non-blocking mismatch event, repair the route for subsequent tasks"
+  },
+  "product_decisions": {
+    "execution_host": "existing_windows_mimo_server",
+    "input_scope": "product accepts text, one or more images, video, and audio; internal routing selects a channel that actually supports each input",
+    "unsupported_astorie_inputs": "route internally to another eligible channel; do not expose provider names to users",
+    "quality_policy": "no manual content QA"
+  },
+  "dependencies": ["existing Windows Chrome CDP host", "one user AStorie login in the dedicated Chrome profile after installation"],
+  "write_set": ["astorie_windows_worker", "windows_astorie_internal_api", "windows_astorie_agent", "windows_astorie_scheduled_task"],
+  "routes": {
+    "harness": "single Windows worker -> receipt -> sync -> download -> ffprobe -> project delivery",
+    "skill": "astorie-seedance2-channel",
+    "fallback": "internal provider routing for unsupported multi-reference/video/audio inputs"
+  },
+  "acceptance": ["one authorized task submits at most once", "receipt is persisted before polling", "downloaded output has ffprobe evidence and a ledger", "projects page reads back playable and downloadable media"],
+  "slots": {
+    "implementation": {"task_id": "AS-CDP-IMPLEMENT-01", "scope": ["lib/astorie-windows-worker.ts", "internal API routes", "agent script"], "expected_evidence": "receipt and result contract tests", "parent_continues_when": "server and Windows agent artifacts are ready"},
+    "evidence_repair": {"task_id": "AS-CDP-CDP-01", "scope": ["windows-astorie-agent CDP adapter"], "expected_evidence": "visible canvas readback maps to durable receipt", "parent_continues_when": "same media can be synchronized without a second generate"},
+    "acceptance": {"task_id": "AS-CDP-ACCEPTANCE-01", "scope": ["contract tests and projects delivery readback"], "expected_evidence": "tested receipt, media probe, ledger, and web delivery route", "parent_continues_when": "final_delivery or external_blocked"}
+  }
+}

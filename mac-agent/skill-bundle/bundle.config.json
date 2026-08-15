@@ -1,0 +1,40 @@
+{
+  "bundleName": "niannian-mac-production-skills",
+  "bundleVersion": "1.2.8",
+  "minimumWorkerVersion": "1.4.12",
+  "requiredSkills": [
+    {
+      "name": "niannian-mac-production",
+      "role": "entrypoint",
+      "source": "project"
+    },
+    {
+      "name": "ai-video-production-router",
+      "role": "production_router",
+      "source": "codex_home"
+    },
+    {
+      "name": "ai-video-channel-router",
+      "role": "channel_router",
+      "source": "codex_home"
+    },
+    {
+      "name": "ai-video-fundamentals-skill",
+      "role": "quality_method",
+      "source": "codex_home"
+    },
+    {
+      "name": "mimo-8001-video-channel",
+      "role": "channel:mimo",
+      "source": "project"
+    },
+    {
+      "name": "post-coding-review",
+      "role": "verification",
+      "source": "codex_home"
+    }
+  ],
+  "allowedChannels": {
+    "mimo": "mimo-8001-video-channel"
+  }
+}

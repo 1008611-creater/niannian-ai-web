@@ -1,0 +1,21 @@
+services:
+  harness-dispatcher:
+    image: ${NIANNIAN_DISPATCHER_IMAGE:?NIANNIAN_DISPATCHER_IMAGE is required}
+    command: ["node", "/app/scripts/video-workbench-harness-dispatcher-runner.mjs", "--run-loop", "--claim-resume", "--controller-id", "tencent-niannian-dispatcher-20260728-01", "--harness-root", "/dispatcher/harness"]
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+      database-init:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      NIANNIAN_DISPATCHER_READONLY_DATABASE_URL: postgres://${POSTGRES_USER:-niannian}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB:-niannian}
+      NIANNIAN_DISPATCHER_DATA_ROOT: /app/data
+      NIANNIAN_HARNESS_LEGACY_OUTBOX_CUTOFF_REVISION: "59"
+      NIANNIAN_DISPATCHER_POLL_MS: "30000"
+      NIANNIAN_DISPATCHER_USER_CONFIRMED_NO_SUBMISSION_RECOVERY: "true"
+    volumes:
+      - niannian-data:/app/data:ro
+      - ./dispatcher-candidates/revision-54:/dispatcher
+      - ./dispatcher-candidates/revision-54/scripts:/app/scripts:ro

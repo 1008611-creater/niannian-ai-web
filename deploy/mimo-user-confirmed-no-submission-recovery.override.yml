@@ -1,0 +1,16 @@
+services:
+  app:
+    image: niannian-ai-video-workbench:mimo-worker-no-token-r1
+    environment:
+      MIMO_WINDOWS_USER_CONFIRMED_NO_SUBMISSION_RECOVERY_ENABLED: "true"
+      MIMO_WINDOWS_USER_CONFIRMED_NO_SUBMISSION_RECOVERY_TASK_ID: aPh_FVncAV5fdhK3z8lCrCTv
+      MIMO_WINDOWS_USER_CONFIRMED_NO_SUBMISSION_RECOVERY_WORKER_ID: windows-mimo-liulianggmUXHlg
+      MIMO_WINDOWS_USER_CONFIRMED_NO_SUBMISSION_RECOVERY_OWNER_EMAIL: liusb0713@qq.com
+      MIMO_WINDOWS_USER_CONFIRMED_NO_SUBMISSION_RECOVERY_DERIVED_REFERENCE_SHA256: ad87a15f8ada8cc0da952d0e0cfe754e1f2d539deb9708d30cb3528c89767fee
+      MIMO_WINDOWS_USER_CONFIRMED_NO_SUBMISSION_RECOVERY_PACKET_SHA256: a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9
+      MIMO_WINDOWS_USER_CONFIRMED_NO_SUBMISSION_RECOVERY_DECISION: history_to_earliest_no_matching_convenience_store_floating_task
+    volumes:
+      - type: bind
+        source: /opt/niannian-ai-video-workbench/releases/mimo-no-submission-recovery-20260728-03/source/docs/agent-team/video-workbench-harness-v1/task-packets/NIANNIAN-WB-REAL-I2V-4S-20260728-01.json
+        target: /app/docs/agent-team/video-workbench-harness-v1/task-packets/NIANNIAN-WB-REAL-I2V-4S-20260728-01.json
+        read_only: true

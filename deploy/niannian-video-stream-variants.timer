@@ -1,0 +1,10 @@
+[Unit]
+Description=Generate NianNian playback derivatives for new completed videos
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=15s
+Persistent=true
+
+[Install]
+WantedBy=timers.target

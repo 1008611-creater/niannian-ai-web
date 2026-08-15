@@ -1,0 +1,50 @@
+services:
+  app:
+    environment:
+      FACE_PROCESSOR_URL: http://niannian-face-processor:9093/face
+      FACE_PROCESSOR_TOKEN_FILE: /run/secrets/face_processor_token
+    secrets:
+      - face_processor_token
+    networks:
+      - default
+      - face-private
+
+  niannian-face-processor:
+    # This accepts only either a registry content address
+    # (niannian-face-processor@sha256:...) or a local Docker image ID
+    # (sha256:...). Mutable tags are rejected by the deployment validator.
+    image: ${FACE_PROCESSOR_IMAGE_REFERENCE:?FACE_PROCESSOR_IMAGE_REFERENCE must be an immutable image content address}
+    # Bootstrap as root solely to read the root-owned Compose secret. The
+    # service drops permanently to uid/gid 10001 before binding or serving.
+    user: "0:0"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    environment:
+      FACE_PROCESSOR_HOST: 0.0.0.0
+      FACE_PROCESSOR_PRIVATE_NETWORK: "true"
+      # Deployment begins health-only. The controller may set this true only
+      # for a separately authorized task after all pre-Generate gates pass.
+      FACE_PROCESSOR_ENABLED: "false"
+      FACE_PROCESSOR_PORT: "9093"
+      FACE_PROCESSOR_TOKEN_FILE: /run/secrets/face_processor_token
+      FACE_PROCESSOR_MAX_BYTES: "20971520"
+      FACE_PROCESSOR_MAX_DIMENSION: "8192"
+    secrets:
+      - face_processor_token
+    networks:
+      - face-private
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9093/readyz',timeout=2)"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+secrets:
+  face_processor_token:
+    file: ${FACE_PROCESSOR_TOKEN_FILE_HOST:?FACE_PROCESSOR_TOKEN_FILE_HOST must name a root-managed secret file}
+
+networks:
+  face-private:
+    internal: true

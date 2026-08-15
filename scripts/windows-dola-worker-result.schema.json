@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "taskId",
+    "status",
+    "providerTaskId",
+    "summary",
+    "blocker",
+    "outputPath",
+    "ledgerPath"
+  ],
+  "properties": {
+    "taskId": { "type": "string", "minLength": 12, "maxLength": 120 },
+    "status": { "type": "string", "enum": ["running", "completed", "blocked"] },
+    "providerTaskId": { "type": ["string", "null"], "maxLength": 240 },
+    "summary": { "type": "string", "maxLength": 2000 },
+    "blocker": { "type": ["string", "null"], "maxLength": 1000 },
+    "outputPath": { "type": ["string", "null"] },
+    "ledgerPath": { "type": ["string", "null"] }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "niannian-cos-media-edge",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-07-27",
+  "routes": [
+    {
+      "pattern": "media.sd2.cauai.fun",
+      "custom_domain": true
+    }
+  ]
+}

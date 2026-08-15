@@ -1,0 +1,50 @@
+{
+  "schema_version": "niannian_server_skill_bundle_v1",
+  "bundle_version": "image-redraw-runtime-2",
+  "skills": [
+    "commerce-video-redraw-router",
+    "runninghub-image2-image"
+  ],
+  "allowed_tools": [
+    "cos_read",
+    "gpt_plan",
+    "runninghub_image2_image",
+    "gpt_vision_qa",
+    "cos_write"
+  ],
+  "prohibited_tools": [
+    "local_pixel_edit",
+    "arbitrary_shell",
+    "desktop_gui",
+    "codex_thread"
+  ],
+  "runtime_kind": "image_redraw",
+  "subject_modes": [
+    "product",
+    "character",
+    "scene",
+    "first_frame"
+  ],
+  "plan_schema": "image_redraw_plan_v2",
+  "qa_schema": "image_redraw_visual_qa_v2",
+  "files": [
+    {
+      "source_relative_path": "commerce-video-redraw-router/SKILL.md",
+      "path": "skills/commerce-video-redraw-router/SKILL.md",
+      "bytes": 17959,
+      "sha256": "5dbed719e3492673278ad3db79c53569824e4f5069f4178aaf6965ddd9d0d038"
+    },
+    {
+      "source_relative_path": "runninghub-image2-image/SKILL.md",
+      "path": "skills/runninghub-image2-image/SKILL.md",
+      "bytes": 15117,
+      "sha256": "16de002117f1b57c19ca39e6b70ee0a7bc71184e0228110aa572fc2b796824a0"
+    },
+    {
+      "source_relative_path": "runninghub-image2-image/references/api.md",
+      "path": "skills/runninghub-image2-image/references/api.md",
+      "bytes": 1251,
+      "sha256": "dd3130f4dc58998c81b614307491602ca4990059a3ca9ebbc05781b9d570a3c0"
+    }
+  ]
+}

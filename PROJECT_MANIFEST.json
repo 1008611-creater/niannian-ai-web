@@ -1,0 +1,533 @@
+{
+  "project": "niannian-ai-web",
+  "status": "public_foundation_capability_home_internal_fallback_hidden_admin_ops_ldxp_live_real_mimo_delivery_verified_mac_worker_v1_4_11_currently_offline",
+  "route": {
+    "project_type": "website_app",
+    "implementation_route": "nextjs_app_router",
+    "design_route": "direct_code_from_public_reference",
+    "quality_router": "browser_visual_verification"
+  },
+  "website": {
+    "website_kind": "ai_video_creation_platform",
+    "runtime": "Next.js 15 App Router",
+    "source_of_truth": "code_repository",
+    "primary_conversion": "public_home_to_register_or_enter_workbench_then_create_video_task",
+    "quality_verticals": [
+      "visual_fidelity",
+      "responsive",
+      "interaction"
+    ],
+    "image_asset_policy": {
+      "framework_first_ui": true,
+      "fullscreen_screenshot_ui": false,
+      "allowed_targets": [
+        "future_bounded_hero_asset",
+        "future_work_thumbnail"
+      ],
+      "forbidden_targets": [
+        "full_page_runtime_ui",
+        "transparent_hotspot_navigation",
+        "generated_form"
+      ]
+    },
+    "generated_assets": [
+      {
+        "path": "public/hero-commerce-image2.png",
+        "provider": "krill",
+        "model": "gpt-image-2",
+        "role": "rejected_public_homepage_hero_candidate_ai_aesthetic",
+        "date": "2026-07-12"
+      },
+      {
+        "path": "public/hero-commerce-image2-v2.png",
+        "provider": "krill",
+        "model": "gpt-image-2",
+        "role": "retired_public_homepage_hero_fallback",
+        "date": "2026-07-12"
+      },
+      {
+        "path": "public/demo-bmw3-tk.mp4",
+        "source": "user-provided 3.mp4",
+        "role": "active_public_homepage_video_demo",
+        "captions": "tk_style_burned_chinese_phrase_level",
+        "date": "2026-07-12"
+      },
+      {
+        "path": "public/media/generated/workbench-luxury-nocturne-c-rh/workbench-luxury-nocturne-c-obsidian-pearl.png",
+        "source": "user-approved existing production background",
+        "role": "workbench_background_static_fallback_and_v2_render_source",
+        "date": "2026-07-15"
+      },
+      {
+        "path": "public/media/generated/workbench-luxury-nocturne-c-rh/workbench-mineral-flow-v2.webm",
+        "source": "locally authorized offline periodic WebGL material render",
+        "role": "production_workbench_background_primary_loop",
+        "date": "2026-07-15"
+      },
+      {
+        "path": "public/media/generated/workbench-luxury-nocturne-c-rh/workbench-mineral-flow-v2.mp4",
+        "source": "locally authorized offline periodic WebGL material render",
+        "role": "production_workbench_background_compatibility_loop",
+        "date": "2026-07-15"
+      }
+    ],
+    "backend_api": {
+      "health": "/api/health",
+      "provider_slots": "/api/providers",
+      "workflow": "/api/workflow",
+      "team": "/api/team",
+      "assets": "/api/assets",
+      "video_tasks": "/api/video-tasks",
+      "credits": "/api/credits",
+      "admin_overview": "/api/admin/overview",
+      "generation": "persistent_task_orchestration_with_mac_codex_exclusive_claim_verified_asset_download_heartbeat_result_upload_server_media_probe_and_admin_content_qa_gate",
+      "auth": "implemented_email_password_otp_postgresql",
+      "credits": "implemented_prepaid_credit_ledger_admin_confirmed_recharge"
+    },
+    "performance_budget": {
+      "external_fonts": 0,
+      "hero_raster_images": 0,
+      "workbench_background_video_decoders": 1,
+      "workbench_background_webm_max_bytes": 3500000,
+      "workbench_background_mp4_max_bytes": 5000000,
+      "workbench_runtime_webgl": false,
+      "lighthouse": "pending"
+    }
+  },
+  "reference_site": {
+    "url": "https://video.jurilu.com/",
+    "observed_routes": [
+      "/index",
+      "/project_management",
+      "/work_showcase"
+    ],
+    "observed_states": [
+      "home",
+      "login_modal",
+      "register_modal",
+      "showcase"
+    ],
+    "reuse_mode": "visual_and_information_architecture_reference_only"
+  },
+  "source_repositories": [],
+  "source_application_records": [],
+  "artifacts": {
+    "design_memory": "DESIGN.md",
+    "mineral_flow_v2_experience_contract": "MINERAL_FLOW_V2_EXPERIENCE_CONTRACT.md",
+    "mineral_flow_v2_renderer": "scripts/render-mineral-flow-v2.mjs",
+    "mineral_flow_v2_manifest": "output/mineral-flow-v2/manifest.json",
+    "mineral_flow_v2_desktop_screenshot": "output/mineral-flow-v2/home-v2-desktop.png",
+    "mineral_flow_v2_mobile_screenshot": "output/mineral-flow-v2/home-v2-mobile-viewport-390x844.png",
+    "mineral_flow_v2_production_desktop_screenshot": "output/mineral-flow-v2/production-home-v2-desktop.png",
+    "mineral_flow_v2_production_mobile_screenshot": "output/mineral-flow-v2/production-home-v2-mobile-390x844.png",
+    "provider_contract": "lib/provider-contract.ts",
+    "homepage_demo_caption_ass": "output/tk-subtitles-3/3_tk_reviewed.ass",
+    "homepage_demo_caption_srt": "output/tk-subtitles-3/3_tk_reviewed.srt",
+    "homepage_demo_transcript": "output/tk-subtitles-3/3_transcript_reviewed.json",
+    "homepage_demo_video": "public/demo-bmw3-tk.mp4",
+    "mac_worker_protocol": "lib/mac-codex-worker.ts",
+    "mac_worker_client": "mac-agent/niannian-mac-worker.mjs",
+    "mac_worker_gui_installer": "mac-agent/install-macos-gui.command",
+    "mac_skill_bundle_manifest": "mac-agent/skill-bundle/bundle-manifest.json",
+    "mac_skill_bundle_builder": "mac-agent/skill-bundle/build-skill-bundle.mjs",
+    "mac_skill_bundle_installer": "mac-agent/skill-bundle/install-skill-bundle.mjs",
+    "controlled_mimo_real_delivery": "CONTROLLED_MIMO_REAL_DELIVERY_20260715.md",
+    "controlled_mimo_real_delivery_review": "POST_CODING_REVIEW_CONTROLLED_MIMO_REAL_DELIVERY_20260715.md",
+    "controlled_mimo_real_delivery_output": "output/controlled-mimo-real-delivery-20260715/BGpCAtL0jSnVsRLZH0nSwyEn.mp4",
+    "screenshots": [
+      "output/playwright/home-desktop-final.png",
+      "output/playwright/home-mobile-final.png",
+      "output/playwright/projects-desktop-final.png",
+      "output/playwright/projects-mobile-final.png",
+      "output/playwright/workspace-desktop-final.png",
+      "output/playwright/workspace-shot-s02-final.png",
+      "output/playwright/workspace-shot-s03-final.png",
+      "output/playwright/showcase-desktop-final.png",
+      "output/playwright/settings-desktop-final.png",
+      "output/playwright/team-desktop.png",
+      "output/playwright/home-restored-desktop.png",
+      "output/playwright/home-restored-mobile.png",
+      "output/playwright/admin-restored-desktop.png",
+      "output/playwright/admin-restored-mobile.png",
+      "output/playwright/admin-worker-online.png",
+      "output/playwright/admin-worker-online-mobile.png",
+      "output/playwright/admin-mac-readiness-desktop.png",
+      "output/playwright/admin-mac-readiness-mobile.png"
+    ]
+  },
+  "deployment": {
+    "provider": "tencent_cloud_lighthouse_docker_compose_cloudflare_dns",
+    "port": 3026,
+    "preview_url": "http://localhost:3026",
+    "production_url": "https://sd2.cauai.fun",
+    "origin_status": "healthy_on_tencent_cloud_lighthouse",
+    "public_status": "reachable_at_sd2_cauai_fun; public_foundation_capability_home_live; internal_fallback_strategy_hidden_from_customers; admin_operations_sla_queue_live; unified_video_pricing_ready; ldxp_four_products_live_with_50_codes_each; real_payment_e2e_waived_by_user; existing_provider_mimo_delivery_verified; mac_worker_v1_4_11_bundle_1_2_7_installed_but_currently_offline",
+    "smtp_status": "verify_pass"
+  },
+  "quality_gates": {
+    "build_gate": "pass",
+    "desktop_visual_gate": "pass",
+    "mobile_visual_gate": "pass",
+    "navigation_gate": "pass",
+    "accessibility_gate": "partial",
+    "performance_gate": "pending",
+    "backend_api_gate": "auth_projects_tasks_admin_credits_and_mac_worker_routes_deployed_and_smoke_verified",
+    "mimo_direct_worker_gate": "pass_real_production_delivery_verified",
+    "security_gate": "session_csrf_and_secret_scan_pass",
+    "credit_mvp_gate": "pass_local_integration_and_production_api_browser_smoke",
+    "ldxp_redeem_gate": "signed_single_use_codes_pass; four_merchant_products_live_with_50_codes_each; real_payment_delivery_redemption_pending",
+    "mac_worker_production_gate": "runtime_blocked_after_successful_v1_4_11_recovery_due_to_mac_network_or_visible_frontend_unavailability; do_not_accept_new_auto_task_until_fresh_authenticated_ready_heartbeat",
+    "mimo_real_delivery_gate": "pass_existing_provider_task_reconciled_downloaded_ffprobe_visual_qa_server_content_qa_and_owner_native_delivery_verified"
+  },
+  "verification_records": [
+    {
+      "type": "build_and_typecheck",
+      "command": "npm run lint && npm run build",
+      "result": "pass",
+      "date": "2026-07-10"
+    },
+    {
+      "type": "dependency_audit",
+      "command": "npm audit --omit=dev",
+      "result": "0 vulnerabilities",
+      "date": "2026-07-10"
+    },
+    {
+      "type": "runtime_health",
+      "url": "http://127.0.0.1:3026/api/health",
+      "result": "200 ok; providers not configured",
+      "date": "2026-07-10"
+    },
+    {
+      "type": "playwright_visual_check",
+      "viewports": [
+        "1440x900",
+        "390x844"
+      ],
+      "routes": [
+        "/",
+        "/projects",
+        "/showcase",
+        "/workspace/moonlight",
+        "/team",
+        "/settings"
+      ],
+      "result": "pass; zero browser console errors",
+      "date": "2026-07-10"
+    },
+    {
+      "type": "primary_interaction_check",
+      "flows": [
+        "home_to_projects",
+        "open_login_modal",
+        "create_named_project",
+        "open_workspace",
+        "workspace_stage_selection",
+        "workspace_shot_selection",
+        "team_invite_draft_modal"
+      ],
+      "result": "pass",
+      "date": "2026-07-10"
+    },
+    {
+      "type": "workspace_shot_spec_regression",
+      "flow": "select S02 then S03 in /workspace/moonlight",
+      "result": "pass; task spec changes to 16:9 · 3.8s / shot-s02-prompt-v2, then 16:9 · 2.6s / shot-s03-prompt-v1; zero browser console errors",
+      "date": "2026-07-10"
+    },
+    {
+      "type": "local_api_contract_check",
+      "routes": [
+        "/api/health",
+        "/api/providers",
+        "/api/workflow",
+        "/api/team"
+      ],
+      "result": "pass; workflow reports seven nodes and submission.submitAllowed=false; team reports four demo members and auth=not-implemented",
+      "date": "2026-07-10"
+    },
+    {
+      "type": "project_and_generator_end_to_end",
+      "result": "pass: project list/create/get/delete; workspace binding; generator desktop/mobile; no console errors",
+      "date": "2026-07-11"
+    },
+    {
+      "type": "admin_and_home_source_recovery",
+      "routes": [
+        "/home",
+        "/admin",
+        "/api/admin/overview"
+      ],
+      "viewports": [
+        "1280x900",
+        "390x844"
+      ],
+      "result": "pass: source restored; admin link visible; admin API 200; non-admin API 403; no horizontal overflow; zero browser console errors",
+      "date": "2026-07-11"
+    },
+    {
+      "type": "video_worker_and_completion_gate",
+      "commands": [
+        "node --check lib/video-output-gate.mjs",
+        "node --check scripts/video-task-worker.mjs",
+        "npm run test:video-worker",
+        "npm run test:video-worker:integration"
+      ],
+      "result": "pass: 7 unit tests; real admin cost authorization API opens DB/spec gates; mock server submit/poll/download; ffprobe, duration, content QA and ledger gate; temporary users, sessions, tasks and files removed",
+      "date": "2026-07-11"
+    },
+    {
+      "type": "admin_worker_visual_check",
+      "viewports": [
+        "1280 desktop",
+        "390x844 mobile"
+      ],
+      "routes": [
+        "/admin"
+      ],
+      "result": "pass: worker online, Skill available, server configuration status visible, no horizontal overflow, zero console warnings/errors",
+      "date": "2026-07-11"
+    },
+    {
+      "type": "manual_task_end_to_end",
+      "command": "npm run test:manual-task:integration",
+      "result": "pass: authenticated asset uploads, manual task creation, admin claim, outside-path rejection, missing-QA rejection, ffprobe/duration/ledger completion and full temporary-state cleanup",
+      "date": "2026-07-11"
+    },
+    {
+      "type": "mimo_direct_worker_mock_and_admin_review",
+      "commands": [
+        "npm run test:mimo-direct",
+        "NIANNIAN_TEST_BASE_URL=http://127.0.0.1:3030 npm run test:manual-task:integration"
+      ],
+      "result": "pass: Mimo direct authentication, confirmed image and motion reference upload, submit, poll, proxy download, media probe handoff, cost authorization, and admin content-QA delivery gate exercised without a real provider call",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "mac_codex_exclusive_worker_control_plane",
+      "commands": [
+        "npm run lint",
+        "npm run test:mac-worker",
+        "npm run test:mac-worker:integration",
+        "npm run test:video-worker",
+        "npm run test:mimo-direct",
+        "npm run build",
+        "local production route smoke on port 3031"
+      ],
+      "result": "pass: automatic customer task routing is mac_codex; the Mac client stages SHA-verified assets and uploads multipart output plus ledger; the full API integration passed customer intake, credit reservation, admin cost authorization, Mac claim, two SHA-verified asset downloads, provider-running receipt, real MP4 upload, server ffprobe/duration gate, admin content QA, completed customer state and ranged delivery; the Next build contains five protected Mac worker routes; unauthorized status returned 401",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "credit_mvp_production_release",
+      "commands": [
+        "npm run lint",
+        "npm run build",
+        "npm run test:video-worker",
+        "npm run test:mac-worker",
+        "NIANNIAN_TEST_BASE_URL=http://127.0.0.1:3040 npm run test:manual-task:integration"
+      ],
+      "result": "pass: default automatic and explicit manual pricing, atomic credit reservation, idempotent task refund, recharge request and administrator confirmation, production schema bootstrap, authenticated credits and admin APIs, mobile no-overflow, and an existing MP4 HTTP 206 download were verified; production Mac worker is configured but currently offline",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "mac_worker_v1_1_real_device_install",
+      "commands": [
+        "zsh -n mac-agent/install-macos.sh",
+        "zsh -n mac-agent/install-macos-gui.command",
+        "plutil -lint ~/Library/LaunchAgents/com.niannian.mac-codex-worker.plist",
+        "launchctl print gui/501/com.niannian.mac-codex-worker",
+        "authenticated GET /api/internal/mac-codex/status"
+      ],
+      "result": "pass: real Mac lsbmacbook-air installed the SHA-verified v1.1.0 worker; token crossed Windows to the unlocked GUI session only through a mode-600 FIFO, was stored in the explicit login keychain with /usr/bin/security ACL, and did not remain in plist, logs, task files or temporary scripts; LaunchAgent last exit code was 0; worker returned no eligible task; production heartbeat advanced to version 1.1.0, idle, activeTaskId null",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "mac_worker_v1_2_versioned_skill_gate",
+      "commands": [
+        "node mac-agent/skill-bundle/build-skill-bundle.mjs",
+        "skill-creator quick_validate.py niannian-mac-production",
+        "npm run test:mac-worker",
+        "npm run test:mac-skill-bundle",
+        "npm run test:mac-worker:integration",
+        "real Mac missing-bundle block then installed-bundle recovery"
+      ],
+      "result": "pass: bundle v1.0.0 contains six allowlisted production Skills and 30 hash-locked files; tampered bundles fail before installation; Worker v1.2.0 validates manifest, every file hash, Codex auth, Codex binary, minimum worker version and mimo channel mapping before claim; real Mac first reported blocked with missing manifest and zero claim path, then installed all six Skills, LaunchAgent returned exit 0, production heartbeat recovered to v1.2.0 idle with activeTaskId null",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "mac_worker_v1_3_production_readiness_gate",
+      "commands": [
+        "npm run test:mac-worker",
+        "npm run test:mac-skill-bundle",
+        "npm run test:mac-worker:integration",
+        "npm run lint",
+        "npm run build",
+        "real Mac Keychain credential and ARM64 ffprobe verification",
+        "Playwright desktop and mobile administrator readiness verification"
+      ],
+      "result": "pass and deployed: Worker v1.3.0 performs non-consuming Codex auth, six-Skill hash bundle, writable workspace, ffprobe, Mimo login, authenticated list and credit readback checks before claim; server rejects absent, false, mismatched or stale readiness with MAC_WORKER_NOT_READY; local API integration passes only after a fresh ready heartbeat; desktop and 390x844 admin UI show computer, production Skills and Mac Mimo layers with zero console errors and no page overflow; production app rebuilt healthy and received a fresh real-Mac readyToClaim=true heartbeat with bundle v1.1.0 and Mimo credit readback; no real provider generation was submitted",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "unified_price_ldxp_card_checkout_and_manual_fallback",
+      "commands": [
+        "npm run lint",
+        "npm run build",
+        "npm run test:video-worker",
+        "npm run test:mac-worker",
+        "NIANNIAN_TEST_BASE_URL=http://127.0.0.1:3040 npm run test:manual-task:integration",
+        "npm run credits:generate-ldxp-codes -- --credits=100 --count=3 --output=<temporary>"
+      ],
+      "result": "pass: public manual-tier input is ignored; automatic and internal manual fallback share one price; automatic failure moves the same charged task to manual fallback without refund or surcharge; 1 credit equals CNY 0.10; HMAC-signed LDXP codes redeem exactly once; production schema and pricing API are deployed; four LDXP products and 50-code inventories are live; a real payment remains pending",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "ldxp_merchant_product_and_inventory_setup",
+      "commands": [
+        "create LDXP category 念念AI积分",
+        "publish 100/300/500/1000 credit products at CNY 10/30/50/100",
+        "generate 50 production-signed codes per package with 0600 permissions",
+        "upload and verify 50-card inventory for all four products",
+        "configure LDXP_SHOP_URL and recreate only the niannian app",
+        "verify production health, public category page, and purchase modal link"
+      ],
+      "result": "pass: public category https://pay.ldxp.cn/shop/B59CCLX7/4ltakt lists exactly four niannian credit products with sufficient stock; production purchase modal points to that category; app health is 200; video worker, ans-app and sub2api-gg remained running; real payment and automatic delivery/redemption remain pending",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "commercial_mvp_admin_operations_and_sla",
+      "commands": [
+        "npm run lint",
+        "npm run build",
+        "npm run test:mac-worker",
+        "npm run test:video-worker",
+        "NIANNIAN_TEST_BASE_URL=http://127.0.0.1:3052 npm run test:manual-task:integration",
+        "production /api/health and authenticated /admin browser verification"
+      ],
+      "result": "pass: admin overview computes task age, urgency, overdue SLA and exact next action; internal operations queue shows critical, overdue, manual fallback, QA, 24h users and 24h LDXP redemptions; task focus filters and 30-second refresh are live; production admin read real data and all existing billing/manual fallback integration gates passed; internal fallback details are not exposed to customers",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "public_conversion_homepage",
+      "commands": [
+        "npm run build",
+        "npm run lint",
+        "production Docker build and app-only recreate",
+        "authenticated browser DOM, first-viewport screenshot, FAQ interaction and CTA verification",
+        "anonymous HTTP root and metadata verification"
+      ],
+      "result": "pass: root route renders a public video-generation foundation page instead of redirecting cold visitors to login; signed-in CTA enters /home and anonymous CTA enters registration; pricing, three-step task workflow, status tracking and FAQ match production behavior; provider routing, manual fallback and other internal fulfillment strategies are hidden; no unapproved user output was published as a case study",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "production_completed_video_playback_repair",
+      "commands": [
+        "npm run build",
+        "npm run lint",
+        "production Docker app-only rebuild",
+        "authenticated production playback interaction and timeline readback"
+      ],
+      "result": "pass: the over-broad task-card flex selector was narrowed; completed-video controls and download layout are separated; restrictive audible playback falls back to muted playback; production timeline advanced from 0.340947s to 4.423929s with paused=false, media error null, and the button changed to pause; no provider quota was consumed",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "krill_image2_public_homepage_hero",
+      "commands": [
+        "Krill gpt-image-2 high-quality 1536x1024 generation",
+        "npm run build",
+        "npm run lint",
+        "local desktop and 375px mobile visual verification",
+        "production Docker app-only rebuild and browser readback"
+      ],
+      "result": "pass: a remotely generated Krill Image2 commerce-video hero replaced the CSS wireframe; the accepted PNG was visually inspected without local pixel editing; production image loaded with no page overflow and no browser warnings/errors; OOC and RunningHub were not called",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "homepage_hero_realism_correction",
+      "commands": [
+        "fresh Krill gpt-image-2 high-quality 1536x1024 generation",
+        "npm run build",
+        "npm run lint",
+        "local desktop and 375px mobile visual verification",
+        "production Docker app-only rebuild and browser readback"
+      ],
+      "result": "pass: the AI-concept candidate was rejected and removed from the runtime path; V2 uses a quiet real clothing-store commerce-film frame with no floating cards, light trails, glow overlay or beauty-ad treatment; production V2 loaded without overflow or browser warnings/errors; no local raster editing, OOC call, RunningHub call or video quota use",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "real_homepage_demo_with_tk_captions",
+      "commands": [
+        "ffprobe source video",
+        "faster-whisper ASR plus manual transcript correction",
+        "phrase-level ASS and SRT authoring with zero overlap",
+        "ffmpeg subtitle burn and full decode verification",
+        "hook middle closing frame review",
+        "npm run build",
+        "npm run lint",
+        "local desktop and 375px mobile autoplay verification",
+        "production Docker app-only rebuild and playback readback"
+      ],
+      "result": "pass: the user-provided 12-second vertical BMW commerce video was preserved, captioned into a new H.264/AAC master with six reviewed Chinese TK-style phrase events and selective yellow highlights, fully decoded, integrated as the homepage autoplay loop, and observed advancing in production without media or console errors",
+      "date": "2026-07-12"
+    },
+    {
+      "type": "local_workbench_mineral_flow_v2_candidate",
+      "commands": [
+        "npm run render:mineral-v2",
+        "ffprobe V2 WebM and MP4",
+        "first/middle/last frame SSIM and contact-sheet review",
+        "npm run lint",
+        "npm run build",
+        "authenticated in-app browser desktop and 390x844 verification"
+      ],
+      "result": "local candidate pass: authorized existing obsidian source was rendered offline through a periodic 1920x1200 WebGL flow/refraction shader into strict 18-second 30fps VP9 and H.264 loops; runtime remains one HTML5 video with PNG fallback and no WebGL; desktop playback advanced, 4px precise-pointer parallax returned to center, mobile disabled parallax, upload/reference intent contract stayed intact, no overflow or console errors; production deployment not performed",
+      "date": "2026-07-15"
+    },
+    {
+      "type": "production_workbench_mineral_flow_v2_deployment",
+      "commands": [
+        "production compatibility snapshot before build and before switch",
+        "four-file SHA-locked runtime package",
+        "production Docker app build",
+        "app-only recreate with automatic rollback gate",
+        "production compatibility snapshot after switch",
+        "public route and V2 media HTTP verification",
+        "authenticated production browser desktop and 390x844 verification"
+      ],
+      "result": "pass: active app image cd449c220e89 is healthy; V2 WebM and MP4 hashes match the local candidate; database and video-worker were not restarted; task, asset, credit and ledger fingerprints remained unchanged; production browser loaded 1920x1200 V2 WebM, playback advanced, desktop parallax returned to center, mobile disabled parallax, reference upload and seven intent options remained intact, no overflow or console errors; no task, provider submission, credit mutation or customer upload was performed",
+      "date": "2026-07-15"
+    },
+    {
+      "type": "controlled_mimo_existing_provider_real_delivery",
+      "commands": [
+        "Mac Worker 1.4.11 and Skill bundle 1.2.7 parity/readiness verification",
+        "existing provider task sync-only reconciliation",
+        "provider result download and server/local ffprobe",
+        "reference-to-output visual QA at 0.5s, 2.5s, and 4.5s",
+        "server content QA completion",
+        "authenticated owner native media decode and browser media download"
+      ],
+      "result": "pass: existing Mimo provider task 716856369666 was reconciled without another upload or Generate request; the matched 5.085011s H.264/AAC output SHA 6d06128460c2f6b2548d027cca976430e31daa01a4574608430245621a8dedba passed media and visual QA, reached completed status, decoded in the owner workbench at 1280x720 readyState 4, and downloaded through the native delivery surface; site credits and ledger were unchanged during reconciliation",
+      "date": "2026-07-15"
+    }
+  ],
+  "not_done": [
+    "verify_one_real_ldxp_payment_code_delivery_and_credit_redemption",
+    "object_storage_for_generated_outputs",
+    "analytics",
+    "lighthouse_and_axe_audit"
+  ],
+  "features": {
+    "email_auth": "implemented_postgresql_smtp",
+    "project_persistence": "implemented_postgresql",
+    "video_task_persistence": "implemented_postgresql",
+    "admin_console": "implemented_role_protected_with_operations_queue_sla_overdue_next_action_and_manual_fallback_controls",
+    "generator_workspace": "implemented_single_customer_video_service_with_automatic_mac_codex_primary_and_zero_surcharge_manual_fallback",
+    "video_worker": "customer_auto_routes_exclusively_to_mac_codex_with_lease_recovery_verified_asset_download_heartbeat_result_upload_and_server_auxiliary_worker_isolation",
+    "mac_worker": "v1_4_11_installed_on_real_mac_with_versioned_six_skill_hash_gate_workspace_ffprobe_authenticated_official_safari_session_and_sync_only_provider_recovery",
+    "completion_gate": "implemented_shared_output_path_ffprobe_duration_content_qa_and_ledger_validation",
+    "credits": "implemented_cny_0_10_per_credit_ldxp_signed_single_use_code_redemption_with_legacy_admin_recharge_fallback",
+    "responsive_layout": "verified"
+  },
+  "last_verified": "2026-07-15"
+}

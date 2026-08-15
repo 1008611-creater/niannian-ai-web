@@ -1,0 +1,164 @@
+{
+  "schema_version": "niannian_video_workbench_harness_v1",
+  "identity": {
+    "executor_id": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+    "project": "niannian-ai-video-workbench",
+    "source_root": "E:/codex/aisp/aidaihuo/niannian-ai-web",
+    "customer_origin": "https://sd2.cauai.fun",
+    "linux_host_alias": "tencent-niannian",
+    "windows_worker_alias": "psyidc-windows"
+  },
+  "scope_boundary": {
+    "allowed": [
+      "niannian-ai-video-workbench",
+      "sd2.cauai.fun",
+      "tencent-niannian:niannian-ai-video-workbench",
+      "psyidc-windows:niannian-mimo-worker"
+    ],
+    "forbidden": [
+      "niannian-ai-main-site",
+      "redraw",
+      "/stage/01",
+      "ai.cauai.fun"
+    ]
+  },
+  "outcome_contract": {
+    "target": "A real workbench user task produces a usable video through the authorized provider path.",
+    "completion_requires": [
+      "provider_receipt_reconciled",
+      "download_sha256_and_bytes_verified",
+      "ffprobe_verified",
+      "artifact_ledger_accepted",
+      "cos_readback_sha256_and_bytes_verified",
+      "website_playback_verified",
+      "browser_download_matches_ledger"
+    ],
+    "non_completion_evidence": [
+      "plan",
+      "code",
+      "candidate",
+      "http_200",
+      "task_id",
+      "provider_submitted"
+    ]
+  },
+  "task_packets": {
+    "schema": "task-packet.schema.json",
+    "storage": "docs/agent-team/video-workbench-harness-v1/task-packets/<task_id>.json",
+    "write_policy": "create_once_exclusive",
+    "identity": "task_id+packet_sha256",
+    "mutation_policy": "append_replacement_packet_never_overwrite"
+  },
+  "queue": {
+    "durability": "append_only_events_plus_materialized_state",
+    "states": [
+      "adopted",
+      "waiting_dependencies",
+      "ready",
+      "claimed",
+      "blocked",
+      "completed_verified",
+      "rejected"
+    ],
+    "adopt_rule": "valid_packet_and_scope_match",
+    "claim_rule": "oldest_ready_packet_all_dependencies_completed_verified_no_active_writer_lock",
+    "busy_rule": "append_and_wait_never_interrupt_or_replace_active_task",
+    "next_rule": "after_authoritative_readback_and_all_task_writer_locks_released_compare_and_set_one_ready_packet",
+    "cas": {
+      "state_revision_required": true,
+      "expected_revision_required": true,
+      "dependencies_required_state": "completed_verified",
+      "active_claim_required": null,
+      "writer_surfaces_required": "unlocked",
+      "failure_semantics": "no_state_or_event_bytes_modified",
+      "implementation": "scripts/video-workbench-harness-state.mjs"
+    }
+  },
+  "writer_ownership": {
+    "one_writer_per_surface": true,
+    "surfaces": [
+      "task_packet",
+      "queue_state",
+      "provider_submission",
+      "billing_ledger",
+      "artifact_ledger",
+      "production_release"
+    ],
+    "acquire": "compare_and_set_absent_to_owner",
+    "release": "authoritative_readback_then_compare_and_set_owner_to_released",
+    "takeover": "reconcile_exact_task_and_surface_then_compare_and_set"
+  },
+  "lease": {
+    "purpose": "liveness_only",
+    "expiry_transition": "claimed_to_blocked_reconciliation_required",
+    "expiry_may_claim_next": false,
+    "expiry_may_submit": false,
+    "expiry_may_spend": false,
+    "expiry_may_promote": false,
+    "receipt_recovery": "sync_only_never_resubmit"
+  },
+  "recovery": {
+    "controller_states": ["claimed", "waiting_implementation", "waiting_internal_repair", "waiting_independent_acceptance", "blocked_user_action", "completed_verified", "rejected"],
+    "idle_requires": "terminal_task_state_or_persisted_user_owned_external_blocker",
+    "internal_repair": "durable_typed_child_work_item_preserves_parent_packet_decision_and_locks_until_resume_or_terminal_release",
+    "resume": "verified_repair_and_post_coding_review_only"
+  },
+  "gates": {
+    "authority": "exact_current_user_authorization_bound_to_task_packet_and_action",
+    "cost": "exact_provider_currency_expected_and_maximum_bound_to_task_packet",
+    "provider_submit": "authority_passed_and_cost_passed_and_no_reconciled_receipt",
+    "qa": "all_packet_acceptance_checks_passed_with_artifact_evidence",
+    "promotion": "qa_passed_and_current_user_promotion_authority"
+  },
+  "artifact_ledger": {
+    "append_only": true,
+    "required_fields": [
+      "artifact_id",
+      "task_id",
+      "role",
+      "uri",
+      "sha256",
+      "bytes",
+      "media_probe",
+      "created_at",
+      "accepted_by_gate"
+    ],
+    "selection_policy": "exact_task_and_artifact_id_never_latest_or_mtime"
+  },
+  "event_ledger": {
+    "path": "docs/agent-team/video-workbench-harness-v1/events.jsonl",
+    "append_only": true,
+    "hash_chain": "sha256_previous_hash_plus_canonical_event_without_hash",
+    "materialized_state_check": "validator_reduces_events_and_compares_revision_queue_active_claim_writer_locks"
+  },
+  "persistent_dispatcher": {
+    "authority": "one_active_controller_writer_only",
+    "cutover": "freeze_local_writer_then_validate_exact_snapshot_and_reconstruction_before_server_activation",
+    "resume_ready": "persisted_resume_node_claimed_compare_and_set_then_worker_dispatch",
+    "duplicate_wake": "idempotent_existing_node_claim_returned_without_second_execution",
+    "rollback": "restore_exact_pre_cutover_snapshot_when_server_activation_or_health_fails",
+    "forbidden": ["provider_submit", "spend", "deploy", "promote"]
+  },
+  "controller_outbox": {
+    "durability": "append_only_event_embedded_typed_handoff",
+    "required_fields": ["project_id", "formal_task_id", "harness_task_id", "packet_sha", "event_type", "node", "status", "evidence_refs", "next_resume", "occurred_at", "dedupe_key"],
+    "event_types": ["user_action_blocked", "user_acceptance_required", "delivery_completed"],
+    "consumer": "master_reads_only_unacknowledged_escalation_or_delivery_events_then_consumes_once; internal_ledger_events_auto_continue_without_master_handoff",
+    "auto_continue": "authorized_internal_nodes_resume_the_parent_without_outbox; an escalation auto_approval_requires_an_immutable_typed_resume_envelope",
+    "terminal": "only_user_action_blocked_user_acceptance_required_or_delivery_completed_may_wait_for_master",
+    "liveness": "active_claim_active_child_background_work_or_provider_sync_requires_internal_progress_checkpoint_next_wake_and_resume_node",
+    "forbidden": ["commentary_as_delivery_event", "duplicate_dispatch", "provider_submit", "spend", "deploy", "promote"]
+  },
+  "delegation": {
+    "implementation": "bounded_subagent_only",
+    "acceptance": "independent_read_only_subagent_after_implementation_stops",
+    "subagent_forbidden": [
+      "change_acceptance_criteria",
+      "provider_submit",
+      "spend",
+      "deploy",
+      "promote",
+      "become_controller"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+你现在使用的是“员工版转绘视频 Skill 包”。请先完成以下动作，再开始回答任务：
+
+1. 解压我附带的压缩包；把其中 `skills/` 下的全部 Skill 目录安装到当前 Codex 可读取的 `%USERPROFILE%/.codex/skills/`。如果当前环境不能写入该目录，就在当前工作目录建立等价的 `.codex/skills/`，并明确说明实际读取路径。
+2. 读取包根目录 `README.md`、`manifest.json` 和以下入口 Skill：`ai-video-production-router`、`ai-video-fundamentals-skill`、`commerce-video-redraw-router`、`realistic-commerce-video-replication`、`prompt-skill-router`、`ai-video-firstframe-workflow`、`ai-video-channel-router`、`runninghub-image2-image`、`mimo-8001-video-channel`、`seedance2-commerce-video`。
+3. 本任务目标是“参考视频转绘成目标商品/品牌的视频”。按 `Step01 -> Step02 -> Step03 -> Step04 -> Step05` 工作，不得跳过原片证据、目标产品事实、提示词锁定、渠道 preflight、真实媒体下载和 QA。
+4. 先列出：已收到的文件、缺失的文件、目标画幅/时长/渠道、当前可以做到的阶段。若缺少原视频、目标商品权威素材、明确产品事实或授权，先停在对应 blocker，不要猜测。
+5. 任何真实提交、付费、调用 provider、下载成片或交付动作，都必须在本轮再次向我确认并得到明确授权。未授权时只做证据提取、镜头时间线、产品绑定、中文提示词、`video_task_spec.json` 和 preflight。
+6. 禁止把“计划完成”“任务已提交”“有一个 mp4 文件”“latest 文件夹”当成 QA 通过。最终只接受真实存在、媒体探测通过、内容 QA 通过并写入 manifest/ledger 的精确文件。
+
+收到后先回复“已加载包，准备检查输入”，然后等待我提供素材或继续执行，不要立即虚构示例成片。

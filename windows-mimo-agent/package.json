@@ -1,0 +1,9 @@
+{
+  "name": "niannian-windows-mimo-agent-runtime",
+  "version": "1.4.13-windows-mimo.2",
+  "private": true,
+  "description": "Isolated runtime dependencies for the NianNian Windows Mimo CDP agent.",
+  "dependencies": {
+    "playwright-core": "1.62.0-alpha-1783623505000"
+  }
+}

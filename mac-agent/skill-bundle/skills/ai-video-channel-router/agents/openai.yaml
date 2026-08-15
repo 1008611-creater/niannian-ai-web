@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI视频渠道路由"
+  short_description: "统一选择和调用AI视频生成渠道"
+  default_prompt: "Use $ai-video-channel-router to choose the best AI video generation channel and execute the approved run."

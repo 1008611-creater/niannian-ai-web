@@ -1,0 +1,6 @@
+[Unit]
+Description=NianNian AI stream playback derivative generator
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/niannian-video-stream-variants

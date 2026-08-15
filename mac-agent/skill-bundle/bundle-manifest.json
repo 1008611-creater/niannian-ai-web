@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "bundleName": "niannian-mac-production-skills",
+  "bundleVersion": "1.2.8",
+  "minimumWorkerVersion": "1.4.12",
+  "allowedChannels": {
+    "mimo": "mimo-8001-video-channel"
+  },
+  "skills": [
+    {
+      "name": "niannian-mac-production",
+      "role": "entrypoint",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "ca4ed1c4aaf3560037f795800f48425e7a2d9b6bc311101c9b4b981f4bb71bea",
+          "bytes": 263
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "e4405d07ed50dbd1d5bb397e053e3d74243dd8726df8e2e6957521b9fcf36498",
+          "bytes": 3764
+        }
+      ]
+    },
+    {
+      "name": "ai-video-production-router",
+      "role": "production_router",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "1551a3a6e28dd648c6b0e8f872aa77ace5fb0d986378a5be6f71e48bd843386f",
+          "bytes": 328
+        },
+        {
+          "path": "references/route-map.md",
+          "sha256": "c8a417dd3b2c83616c28f173d0b98e9e0e644d4ca696b3ab1dd3e98704374830",
+          "bytes": 1420
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "2c82ab069e4f89f7a629a9f0f73b5d92a3086fd6d6842ba269e7b1c7e4797760",
+          "bytes": 6640
+        }
+      ]
+    },
+    {
+      "name": "ai-video-channel-router",
+      "role": "channel_router",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "5779455e67bc45bf80119b021290c3bc69ff80a04986dfd9c52b1b3d0f9f647c",
+          "bytes": 241
+        },
+        {
+          "path": "references/channel-adapter-contract.md",
+          "sha256": "d79b5e64e03c4e89d247c7c7fa439707021455851865510109d0001868e4e6e7",
+          "bytes": 2176
+        },
+        {
+          "path": "references/hi-light-batch-production.md",
+          "sha256": "018e50c76ea07fd030d193c81be9c2f9e0b27c0b05b65655c7a1bdaccdfba147",
+          "bytes": 4631
+        },
+        {
+          "path": "references/hi-light-display-video-prompts.md",
+          "sha256": "c4ba0799548d030460ca8f7b826e3b1f52c3d7935b165ae91728cff9e4af193b",
+          "bytes": 2097
+        },
+        {
+          "path": "references/hi-light-male-showcase-save-workflow.md",
+          "sha256": "2e6e780ae2620f3312c3bcb2c1d1ff44c5cc19a8b43dc8e2be5eaf774153946c",
+          "bytes": 10514
+        },
+        {
+          "path": "references/hi-light-video-quick-adapter.md",
+          "sha256": "c35a4cdadc58e633343da942f2ae1004ce27f7bf333a125c4e48bd62d6a6aded",
+          "bytes": 10293
+        },
+        {
+          "path": "scripts/mark-channel-usage.ps1",
+          "sha256": "5c5d7e7c03013f85e0d3aa8f321a9f1caf07e408f17f29f3321d97a044fdbc92",
+          "bytes": 2165
+        },
+        {
+          "path": "scripts/save-hilight-showcase-video.ps1",
+          "sha256": "7ddc347a82272d990213913e873ff81e57e412da8a2f48e11e65ee5524824a51",
+          "bytes": 3795
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "393ee525f062080230259ad8f1429fe68b89d962a6fbb19ffa0bc25fe6360e26",
+          "bytes": 25955
+        }
+      ]
+    },
+    {
+      "name": "ai-video-fundamentals-skill",
+      "role": "quality_method",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "90f9d26e8ad556e9e61d76678b586ddd21ba49ff3f11679211f110df7faff872",
+          "bytes": 508
+        },
+        {
+          "path": "references/checklists.md",
+          "sha256": "6944d61ff15951a26d8f9d99a9ce53b6a6f28b76926339b7bf76da39d9fb7495",
+          "bytes": 10611
+        },
+        {
+          "path": "references/image2-seedance2-lessons.md",
+          "sha256": "e8166dfdac409f5134a891d68a5a4d4ca760875d19647e969b019af29252a0e5",
+          "bytes": 35801
+        },
+        {
+          "path": "references/learning-loop.md",
+          "sha256": "d9d5a0be05e0c7130dc0c4537afcbec7fb40bb288b3966c616d8c7678db53491",
+          "bytes": 4903
+        },
+        {
+          "path": "references/method-contract.json",
+          "sha256": "86c2ac63178bf21bd69a461bdfcef3ed4c7f77ef6805cddcac51a685aa9c7cfe",
+          "bytes": 6856
+        },
+        {
+          "path": "references/mx-shell-case-rules.md",
+          "sha256": "a8a68dcd3967116dabfe4d1af0152129bfe60465de92cec5d6cc632c40a3b011",
+          "bytes": 3809
+        },
+        {
+          "path": "references/prompt-templates.md",
+          "sha256": "afe6994492d53612a23143c90a6154fb83ed6cd0fbcf75e9b582cfe7a2085ec2",
+          "bytes": 15780
+        },
+        {
+          "path": "references/vault-extraction.md",
+          "sha256": "3e0d5e59696688c2b37d1a4840e82ae1b16fb3bc621b0194d293998039c62268",
+          "bytes": 2779
+        },
+        {
+          "path": "references/video-types.md",
+          "sha256": "a7542d46bff45fefed27ea673c3a2c5faada825f9fef81d23ed0a89e9f8e76fe",
+          "bytes": 2730
+        },
+        {
+          "path": "references/viewer-hook-direction.md",
+          "sha256": "ae34bdf8ab26b81bc9f936065e471df8b989cb890f3eb315cca74b7fc90c06e4",
+          "bytes": 1862
+        },
+        {
+          "path": "scripts/validate_ai_video_plan.py",
+          "sha256": "a644e1027dde5f77fa0c19451424cfa536e710fc21cf57627657dbb6a2c3a5a1",
+          "bytes": 6000
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "e47592701607983bace3a3075c3d7a474e5221f5de4622d2f30f5bcf2db75b8b",
+          "bytes": 24648
+        }
+      ]
+    },
+    {
+      "name": "mimo-8001-video-channel",
+      "role": "channel:mimo",
+      "files": [
+        {
+          "path": "scripts/mimo_client.mjs",
+          "sha256": "182b911527d280edbaf24546ff59834ce07c5f717ff36b700f9783b1b94a7b1b",
+          "bytes": 15947
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "7a029a46e4cc9f9356dc66465fa0d35db98a4819da8a355f83725d8a38414a32",
+          "bytes": 12110
+        }
+      ]
+    },
+    {
+      "name": "post-coding-review",
+      "role": "verification",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "1114c8aeccaa88c4b6bb86a60eb129947765eeab13214856bd782a410af81f92",
+          "bytes": 257
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "6c437aee19d6872c15d800160d609ef8cda9d1140d3a2e238649d0244c76fd4f",
+          "bytes": 4088
+        }
+      ]
+    }
+  ]
+}

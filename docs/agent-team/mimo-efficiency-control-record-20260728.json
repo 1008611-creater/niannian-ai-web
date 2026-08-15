@@ -1,0 +1,86 @@
+{
+  "schema_version": "master_control_record_v1",
+  "task_id": "NIANNIAN-MIMO-EFFICIENCY-20260728",
+  "outcome_contract": {
+    "objective": "Make the normal NianNian Mimo path cheaper to operate and faster to understand without weakening unique-submit or media-delivery gates.",
+    "visible_outcome": "A signed-in user can reuse an existing immutable asset, create a 4-15 second task, see its real stage and elapsed time, and receive the result after download, ffprobe, ledger, and COS readback pass.",
+    "authoritative_source": "E:\\codex\\aisp\\aidaihuo\\niannian-ai-web source plus focused tests; production remains authoritative only after a separately authorized deployment and live readback.",
+    "completion_evidence": [
+      "Focused cost, asset reuse, progress event, and public-state tests",
+      "TypeScript check and production build",
+      "Level 2 post-coding review against the representative local/API path"
+    ],
+    "approved_continuation": [
+      "Local source and test changes in the handoff allowlist",
+      "No-cost local tests and build",
+      "Independent read-only post-coding review"
+    ],
+    "protected_actions": [
+      "Production deployment or service restart",
+      "Provider submission, Generate click, or Provider spend",
+      "Database migration or mutation of historical tasks",
+      "Credential, permission, DNS, firewall, or account changes"
+    ],
+    "stop_conditions": [
+      "real_delivery",
+      "material_user_decision",
+      "protected_action_authorization",
+      "verified_external_blocker"
+    ]
+  },
+  "verification_level": "structural",
+  "repair_count": 0,
+  "gates": [
+    {
+      "id": "production-deploy",
+      "class": "hard_external_side_effect",
+      "active": true,
+      "reported_as_blocker": false,
+      "prevented_harm": "Prevents unreviewed code from replacing the live website or Worker.",
+      "evidence": "This handoff authorizes local implementation and verification only.",
+      "repair_alternative": "Build and review a deployment-ready candidate without changing production.",
+      "blocking_cost": "The new behavior is not user-visible in production during this phase.",
+      "expiry_condition": "The user explicitly authorizes deployment after the candidate passes review."
+    },
+    {
+      "id": "provider-submit-spend",
+      "class": "hard_external_side_effect",
+      "active": true,
+      "reported_as_blocker": false,
+      "prevented_harm": "Prevents an extra Mimo task or credit charge while changing contracts.",
+      "evidence": "No real Provider run is required to implement the selected product decisions.",
+      "repair_alternative": "Use fixtures and contract tests for local verification.",
+      "blocking_cost": "Real delivery verification remains at the already proven benchmark level.",
+      "expiry_condition": "A later exact task and cost authorization permits one idempotent production run."
+    },
+    {
+      "id": "legacy-content-qa",
+      "class": "historical_only",
+      "active": false,
+      "reported_as_blocker": false,
+      "evidence": "Decision 4B preserves historical waiting-for-content-QA tasks unchanged."
+    }
+  ],
+  "rules": [
+    {
+      "topic": "website_pricing",
+      "current_authoritative": true,
+      "value": "4 website credits per second for 4-15 second tasks"
+    },
+    {
+      "topic": "existing_asset_reuse",
+      "current_authoritative": true,
+      "value": "reuse an owned immutable asset row and SHA without duplicate upload or duplicate asset row"
+    },
+    {
+      "topic": "progress_display",
+      "current_authoritative": true,
+      "value": "show persisted stage and elapsed time; do not show ETA until at least five compatible samples exist"
+    },
+    {
+      "topic": "legacy_qa_backfill",
+      "current_authoritative": true,
+      "value": "do not backfill or mutate historical waiting-for-content-QA tasks"
+    }
+  ]
+}

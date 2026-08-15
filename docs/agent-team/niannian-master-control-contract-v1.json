@@ -1,0 +1,128 @@
+{
+  "schema_version": "niannian_master_control_contract_v1",
+  "status": "policy_applied_product_not_started",
+  "commercial_harness_project": {
+    "lifecycle": "parked_future_project",
+    "start_condition": "explicit_future_user_instruction",
+    "priority_below": "FIRST_REAL_VIDEO_PLAYABLE",
+    "stage01_inclusion": false,
+    "production_writer_allocated": false
+  },
+  "control_roles": {
+    "master_conversation": [
+      "user_decisions",
+      "priority",
+      "harness_routing",
+      "skill_routing",
+      "exact_task_packets",
+      "authority_boundaries",
+      "final_acceptance"
+    ],
+    "production_executor": [
+      "durable_queue",
+      "dependencies",
+      "single_writer_per_surface",
+      "bounded_delegation",
+      "tests",
+      "post_coding_review",
+      "controlled_deployment",
+      "rollback",
+      "authoritative_readback"
+    ],
+    "subagents": {
+      "allowed": ["bounded_implementation", "independent_read_only_acceptance"],
+      "forbidden": ["master_ownership", "provider_submit_authority", "spend_authority", "promotion_authority", "deployment_authority"]
+    }
+  },
+  "routing": {
+    "order": ["earliest_missing_artifact", "harness_route", "professional_skill_route", "executor"],
+    "sizes": {
+      "S": "current_thread",
+      "M": "light_spec_implementation_self_test",
+      "L": "task_spec_bounded_implementation_independent_review",
+      "XL": "separately_authorized_long_running_task_and_independent_acceptance"
+    }
+  },
+  "writer_surfaces": {
+    "user_decision_priority": "master_conversation_owner",
+    "production_release": "named_active_deployment_owner",
+    "task_spec_event_state": "website_controller_transaction",
+    "mimo_execution": "one_windows_worker_one_active_task_id",
+    "provider_submit_receipt": "task_bound_claimed_worker_and_idempotency_identity",
+    "wallet_ledger": "server_atomic_billing_contract",
+    "independent_acceptance": "review_owner_separate_for_L_XL"
+  },
+  "writer_ownership_contract": {
+    "scope_identity": "project_task_node_mutable_surface_owner_idempotency_identity",
+    "acquire": "authoritative_compare_and_set",
+    "renewal_meaning": "liveness_only_not_completion",
+    "on_loss": "block_writes_and_reconcile_exact_durable_node",
+    "takeover": "reconcile_then_compare_and_set",
+    "expiry_may_submit": false,
+    "expiry_may_spend": false,
+    "expiry_may_promote": false,
+    "expiry_may_refund": false,
+    "expiry_may_deliver": false
+  },
+  "serial_gates": [
+    "user_decision",
+    "authority",
+    "cost_authorization",
+    "provider_submit",
+    "wallet_mutation",
+    "ledger_mutation",
+    "promotion",
+    "final_acceptance"
+  ],
+  "recovery": {
+    "identity": "project_task_idempotency_identity",
+    "resume_rule": "earliest_incomplete_downstream_node",
+    "existing_provider_receipt": "sync_only_never_resubmit",
+    "timer_may_promote": false,
+    "timer_may_resubmit": false
+  },
+  "evidence_levels": ["structural", "integrated", "real_delivery", "blocked", "unknown"],
+  "real_delivery_requires": [
+    "exact_external_artifact",
+    "manifest_or_ledger_binding",
+    "authoritative_state_acceptance",
+    "customer_visible_playback_download_or_use",
+    "explicit_acceptance_when_required"
+  ],
+  "commercial_metrics": [
+    "cycle_time",
+    "human_interventions",
+    "provider_cost",
+    "first_pass_success_rate",
+    "provider_failure_rate",
+    "rework_rate",
+    "recovery_time",
+    "duplicate_submit_count",
+    "duplicate_charge_count",
+    "delivery_time"
+  ],
+  "isolation": {
+    "forbid_sharing_with_current_niannian": [
+      "production_writer",
+      "provider_session",
+      "wallet",
+      "task",
+      "customer_asset",
+      "database_row",
+      "worker",
+      "service",
+      "credential",
+      "stage01_package"
+    ]
+  },
+  "current_non_actions": [
+    "no_new_thread",
+    "no_new_service",
+    "no_schema_change",
+    "no_worker_change",
+    "no_production_change",
+    "no_provider_action",
+    "no_spend",
+    "no_stage01_change"
+  ]
+}

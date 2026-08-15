@@ -1,0 +1,4 @@
+interface:
+  display_name: "念念 AI Mac 生产员工"
+  short_description: "执行念念 AI 已授权客户视频任务的专用生产路由技能"
+  default_prompt: "Use -mac-production to execute one authorized customer video task from its locked task.json."

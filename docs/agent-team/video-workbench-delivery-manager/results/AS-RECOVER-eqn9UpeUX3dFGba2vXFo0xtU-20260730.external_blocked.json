@@ -1,0 +1,7 @@
+{
+  "result_type": "external_blocked",
+  "task_id": "AS-RECOVER-eqn9UpeUX3dFGba2vXFo0xtU-20260730",
+  "evidence_path_or_url": "https://astorie.ai/zh-CN/projects/8feafe40-9e7f-4840-934e-69f5dcc93aa9",
+  "verified_result": "The canvas history contains only 7.104s 720x1280 and 4.096s 1280x720 assets. Neither is the locked 4s 720x1280 9:16 workbench task.",
+  "next_action_or_blocker": "User must choose whether to authorize one correct replacement submission or explicitly accept an existing mismatched asset."
+}

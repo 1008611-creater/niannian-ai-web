@@ -1,0 +1,22 @@
+[Unit]
+Description=Niannian Redraw Worker
+After=network-online.target postgresql@14-main.service redis-server.service niannian-redraw-web.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=niannian_redraw
+Group=niannian_redraw
+WorkingDirectory=/opt/niannian-redraw-web
+EnvironmentFile=/etc/niannian-ai/redraw.env
+Environment=PATH=/opt/node24/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+ExecStart=/opt/node24/bin/node /opt/niannian-redraw-web/scripts/redraw-task-worker.mjs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ReadWritePaths=/srv/niannian-data/niannian-redraw-web
+
+[Install]
+WantedBy=multi-user.target

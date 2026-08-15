@@ -1,0 +1,7 @@
+{
+  "result_type": "final_delivery",
+  "task_id": "AS-DELIVERY-eqn9UpeUX3dFGba2vXFo0xtU-20260730",
+  "evidence_path_or_url": "https://sd2.cauai.fun/api/video-tasks/eqn9UpeUX3dFGba2vXFo0xtU/download",
+  "verified_result": "User accepted the existing 4.096-second, 1280x720, 16:9 AStorie asset. It has H.264 video, AAC stereo audio, SHA-256 c350daf5bbd092b0de3a624e2c483dc22a9367a60e2dff76daa1f187d7491911, a server ledger, and a projects-page playback/download readback.",
+  "next_action_or_blocker": "Implement a persistent AStorie CDP execution route. The current production video worker only runs server_auto and has no Codex executable, so it cannot be the AStorie provider submitter."
+}

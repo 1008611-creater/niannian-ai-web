@@ -1,0 +1,32 @@
+{
+  "schema": "niannian.server_step01_bundle.v1",
+  "source_skill": "mx-shortdrama-01-frame-extract",
+  "files": [
+    {
+      "path": "scripts/build_audio_evidence.py",
+      "sha256": "60d54a102499327824a30766c48dd441cb473b2b7b4be3e5175a69e5d38ae484"
+    },
+    {
+      "path": "scripts/qwen3_forced_aligner_worker.py",
+      "sha256": "70315afbb36b3103e4ddc32386a59c976d0ceeea1211c6596b4bb4ee616ab30d"
+    },
+    {
+      "path": "scripts/extract_episode_frames.py",
+      "sha256": "4addd6ad1a34125eb5cca317a43abe81b790339effc6e323ff74cbb0fe3bf1c5"
+    },
+    {
+      "path": "scripts/finalize_step01_evidence.py",
+      "sha256": "18d0e3ea98774fc70232fabf9eb8a57faee3dbe9970e388a0009124281212feb"
+    },
+    {
+      "path": "scripts/smart_selective_ocr.py",
+      "sha256": "210a2508938aa17880b2280d2863ac709988ce421637d417daac21923808e8bc"
+    }
+  ],
+  "prohibited": [
+    "credentials",
+    "browser_profile",
+    "desktop_gui",
+    "local_pixel_edit"
+  ]
+}

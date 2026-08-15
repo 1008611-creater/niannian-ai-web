@@ -1,0 +1,45 @@
+{
+  "schema": "niannian_video_workbench_task_packet_v1",
+  "project_id": "niannian-ai-video-workbench",
+  "task_id": "MIMO-LOCAL-DELIVERY-RECOVERY-20260730-01",
+  "production_task_id": "D-yKHX6ezMuac97DZyp7Cm0w",
+  "owner": "video-workbench-task-manager",
+  "status": "claimed",
+  "current_action": "recover the existing Windows Mimo MP4 into the website delivery path without a new Provider submission",
+  "authority": {
+    "provider_submission": "forbidden",
+    "provider_cost": "forbidden",
+    "deployment": "task-manager-only"
+  },
+  "writer_surfaces": [
+    "mimo_local_delivery_recovery_code",
+    "windows_mimo_agent_deploy",
+    "video_task_D-yKHX6ezMuac97DZyp7Cm0w"
+  ],
+  "completion_evidence": [
+    "same Provider ID as the persisted task",
+    "Windows result.mp4 passes native media probe for 720x1280 and about 4 seconds with audio",
+    "server delivery ledger and COS or authenticated delivery readback exist",
+    "website project entry is playable and downloadable"
+  ],
+  "slots": {
+    "implementation": {
+      "task_id": "MIMO-LOCAL-DELIVERY-RECOVERY-IMPLEMENTATION-01",
+      "scope": "local recovery command and the narrowly matching server acceptance branch",
+      "expected_evidence": "targeted test output and changed source paths",
+      "continuation": "task manager deploys only after the branch has no Provider submission path"
+    },
+    "evidence_repair": {
+      "task_id": "MIMO-LOCAL-DELIVERY-RECOVERY-EVIDENCE-01",
+      "scope": "read-only verification of Windows result.mp4, receipt, sync manifest and ffprobe",
+      "expected_evidence": "absolute Windows evidence paths and probe JSON",
+      "continuation": "task manager executes recovery only when all existing artifacts bind to the same Provider ID"
+    },
+    "acceptance": {
+      "task_id": "MIMO-LOCAL-DELIVERY-RECOVERY-ACCEPTANCE-01",
+      "scope": "read-only website playback and download readback after delivery",
+      "expected_evidence": "website URL and delivery artifact evidence",
+      "continuation": "task manager emits final_delivery only after both user-visible paths work"
+    }
+  }
+}

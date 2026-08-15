@@ -1,0 +1,15 @@
+node_modules
+.next
+data
+output
+.playwright-cli
+releases
+staging
+backups
+.codex_tmp
+.codex_tmp*
+*.log
+.postgres-password.local
+.env*
+!.env.example
+!.env.docker.example

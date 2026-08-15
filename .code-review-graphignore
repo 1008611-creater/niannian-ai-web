@@ -1,0 +1,7 @@
+.next-preview-3032/
+.next/
+node_modules/
+.playwright-cli/
+.codex_tmp/
+.postgres-data/
+logs/

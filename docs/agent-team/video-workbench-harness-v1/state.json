@@ -1,0 +1,1062 @@
+{
+  "schema_version": "niannian_video_workbench_harness_state_v1",
+  "contract_version": "niannian_video_workbench_harness_v1",
+  "revision": 51,
+  "updated_at": "2026-07-28T11:53:05.703Z",
+  "controller": {
+    "executor_id": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+    "status": "claimed"
+  },
+  "queue": [
+    {
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "state": "claimed",
+      "dependencies": [
+        "HARNESS-INIT-20260728-01"
+      ],
+      "writer_surfaces": [
+        "queue_state",
+        "provider_submission",
+        "billing_ledger",
+        "artifact_ledger"
+      ],
+      "adopted_at": "2026-07-28T04:19:20.953Z",
+      "claimed_at": "2026-07-28T05:10:10.260Z"
+    }
+  ],
+  "active_claim": {
+    "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+    "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+    "claimed_at": "2026-07-28T05:10:10.260Z"
+  },
+  "writer_locks": [
+    {
+      "surface": "queue_state",
+      "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01"
+    },
+    {
+      "surface": "provider_submission",
+      "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01"
+    },
+    {
+      "surface": "billing_ledger",
+      "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01"
+    },
+    {
+      "surface": "artifact_ledger",
+      "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01"
+    }
+  ],
+  "dependency_status": {
+    "HARNESS-INIT-20260728-01": "completed_verified"
+  },
+  "decisions": [
+    {
+      "decision_id": "USER_DECISIONS_DERIVED_INPUT_20260728_02",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "packet_mutated": false
+    },
+    {
+      "decision_id": "USER_DECISIONS_PRODUCTION_ROUTE_20260728_07_REAL_I2V",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "packet_mutated": false
+    },
+    {
+      "decision_id": "USER_APPROVED_RECOVERY_AND_CONTROLLED_RELEASE_20260728_09",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "packet_mutated": false
+    },
+    {
+      "decision_id": "USER_APPROVED_PERSISTENT_HARNESS_AND_AUTORUN_20260728_10",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "packet_mutated": false
+    },
+    {
+      "decision_id": "CORRECT_AUDIO_GATE_SEMANTICS_20260728_13",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "packet_mutated": false
+    },
+    {
+      "decision_id": "USER_CONFIRMED_MIMO_BALANCE_20260728_14",
+      "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "packet_mutated": false
+    }
+  ],
+  "artifact_ledger": [],
+  "gate_events": [],
+  "earliest_unsatisfied_node": "NIANNIAN-WB-REAL-I2V-4S-20260728-01:controlled_dispatcher_cutover_preflight",
+  "next_external_action": "capture_snapshot_freeze_local_writer_then_controlled_dispatcher_cutover",
+  "repair_work_items": [
+    {
+      "id": "REPAIR-FACE-FLAG-20260728-01",
+      "kind": "internal_recoverable_gate_repair",
+      "state": "completed_verified",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9"
+    }
+  ],
+  "node_runs": [],
+  "child_work_items": [
+    {
+      "id": "dispatcher_repair_outbox",
+      "kind": "bounded_implementation_repair",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "write_set": [
+        "scripts/video-workbench-harness-state.mjs",
+        "scripts/video-workbench-harness-dispatcher.mjs",
+        "scripts/video-workbench-harness-dispatcher-runner.mjs",
+        "scripts/video-workbench-harness-dispatcher.test.mjs",
+        "scripts/validate-video-workbench-harness.mjs",
+        "docs/agent-team/video-workbench-harness-v1/contract.json"
+      ],
+      "authority": "candidate_only_no_production_no_worker_no_provider_no_billing",
+      "state": "completed",
+      "started_at": "2026-07-28T10:36:33.146Z",
+      "result": {
+        "status": "PASS_LOCAL_ONLY",
+        "implementation_result": "implementation_completed",
+        "parent_binding": {
+          "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+          "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+          "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9"
+        },
+        "evidence_refs": [
+          "npm:test:video-workbench-dispatcher:11/11",
+          "npm:test:video-workbench-harness:12/12",
+          "npm:harness:video-workbench:validate:pass:revision-17",
+          "npm:lint:pass"
+        ],
+        "changed_files": [
+          "scripts/video-workbench-harness-state.mjs",
+          "scripts/video-workbench-harness-dispatcher.mjs",
+          "scripts/video-workbench-harness-dispatcher-runner.mjs",
+          "scripts/validate-video-workbench-harness.mjs",
+          "scripts/video-workbench-harness-dispatcher.test.mjs",
+          "scripts/video-workbench-harness-dispatcher-repair.test.mjs",
+          "scripts/video-workbench-harness.contract.test.mjs",
+          "docs/agent-team/video-workbench-harness-v1/contract.json"
+        ]
+      },
+      "completed_at": "2026-07-28T10:44:58.675Z"
+    },
+    {
+      "id": "dispatcher_repair_outbox_independent_acceptance",
+      "kind": "independent_read_only_acceptance",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "write_set": [],
+      "authority": "read_only_no_files_no_harness_events_no_deploy_no_worker_no_provider_no_billing",
+      "state": "failed",
+      "started_at": "2026-07-28T10:45:19.468Z",
+      "result": {
+        "result": "FAIL",
+        "finding_count": 3,
+        "findings": [
+          "fixture_revision_19_not_synced",
+          "claimTaskCas_no_crash_recovery_journal",
+          "resume_envelope_not_cross_bound_to_consumed_outbox"
+        ],
+        "evidence_refs": [
+          "npm:test:video-workbench-dispatcher:11/11",
+          "npm:test:video-workbench-harness:10/12",
+          "npm:harness:video-workbench:validate:pass:revision-19",
+          "npm:lint:pass"
+        ],
+        "read_only": true
+      },
+      "completed_at": "2026-07-28T10:49:47.050Z"
+    },
+    {
+      "id": "dispatcher_repair_outbox_reacceptance",
+      "kind": "independent_read_only_acceptance",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "write_set": [],
+      "authority": "read_only_no_files_no_harness_events_no_deploy_no_worker_no_provider_no_billing",
+      "state": "failed",
+      "started_at": "2026-07-28T10:54:53.699Z",
+      "result": {
+        "result": "FAIL",
+        "finding_count": 1,
+        "findings": [
+          "HARNESS_CONTRACT_FIXTURE_NOT_SYNCHRONIZED_TO_REVISION_25"
+        ],
+        "evidence_refs": [
+          "npm:test:video-workbench-harness:11/13",
+          "npm:test:video-workbench-dispatcher:11/11",
+          "npm:harness:video-workbench:validate:pass:revision-25",
+          "npm:lint:pass"
+        ],
+        "read_only": true
+      },
+      "completed_at": "2026-07-28T10:57:36.842Z"
+    },
+    {
+      "id": "dispatcher_repair_outbox_final_reacceptance",
+      "kind": "independent_read_only_acceptance",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "write_set": [],
+      "authority": "read_only_no_files_no_harness_events_no_deploy_no_worker_no_provider_no_billing",
+      "state": "failed",
+      "started_at": "2026-07-28T11:00:55.168Z",
+      "result": {
+        "result": "FAIL",
+        "finding_count": 2,
+        "findings": [
+          "AUTO_APPROVE_AND_CONTINUE_DOES_NOT_PERSIST_RESUME_DISPATCH",
+          "OUTBOX_ACK_CURSOR_ALLows_STALE_OUT_OF_ORDER_CONSUMPTION"
+        ],
+        "evidence_refs": [
+          "npm:test:video-workbench-harness:13/13",
+          "npm:test:video-workbench-dispatcher:11/11",
+          "npm:harness:video-workbench:validate:pass:revision-30",
+          "npm:lint:pass",
+          "read_only_repro:AUTO_RESUME_MISSING",
+          "pending_outbox_count:10"
+        ],
+        "read_only": true
+      },
+      "completed_at": "2026-07-28T11:07:21.827Z"
+    },
+    {
+      "id": "dispatcher_outbox_causal_final_acceptance",
+      "kind": "independent_read_only_acceptance",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "write_set": [],
+      "authority": "read_only_no_files_no_harness_events_no_deploy_no_worker_no_provider_no_billing",
+      "state": "failed",
+      "started_at": "2026-07-28T11:13:30.870Z",
+      "result": {
+        "result": "FAIL",
+        "finding_count": 4,
+        "findings": [
+          "LIVENESS_WAKE_RECOVERY_SEMANTICS_MISSING",
+          "CAUSAL_AUTO_CONSUME_RESUME_NODE_CLAIM_OPTIONAL",
+          "PROGRESS_CHECKPOINT_AUTO_CONSUMABLE_WITH_ACTIVE_CHILD",
+          "ACTIVE_CLAIM_WAKE_COMPLETENESS_MISSING"
+        ],
+        "evidence_refs": [
+          "npm:test:video-workbench-dispatcher:4/11",
+          "npm:test:video-workbench-harness:13/13",
+          "npm:harness:video-workbench:validate:pass:revision-35",
+          "npm:lint:pass"
+        ],
+        "read_only": true
+      },
+      "completed_at": "2026-07-28T11:17:15.849Z"
+    },
+    {
+      "id": "dispatcher_liveness_causal_final_acceptance",
+      "kind": "independent_read_only_acceptance",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "write_set": [],
+      "authority": "read_only_no_files_no_harness_events_no_deploy_no_worker_no_provider_no_billing",
+      "state": "failed",
+      "started_at": "2026-07-28T11:21:18.013Z",
+      "result": {
+        "result": "FAIL",
+        "finding_count": 1,
+        "findings": [
+          "LIVENESS_WAKE_COMPARED_TO_ANY_LATER_EVENT_TIME_INSTEAD_OF_CHECKPOINT_OBSERVATION"
+        ],
+        "evidence_refs": [
+          "npm:test:video-workbench-dispatcher:4/11",
+          "npm:test:video-workbench-harness:13/13",
+          "npm:harness:video-workbench:validate:pass:revision-39",
+          "npm:lint:pass"
+        ],
+        "read_only": true
+      },
+      "completed_at": "2026-07-28T11:23:59.105Z"
+    },
+    {
+      "id": "dispatcher_liveness_time_basis_final_acceptance",
+      "kind": "independent_read_only_acceptance",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "write_set": [],
+      "authority": "read_only",
+      "state": "failed",
+      "started_at": "2026-07-28T11:26:53.107Z",
+      "result": {
+        "result": "FAIL",
+        "findings": [
+          "IMPLEMENTATION_RESULT_NOT_PRESENT_IN_SHARED_CANDIDATE"
+        ],
+        "evidence_refs": [
+          "dispatcher:4/11",
+          "harness:13/13",
+          "validator:pass",
+          "lint:pass"
+        ],
+        "read_only": true
+      },
+      "completed_at": "2026-07-28T11:33:51.031Z"
+    },
+    {
+      "id": "dispatcher_liveness_actual_acceptance",
+      "kind": "independent_read_only_acceptance",
+      "parent_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "write_set": [],
+      "authority": "read_only",
+      "state": "completed",
+      "started_at": "2026-07-28T11:39:58.463Z",
+      "result": {
+        "result": "PASS",
+        "read_only": true,
+        "evidence_refs": [
+          "dispatcher:12/12",
+          "harness:13/13",
+          "validator:pass:revision-47",
+          "lint:pass"
+        ]
+      },
+      "completed_at": "2026-07-28T11:43:10.086Z"
+    }
+  ],
+  "background_work": [],
+  "controller_outbox": [
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_repair_outbox_typed_result",
+      "status": "waiting_internal_repair",
+      "evidence_refs": [
+        "child:dispatcher_repair_outbox:running",
+        "scope:candidate_only"
+      ],
+      "next_resume": "consume_dispatcher_repair_outbox_typed_result",
+      "occurred_at": "2026-07-28T10:36:33.146Z",
+      "dedupe_key": "progress:dispatcher_repair_outbox:revision-16",
+      "event_revision": 17,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "implementation_completed",
+      "node": "independent_read_only_acceptance_dispatcher_repair_outbox",
+      "status": "completed",
+      "evidence_refs": [
+        "npm:test:video-workbench-dispatcher:11/11",
+        "npm:test:video-workbench-harness:12/12",
+        "npm:harness:video-workbench:validate:pass:revision-17",
+        "npm:lint:pass"
+      ],
+      "next_resume": "independent_read_only_acceptance_dispatcher_repair_outbox",
+      "occurred_at": "2026-07-28T10:44:58.675Z",
+      "dedupe_key": "implementation:dispatcher_repair_outbox:revision-18",
+      "event_revision": 18,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_repair_outbox_independent_acceptance",
+      "status": "waiting_independent_acceptance",
+      "evidence_refs": [
+        "child:dispatcher_repair_outbox_independent_acceptance:active",
+        "implementation:dispatcher_repair_outbox:revision-18"
+      ],
+      "next_resume": "consume_dispatcher_repair_outbox_independent_acceptance",
+      "occurred_at": "2026-07-28T10:45:19.468Z",
+      "dedupe_key": "progress:dispatcher_repair_outbox_independent_acceptance:revision-19",
+      "event_revision": 19,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "independent_acceptance_failed",
+      "node": "auto_repair_dispatcher_repair_outbox_acceptance_failures",
+      "status": "failed",
+      "evidence_refs": [
+        "finding:fixture_revision_19_not_synced",
+        "finding:claimTaskCas_no_crash_recovery_journal",
+        "finding:resume_envelope_not_cross_bound_to_consumed_outbox"
+      ],
+      "next_resume": "auto_repair_dispatcher_repair_outbox_acceptance_failures",
+      "occurred_at": "2026-07-28T10:49:47.050Z",
+      "dedupe_key": "acceptance-failed:dispatcher_repair_outbox:revision-20",
+      "event_revision": 20,
+      "acknowledged": true
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_repair_outbox_rework_typed_result",
+      "status": "waiting_internal_repair",
+      "evidence_refs": [
+        "master_handoff:acceptance-failed:dispatcher_repair_outbox:revision-20",
+        "reuse_existing_agent:dispatcher_repair_outbox",
+        "P1:fixture_revision_19_not_synced",
+        "P1:claimTaskCas_recovery",
+        "P1:resume_envelope_cross_binding"
+      ],
+      "next_resume": "consume_dispatcher_repair_outbox_rework_typed_result",
+      "occurred_at": "2026-07-28T10:50:40.750Z",
+      "dedupe_key": "progress:dispatcher_repair_outbox:rework-after-acceptance-fail",
+      "event_revision": 22,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_repair_outbox_rework_typed_result",
+      "status": "waiting_internal_repair",
+      "evidence_refs": [
+        "decision:USER_DECISION_PROJECT_SCOPE_OUTBOX_AUTORUN_20260728",
+        "promotion:no_promotion",
+        "scope:niannian-ai-video-workbench_only"
+      ],
+      "next_resume": "consume_dispatcher_repair_outbox_rework_typed_result",
+      "occurred_at": "2026-07-28T10:51:22.624Z",
+      "dedupe_key": "decision:project-scope-outbox-autorun:20260728",
+      "event_revision": 23,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "implementation_completed",
+      "node": "consume_dispatcher_repair_outbox_reacceptance",
+      "status": "completed",
+      "evidence_refs": [
+        "npm:test:video-workbench-dispatcher:11/11",
+        "npm:test:video-workbench-harness:13/13",
+        "npm:harness:video-workbench:validate:pass:revision-23",
+        "npm:lint:pass"
+      ],
+      "next_resume": "consume_dispatcher_repair_outbox_reacceptance",
+      "occurred_at": "2026-07-28T10:54:36.139Z",
+      "dedupe_key": "implementation:dispatcher_repair_outbox:rework:revision-24",
+      "event_revision": 24,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_repair_outbox_reacceptance",
+      "status": "waiting_independent_acceptance",
+      "evidence_refs": [
+        "child:dispatcher_repair_outbox_reacceptance:active",
+        "implementation:dispatcher_repair_outbox:rework:revision-24"
+      ],
+      "next_resume": "consume_dispatcher_repair_outbox_reacceptance",
+      "occurred_at": "2026-07-28T10:54:53.699Z",
+      "dedupe_key": "progress:dispatcher_repair_outbox_reacceptance:revision-25",
+      "event_revision": 25,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "independent_acceptance_failed",
+      "node": "auto_repair_contract_fixture_runtime_projection",
+      "status": "failed",
+      "evidence_refs": [
+        "finding:HARNESS_CONTRACT_FIXTURE_NOT_SYNCHRONIZED_TO_REVISION_25"
+      ],
+      "next_resume": "auto_repair_contract_fixture_runtime_projection",
+      "occurred_at": "2026-07-28T10:57:36.842Z",
+      "dedupe_key": "acceptance-failed:dispatcher-reacceptance:revision-26",
+      "event_revision": 26,
+      "acknowledged": true
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_contract_fixture_invariant_rework_typed_result",
+      "status": "waiting_internal_repair",
+      "evidence_refs": [
+        "master_handoff:acceptance-failed:dispatcher-reacceptance:revision-26",
+        "reuse_existing_agent:dispatcher_repair_outbox",
+        "P1:fixture_must_assert_invariants_not_current_revision"
+      ],
+      "next_resume": "consume_contract_fixture_invariant_rework_typed_result",
+      "occurred_at": "2026-07-28T10:58:21.441Z",
+      "dedupe_key": "progress:dispatcher-repair-contract-fixture-invariant-rework",
+      "event_revision": 28,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "implementation_completed",
+      "node": "consume_dispatcher_repair_outbox_final_reacceptance",
+      "status": "completed",
+      "evidence_refs": [
+        "npm:test:video-workbench-harness:13/13",
+        "npm:test:video-workbench-dispatcher:11/11",
+        "npm:harness:video-workbench:validate:pass:revision-28",
+        "npm:lint:pass"
+      ],
+      "next_resume": "consume_dispatcher_repair_outbox_final_reacceptance",
+      "occurred_at": "2026-07-28T11:00:33.146Z",
+      "dedupe_key": "implementation:dispatcher-repair-fixture-invariant:revision-29",
+      "event_revision": 29,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_repair_outbox_final_reacceptance",
+      "status": "waiting_independent_acceptance",
+      "evidence_refs": [
+        "child:dispatcher_repair_outbox_final_reacceptance:active",
+        "implementation:dispatcher-repair-fixture-invariant:revision-29"
+      ],
+      "next_resume": "consume_dispatcher_repair_outbox_final_reacceptance",
+      "occurred_at": "2026-07-28T11:00:55.168Z",
+      "dedupe_key": "progress:dispatcher-repair-final-reacceptance:revision-30",
+      "event_revision": 30,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "independent_acceptance_failed",
+      "node": "auto_repair_outbox_causal_auto_resume",
+      "status": "failed",
+      "evidence_refs": [
+        "finding:AUTO_RESUME_MISSING",
+        "finding:STALE_OUTBOX_OUT_OF_ORDER"
+      ],
+      "next_resume": "auto_repair_outbox_causal_auto_resume",
+      "occurred_at": "2026-07-28T11:07:21.827Z",
+      "dedupe_key": "acceptance-failed:dispatcher-final-reacceptance:revision-31",
+      "event_revision": 31,
+      "acknowledged": true
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_outbox_causal_auto_resume_rework_typed_result",
+      "status": "waiting_internal_repair",
+      "evidence_refs": [
+        "master_handoff:acceptance-failed:dispatcher-final-reacceptance:revision-31",
+        "reuse_existing_agent:dispatcher_repair_outbox",
+        "P1:auto_resume_atomic_dispatch",
+        "P1:outbox_ordering_causality"
+      ],
+      "next_resume": "consume_outbox_causal_auto_resume_rework_typed_result",
+      "occurred_at": "2026-07-28T11:07:51.254Z",
+      "dedupe_key": "progress:dispatcher-repair-auto-resume-causality-rework",
+      "event_revision": 33,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "implementation_completed",
+      "node": "consume_outbox_causal_auto_resume_final_acceptance",
+      "status": "completed",
+      "evidence_refs": [
+        "npm:test:video-workbench-dispatcher:11/11",
+        "npm:test:video-workbench-harness:13/13",
+        "npm:harness:video-workbench:validate:pass:revision-33",
+        "npm:lint:pass"
+      ],
+      "next_resume": "consume_outbox_causal_auto_resume_final_acceptance",
+      "occurred_at": "2026-07-28T11:13:13.332Z",
+      "dedupe_key": "implementation:dispatcher-outbox-causal-auto-resume:revision-34",
+      "event_revision": 34,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_outbox_causal_final_acceptance",
+      "status": "waiting_independent_acceptance",
+      "evidence_refs": [
+        "child:dispatcher_outbox_causal_final_acceptance:active",
+        "implementation:dispatcher-outbox-causal-auto-resume:revision-34"
+      ],
+      "next_resume": "consume_dispatcher_outbox_causal_final_acceptance",
+      "occurred_at": "2026-07-28T11:13:30.870Z",
+      "dedupe_key": "progress:dispatcher-outbox-causal-final-acceptance:revision-35",
+      "event_revision": 35,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "independent_acceptance_failed",
+      "node": "auto_repair_liveness_wake_and_causal_dispatch",
+      "status": "failed",
+      "evidence_refs": [
+        "finding:LIVENESS_WAKE_RECOVERY_SEMANTICS_MISSING",
+        "finding:CAUSAL_AUTO_CONSUME_RESUME_NODE_CLAIM_OPTIONAL",
+        "finding:ACTIVE_CHILD_EARLY_CONSUMPTION",
+        "finding:ACTIVE_CLAIM_WAKE_COMPLETENESS_MISSING"
+      ],
+      "next_resume": "auto_repair_liveness_wake_and_causal_dispatch",
+      "occurred_at": "2026-07-28T11:17:15.849Z",
+      "dedupe_key": "acceptance-failed:dispatcher-causal-final:revision-36",
+      "event_revision": 36,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_liveness_causal_dispatch_rework_typed_result",
+      "status": "waiting_internal_repair",
+      "evidence_refs": [
+        "acceptance_fail:dispatcher-causal-final:revision-36",
+        "reuse_existing_agent:dispatcher_repair_outbox",
+        "repair:liveness_wake_and_causal_dispatch"
+      ],
+      "next_resume": "consume_liveness_causal_dispatch_rework_typed_result",
+      "occurred_at": "2026-07-28T11:17:34.233Z",
+      "dedupe_key": "progress:dispatcher-liveness-causal-dispatch-rework",
+      "event_revision": 37,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "implementation_completed",
+      "node": "consume_liveness_causal_dispatch_final_acceptance",
+      "status": "completed",
+      "evidence_refs": [
+        "npm:test:video-workbench-dispatcher:11/11",
+        "npm:test:video-workbench-harness:13/13",
+        "npm:harness:video-workbench:validate:pass:revision-37",
+        "npm:lint:pass"
+      ],
+      "next_resume": "consume_liveness_causal_dispatch_final_acceptance",
+      "occurred_at": "2026-07-28T11:21:17.881Z",
+      "dedupe_key": "implementation:dispatcher-liveness-causal:revision-38",
+      "event_revision": 38,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_liveness_causal_final_acceptance",
+      "status": "waiting_independent_acceptance",
+      "evidence_refs": [
+        "child:dispatcher_liveness_causal_final_acceptance:active"
+      ],
+      "next_resume": "consume_dispatcher_liveness_causal_final_acceptance",
+      "occurred_at": "2026-07-28T11:21:18.013Z",
+      "dedupe_key": "progress:dispatcher-liveness-causal-final-acceptance:revision-39",
+      "event_revision": 39,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "independent_acceptance_failed",
+      "node": "auto_repair_liveness_checkpoint_time_basis",
+      "status": "failed",
+      "evidence_refs": [
+        "finding:LIVENESS_WAKE_TIME_BASIS"
+      ],
+      "next_resume": "auto_repair_liveness_checkpoint_time_basis",
+      "occurred_at": "2026-07-28T11:23:59.105Z",
+      "dedupe_key": "acceptance-failed:dispatcher-liveness-causal:revision-40",
+      "event_revision": 40,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_liveness_time_basis_rework_typed_result",
+      "status": "waiting_internal_repair",
+      "evidence_refs": [
+        "acceptance_fail:revision-40",
+        "reuse_existing_agent:dispatcher_repair_outbox"
+      ],
+      "next_resume": "consume_liveness_time_basis_rework_typed_result",
+      "occurred_at": "2026-07-28T11:24:22.845Z",
+      "dedupe_key": "progress:dispatcher-liveness-time-basis-rework",
+      "event_revision": 41,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "implementation_completed",
+      "node": "consume_liveness_time_basis_final_acceptance",
+      "status": "completed",
+      "evidence_refs": [
+        "dispatcher:11/11",
+        "harness:13/13",
+        "validator:pass",
+        "lint:pass"
+      ],
+      "next_resume": "consume_liveness_time_basis_final_acceptance",
+      "occurred_at": "2026-07-28T11:26:53.098Z",
+      "dedupe_key": "implementation:liveness-time-basis:42",
+      "event_revision": 42,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_liveness_time_basis_final_acceptance",
+      "status": "waiting_independent_acceptance",
+      "evidence_refs": [
+        "child:active"
+      ],
+      "next_resume": "consume_dispatcher_liveness_time_basis_final_acceptance",
+      "occurred_at": "2026-07-28T11:26:53.107Z",
+      "dedupe_key": "progress:liveness-time-basis-final:43",
+      "event_revision": 43,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "independent_acceptance_failed",
+      "node": "repair_actual_liveness_time_basis_implementation",
+      "status": "failed",
+      "evidence_refs": [
+        "finding:shared_candidate_still_state_updated_at"
+      ],
+      "next_resume": "repair_actual_liveness_time_basis_implementation",
+      "occurred_at": "2026-07-28T11:33:51.031Z",
+      "dedupe_key": "acceptance-failed:liveness-time-basis:44",
+      "event_revision": 44,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_actual_liveness_time_basis_rework",
+      "status": "waiting_internal_repair",
+      "evidence_refs": [
+        "acceptance_fail:44",
+        "reuse_existing_agent"
+      ],
+      "next_resume": "consume_actual_liveness_time_basis_rework",
+      "occurred_at": "2026-07-28T11:33:51.044Z",
+      "dedupe_key": "progress:actual-liveness-time-basis-rework:45",
+      "event_revision": 45,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "implementation_completed",
+      "node": "consume_liveness_actual_final_acceptance",
+      "status": "completed",
+      "evidence_refs": [
+        "dispatcher:12/12",
+        "harness:13/13",
+        "validator:pass",
+        "lint:pass"
+      ],
+      "next_resume": "consume_liveness_actual_final_acceptance",
+      "occurred_at": "2026-07-28T11:39:58.440Z",
+      "dedupe_key": "implementation:liveness-actual:46",
+      "event_revision": 46,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "progress_checkpoint",
+      "node": "consume_dispatcher_liveness_actual_acceptance",
+      "status": "waiting_independent_acceptance",
+      "evidence_refs": [
+        "child:active"
+      ],
+      "next_resume": "consume_dispatcher_liveness_actual_acceptance",
+      "occurred_at": "2026-07-28T11:39:58.463Z",
+      "dedupe_key": "progress:liveness-actual:47",
+      "event_revision": 47,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "independent_acceptance_passed",
+      "node": "level_1_post_coding_review_dispatcher_candidate",
+      "status": "completed",
+      "evidence_refs": [
+        "dispatcher:12/12",
+        "harness:13/13",
+        "validator:pass:revision-47",
+        "lint:pass"
+      ],
+      "next_resume": "level_1_post_coding_review_dispatcher_candidate",
+      "occurred_at": "2026-07-28T11:43:10.086Z",
+      "dedupe_key": "acceptance-passed:liveness-actual:48",
+      "event_revision": 48,
+      "acknowledged": false
+    },
+    {
+      "project_id": "niannian-ai-video-workbench",
+      "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+      "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+      "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "event_type": "post_coding_review_completed",
+      "node": "controlled_dispatcher_cutover_preflight",
+      "status": "passed",
+      "evidence_refs": [
+        "pcr:L1:changed_files_readback",
+        "dispatcher:12/12",
+        "harness:13/13",
+        "validator:pass:revision-48",
+        "lint:pass"
+      ],
+      "next_resume": "controlled_dispatcher_cutover_preflight",
+      "occurred_at": "2026-07-28T11:43:53.303Z",
+      "dedupe_key": "pcr:dispatcher-liveness-outbox:revision-49",
+      "event_revision": 49,
+      "acknowledged": false
+    }
+  ],
+  "master_ack_cursor": {
+    "acknowledged_dedupe_keys": [
+      "acceptance-failed:dispatcher_repair_outbox:revision-20",
+      "acceptance-failed:dispatcher-reacceptance:revision-26",
+      "acceptance-failed:dispatcher-final-reacceptance:revision-31"
+    ],
+    "last_dedupe_key": "acceptance-failed:dispatcher-final-reacceptance:revision-31",
+    "updated_at": "2026-07-28T11:07:34.060Z",
+    "last_disposition": "auto_approve_and_continue"
+  },
+  "controller_liveness": {
+    "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+    "resume_node": "controlled_dispatcher_cutover_preflight",
+    "next_check_at": "2026-07-28T12:13:53.303Z",
+    "observed_at": "2026-07-28T11:43:53.303Z",
+    "worker_state": "not_applicable",
+    "provider_receipt_present": false
+  },
+  "master_handoffs": [
+    {
+      "dedupe_key": "acceptance-failed:dispatcher_repair_outbox:revision-20",
+      "disposition": "auto_approve_and_continue",
+      "next_envelope": {
+        "schema": "niannian_controller_resume_envelope_v1",
+        "project_id": "niannian-ai-video-workbench",
+        "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+        "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+        "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+        "parent_dedupe_key": "acceptance-failed:dispatcher_repair_outbox:revision-20",
+        "resume_node": "auto_repair_dispatcher_repair_outbox_acceptance_failures",
+        "occurred_at": "2026-07-28T10:50:24.227Z",
+        "immutable_sha256": "841c888a77fd6e8cace1250ae6290962187748a74c1907a8ab383f4d471086af"
+      },
+      "consumed_at": "2026-07-28T10:50:24.227Z"
+    },
+    {
+      "dedupe_key": "acceptance-failed:dispatcher-reacceptance:revision-26",
+      "disposition": "auto_approve_and_continue",
+      "next_envelope": {
+        "schema": "niannian_controller_resume_envelope_v1",
+        "project_id": "niannian-ai-video-workbench",
+        "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+        "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+        "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+        "parent_dedupe_key": "acceptance-failed:dispatcher-reacceptance:revision-26",
+        "resume_node": "auto_repair_contract_fixture_runtime_projection",
+        "occurred_at": "2026-07-28T10:58:07.385Z",
+        "immutable_sha256": "b9ac2997e59f1fb2fdb54a24f4105b5780894c6c498f0106f52087053a22c30d"
+      },
+      "consumed_at": "2026-07-28T10:58:07.385Z"
+    },
+    {
+      "dedupe_key": "acceptance-failed:dispatcher-final-reacceptance:revision-31",
+      "disposition": "auto_approve_and_continue",
+      "next_envelope": {
+        "schema": "niannian_controller_resume_envelope_v1",
+        "project_id": "niannian-ai-video-workbench",
+        "formal_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+        "harness_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+        "packet_sha": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+        "parent_dedupe_key": "acceptance-failed:dispatcher-final-reacceptance:revision-31",
+        "resume_node": "auto_repair_outbox_causal_auto_resume",
+        "occurred_at": "2026-07-28T11:07:34.060Z",
+        "immutable_sha256": "35a6e42e33d8eb643d5fcd9733829da85713b64a2b6b901e46139f6b0b1d37d7"
+      },
+      "consumed_at": "2026-07-28T11:07:34.060Z"
+    }
+  ],
+  "controller_writer": {
+    "mode": "frozen",
+    "controller_id": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+    "snapshot": {
+      "revision": 50,
+      "event_head_hash": "902aa992620277f2a5f9a3ec4334fdccd7a205263baa6f0a0502bcbf3e09ebf9",
+      "active_claim": {
+        "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+        "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+        "claimed_at": "2026-07-28T05:10:10.260Z"
+      },
+      "writer_locks": [
+        {
+          "surface": "queue_state",
+          "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01"
+        },
+        {
+          "surface": "provider_submission",
+          "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01"
+        },
+        {
+          "surface": "billing_ledger",
+          "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01"
+        },
+        {
+          "surface": "artifact_ledger",
+          "owner": "019fa6e9-e092-7962-afed-d2e35b6fa10a",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01"
+        }
+      ],
+      "decisions": [
+        {
+          "decision_id": "USER_DECISIONS_DERIVED_INPUT_20260728_02",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+          "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+          "packet_mutated": false
+        },
+        {
+          "decision_id": "USER_DECISIONS_PRODUCTION_ROUTE_20260728_07_REAL_I2V",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+          "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+          "packet_mutated": false
+        },
+        {
+          "decision_id": "USER_APPROVED_RECOVERY_AND_CONTROLLED_RELEASE_20260728_09",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+          "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+          "packet_mutated": false
+        },
+        {
+          "decision_id": "USER_APPROVED_PERSISTENT_HARNESS_AND_AUTORUN_20260728_10",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+          "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+          "packet_mutated": false
+        },
+        {
+          "decision_id": "CORRECT_AUDIO_GATE_SEMANTICS_20260728_13",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+          "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+          "packet_mutated": false
+        },
+        {
+          "decision_id": "USER_CONFIRMED_MIMO_BALANCE_20260728_14",
+          "task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+          "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+          "packet_mutated": false
+        }
+      ],
+      "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+      "production_task_binding": {
+        "packet_task_id": "NIANNIAN-WB-REAL-I2V-4S-20260728-01",
+        "packet_sha256": "a3aa959e832535d191e4f5c9c184b7b8befb02d015f8e3ee1f2a1c09a90d8fe9",
+        "production_task_id": "aPh_FVncAV5fdhK3z8lCrCTv",
+        "owner_account": "liusb0713@qq.com",
+        "locked_prompt_sha256": "5cf55fb95b436768028c3e3e69745a17be8ee87759fbada8329fe6efe181e5af",
+        "derived_reference_sha256": "ad87a15f8ada8cc0da952d0e0cfe754e1f2d539deb9708d30cb3528c89767fee",
+        "duration_seconds": 4,
+        "aspect_ratio": "16:9",
+        "resolution": "720P",
+        "website_credit_reservation": 16
+      }
+    }
+  }
+}

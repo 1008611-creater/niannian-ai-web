@@ -1,0 +1,789 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-29T19:33:59.969Z",
+  "source": "user_authoritative_account_matrix_sanitized",
+  "slots": [
+    {
+      "slotId": "account-slot-001",
+      "accountFingerprint": "df596a0ed83a1e602cd3128ebef5e78df413050d07ada8b54eb5eb698f0ae6c0",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-002",
+      "accountFingerprint": "3b345c00780b8d5256fbcf8fc3bb5a1f41e9742cff4af51edd87abb71c04c1d9",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-003",
+      "accountFingerprint": "ab972b3dd0655bbf23babc2f3ca86d3654cbec56b22b7039c7a24de7267196a3",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-004",
+      "accountFingerprint": "a887b766ce343dd7cd6ea305f64e2ec794a92c3ce0b6331f91f355a48eeba7f4",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-005",
+      "accountFingerprint": "b1fb1b334d3973667516e8ca8d8acf7763c63c48ca08639b7c0578a2e25aef83",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-006",
+      "accountFingerprint": "22b90f59742cbe446859c6c06883f3e82e5c923017eceb1249f0b0f1abb871f3",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-007",
+      "accountFingerprint": "3d65df051ca0e3b2d35b7436fb729f843ac878ad4f530881bd9c0f325964a3e8",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-008",
+      "accountFingerprint": "a96fc7a6ce1e58c4b523cc15d9f6b935bb5af445a57c44d1bdc65eb222412387",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-009",
+      "accountFingerprint": "85cab4eb53804ae9420a0b0d2d9ff88f9fc900541f63702ca262da7447f257fc",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-010",
+      "accountFingerprint": "efd918571a27234d7206625e7ea2c590a44524e4d4e18f84909bac4b522bcfcf",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-011",
+      "accountFingerprint": "fe3e5ba05ffb1416ffcb85d693f2a6bed85c88839d7977169d51a4124d4fac24",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-012",
+      "accountFingerprint": "924f1f60da8e0e3810cfce8a0e8a10a64a2dd7e238eab72f4c52eb1f874fb5c9",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-013",
+      "accountFingerprint": "e2f555de15e8c1fa8e2f6f71660a0cb621c52835bd8e541aad1c6fc4377118a0",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-014",
+      "accountFingerprint": "a55c7fe66f3438c3851cfe770636085b167496887782b53cdc6e0cada0239cbb",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-015",
+      "accountFingerprint": "6ef72e7ac84db3ba490a9e6f3a4e143c0e3aace481af9d50b7ab4e4d361b664c",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-016",
+      "accountFingerprint": "ab730bc2a3a0b9b5b1e532fb3eb0d2c4972b750bdd577515b0a640ae0c726c36",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-017",
+      "accountFingerprint": "91840ffc2f7ccf14cc50c05a83548c143ccbcbe22663dc7b7fc40c6f788ba906",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-018",
+      "accountFingerprint": "8da6426f788363d6fdd0e59cb4874254b2710b79180be1195cb8a5721078a893",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-019",
+      "accountFingerprint": "6ca21e9b5aa517dfb6c34f315b79e9d104814600a4db4f487797df8800110ef1",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-020",
+      "accountFingerprint": "6420f3e303e3de2fe4949f1745f846d9ac8df719206908ed503763e100b80346",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-021",
+      "accountFingerprint": "0faa50b29ccebaf627a84e2135a422ccc7c326b9e62b9fc4db41d5ce8b2258a7",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-022",
+      "accountFingerprint": "f96a6d7c8acfa968666a34a25fac61d179dcaf8e0072fe00b6e3a28e8324485f",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-023",
+      "accountFingerprint": "565fcbc0cda0796bdca00fb15fab00367b244f62db386b2a0e9c7e91fa1404f6",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-024",
+      "accountFingerprint": "e0272a46fe5fd4d33561be1843269ac7e7dd3fb6b2ef8d5f72f7a65e03be4988",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-025",
+      "accountFingerprint": "47bbec0145966ed827348b33313ff950afcc51965dc39ffe8a4ad65b140e373e",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-026",
+      "accountFingerprint": "785c921420a545eb2b0b9fc21774b8a8aec85363c908c2f51b8ac59a5bc4af41",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-027",
+      "accountFingerprint": "3e46f3c7838000ed0a4366dbc731c9ad2de53415284516cc1804d86906962c37",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-028",
+      "accountFingerprint": "b740c5c13c9df1461b1ca30bf0b51ca4f984feb277a7c441a31245df2c9eac33",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-029",
+      "accountFingerprint": "666ff091af5936ff210924a07603d2eed23d034a2043485a4b8cdeb53eee6a65",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-030",
+      "accountFingerprint": "b9e3ba85a2595ca5454c3c431f860d39057a5792be7c98518a3808ba2688570b",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-031",
+      "accountFingerprint": "888e9a8c9b065c2d07ec51cc6f6fa4a1c87cbf2d542276fd595cf1c3905839d0",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-032",
+      "accountFingerprint": "246dad56b3f1df7419251dd505f1f1117d2210be8a0565a655d7ec2b1b37c89e",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-033",
+      "accountFingerprint": "180422196bf4129f90d94f5cd248f139a4919f0cb80d267e78318a5e60201640",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-034",
+      "accountFingerprint": "fefcc0d7029e0b10142da68cce8b45120982d08f11709ca2ebbbd6a577a038b1",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-035",
+      "accountFingerprint": "2f7e5236f4a2d32921e5a157c7607668680af6e3dfc8a3ca7ad3bed8a99f136e",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-036",
+      "accountFingerprint": "8994ddcc0979ec534c6ef99e785362c6925fe60aa9d3539841c8c1552e2da16e",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-037",
+      "accountFingerprint": "39d92ec3552ea2b0369eca16669f6eb30339c726ff45fc093062a95c99d68ed3",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-038",
+      "accountFingerprint": "bbe72dec46a57bae7d8a8f9ccd6f9759e1eb88ea946463767cd923bc50e69b7a",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-039",
+      "accountFingerprint": "368a9f90db9d348f364e09920a5b4ed4a35954135204ee4b62017cbd6293bc61",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-040",
+      "accountFingerprint": "16df7da915a2d3e5b10d02e49932c94700e33943004c0352984dcf29675edade",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-041",
+      "accountFingerprint": "b39a0e6b89fd62d5a9ed2eafab0c49eb968b7706e0f67071d832342ac2cec006",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-042",
+      "accountFingerprint": "73fcde98e4fbb7c7c2c6fe43fb5a045efc6062460f51b51347351162d80462ee",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-043",
+      "accountFingerprint": "8e94ca18197941c0267c13a2e6af096d55a7f582b4f53f2012b4621f05e9b874",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-044",
+      "accountFingerprint": "4d0f7c712f9058f27468a445ae5df4b459b108877cfeb2a4151d0c34f687b35f",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-045",
+      "accountFingerprint": "858226a3e5a21672b272655b5e34815baf4196d800df27d548b6353ce98f99dd",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-046",
+      "accountFingerprint": "f116bf0faeac31e6c951d45dca57e53fdc59a957d2580b9e1f59e73f7cd53b77",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-047",
+      "accountFingerprint": "247692563cda4c0a6509c538d77f8709e27c5da17ec3fc9eb9eafae1a6164891",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-048",
+      "accountFingerprint": "cfc66d26c77f19548d20c209941de01b90b4a01febd2aceb88af4d128ca209f0",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-049",
+      "accountFingerprint": "58f2a829d795ae326d2842b7459d5429c4c3263bca25a0f69124a4ba884f2f1c",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-050",
+      "accountFingerprint": "368795eecfe964ad22531a69b0e4031094b358efef72698c5095fb2ab5c77389",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-051",
+      "accountFingerprint": "eca570fc177d58ea60c5f725a61a97163aa81e9d95c5dd39f627752201234d67",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-052",
+      "accountFingerprint": "e06b5b58b09812c67576a2af6d3aa02972eef3b81637b4bf1a06fc87d70b2a8d",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-053",
+      "accountFingerprint": "7c9c5cc81394769fb813f166a3d5a437dfc3dfb1ac6fa507b08638917386bd07",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-054",
+      "accountFingerprint": "c5a77f477c0dec8ad6b752bd7fb71025133d649de8e459aa675774046b81e85f",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-055",
+      "accountFingerprint": "a7386e3b68677a866a561d105f3d5cd1e62df1af38977a931d1459abf60c8b56",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-056",
+      "accountFingerprint": "07bda6fd6b0d8f3c81946a7130fa3a4c1cb729a6cc7bbaa2b35f81ebd593e243",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-057",
+      "accountFingerprint": "a95b1498d16379eccab3a9febaae2c9cdb6568cd5c20e3c2dd88a4839d2863b4",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-058",
+      "accountFingerprint": "8cfd1b623311aab02c6285b3e55efbc352bec542e28f1cac45440b07ab602f4a",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-059",
+      "accountFingerprint": "2d230c5b50b4adc524f4fcab8c68fc262b75eb92e8e1094e960c5eb059e6e922",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-060",
+      "accountFingerprint": "7f1adc7d4a40b3295f6fb7524ae6f68d74b252dc00273e32142bb3bbc1c85193",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-061",
+      "accountFingerprint": "c33ffd667dc6125a112f9970d71d420d334a677d09e434cb85ef932d3ff4a105",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-062",
+      "accountFingerprint": "9a8f725a75595c2c61cd164a044a0f131c12ec82d94d0637f5b70c18574f0187",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-063",
+      "accountFingerprint": "0066f728e2c9e59f03ed3c83074d5403d37e5a7fe28701c3471c9cc3fd0ba525",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-064",
+      "accountFingerprint": "ffe78c1ee00a125deb70105aa49f836c7178722ca91df12b6c44418ae5a64ffb",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-065",
+      "accountFingerprint": "12836c3dc149922a501efafbaf596a5ba6937af802ff67a33908963deaf44a1a",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-066",
+      "accountFingerprint": "2660bb5abcad13da2341dcb6571e9f65fb6df99d6128a168f508bb24f864bef8",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-067",
+      "accountFingerprint": "19e397db6f6add564e2bb70494fa306e9305cf32d195c36378fbfcb7fe85da8b",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-068",
+      "accountFingerprint": "2636a2063752b46a59ca70dfe05aeccbd97f0faa3fa746f8ea4a066ab0a65b47",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-069",
+      "accountFingerprint": "75e42ad80e4ca2aeac54ab5584d708f99a7f3a57096ec42005ee01dadb50c05c",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-070",
+      "accountFingerprint": "2155e30c341fe86952b9f48592b54167027b4adff7e5b8c1e38ccc0306ffaa2b",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-071",
+      "accountFingerprint": "3e0a50fd75aa77dc89041e19aec417a98233d450d13ec438d9cf3ce674e56f21",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-072",
+      "accountFingerprint": "a3b8d58623318c38f5453bcd698b5856863b277345b90b4a7c8c80d6c75ebd11",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-073",
+      "accountFingerprint": "09fcebec09fd7ab73b98c2194a8683b51f1ba2b637d0b4f89a3e0b522b51942a",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-074",
+      "accountFingerprint": "c7a2149264da5e19c30f8c7f5396082c7d257b1708aaa499905c47bd63a36cde",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-075",
+      "accountFingerprint": "1df737732e509f3eba6f76fe87c177e0d4c9ce0327cac19b8f976afbf19aff37",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-076",
+      "accountFingerprint": "ad9086a5b2a4d40fd129005974c844c445deac4782e22da18174dd2858494f99",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-077",
+      "accountFingerprint": "46df82c883ab66954921cd96495502874b57ccd3c44bbbfac692d71932f3ab65",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-078",
+      "accountFingerprint": "937f5f9df0b9ad8668113d59f33179a48d4daab9c703aaf40823c307e2ac2e48",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-079",
+      "accountFingerprint": "a4365b7d96e72a2bb2a5523d07a165d41aa9f2001d28121150b8078f0341f51c",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-080",
+      "accountFingerprint": "7830f561c9110800eef48678c30d97f4278f2e9bc3edec3369c9aed5619f9eac",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-081",
+      "accountFingerprint": "0ec225693a11c0d23c4e20ce0f5a2cb6d66ccc74e803b4a99020dcaf5c893982",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-082",
+      "accountFingerprint": "8d14a50dcdc2680d1cbe08062b964da1604a7766818cbd892425c1da2c0c0eec",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-083",
+      "accountFingerprint": "f6b971371bae9cf17450d1782a77dbe079efeef9e9f9d0446d76377001093af8",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-084",
+      "accountFingerprint": "33e8156f093f0aa797c64d85272909cbee5a0ad79c5236541747670778f2d71c",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-085",
+      "accountFingerprint": "9bbd8daf5b3437137ad5f332962f4bf967eccf0dbd028a0c48c114f95be6db52",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    },
+    {
+      "slotId": "account-slot-086",
+      "accountFingerprint": "f8431a12deb374ee87fe33af79a0136c7dcf00a900693b58deff33a29c6917fa",
+      "enabledChannels": [
+        "Dola"
+      ],
+      "concurrency": 1,
+      "status": "needs_browser_login"
+    }
+  ],
+  "policy": {
+    "credentialColumnsIgnored": [
+      "密码",
+      "辅助邮箱"
+    ],
+    "credentialPersistence": "windows_dpapi_current_user_sealed",
+    "oneActiveProviderTaskPerSlot": true
+  }
+}

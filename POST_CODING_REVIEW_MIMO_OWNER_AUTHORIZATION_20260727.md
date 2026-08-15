@@ -1,0 +1,7 @@
+# Post-Coding Review: Owner Mimo Execution Authorization (2026-07-27)
+
+- Real path checked: an authenticated task owner can explicitly authorize exactly their pending Mimo task from `/projects`; the route verifies the fresh Windows Worker readiness before moving it from `queued_skill` to `approved_for_execution`.
+- Changed surface: `POST /api/video-tasks/[id]/authorize-execution`, the owner-only atomic state/event update in `lib/video-tasks.ts`, and the visible “确认并开始生成” control in `app/projects/page.tsx`.
+- Evidence: `npm run test:mimo-owner-authorization`, `npm run test:video-task-public-state`, `npm run lint`, and `npm run build` passed. A built local server returned `403 CSRF_INVALID` for an invalid origin and `401 UNAUTHORIZED` without a session; the built route is present in Next's route manifest.
+- Contract checks: the update condition requires ownership, `codex_skill + mimo`, pending authorization state, null `provider_task_id`, and both authorization flags unset; it writes one `owner_mimo_execution_authorized` event. Repeated already-authorized requests return the current task without another event or website credit mutation. Existing Provider IDs are rejected as sync-only.
+- Completion boundary: no deployment, task authorization, Worker claim, Mimo submission, credit charge, or media delivery was executed. An authenticated end-to-end authorization click requires a local or production owner session and remains unexercised.

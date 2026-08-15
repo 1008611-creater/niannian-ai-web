@@ -1,0 +1,15 @@
+我给你附上两个压缩包：`employee-redraw-video-skill-bundle-v1.zip` 和 `employee-redraw-project-harness-v1.zip`。请按以下顺序执行：
+
+1. 先安装转绘 Skill 包，把 `skills/` 下的 Skill 安装到当前 Codex 可读取的 Skill 目录，并读取包内 README、manifest 和入口 Skill。
+2. 再把项目 Harness 解压到一个新的空项目目录，完整读取 `AGENTS.md`、`README.md`、`MANIFEST.json`、`07_PROJECT_DOCS/` 和 `08_TEMPLATES/`。不要覆盖已有生产项目。
+3. 运行 Harness 自测：
+   - `node --check tools/init_redraw_project_harness.js`
+   - `node --check tools/compute_redraw_route_decision.js`
+   - `node tools/test_compute_redraw_route_decision.js`
+   - `node tools/test_redraw_routing_contracts.js`
+4. 使用 `node tools/init_redraw_project_harness.js --root . --job-id "<项目ID>" --project-name "<项目名>"` 创建本次任务，再运行 `node tools/compute_redraw_route_decision.js --job "./jobs/<项目ID>"`。
+5. 按路由的最早断点推进：Step01 原片证据 -> Step02 原片模板时间线 -> Step03 目标产品事实/素材 -> Step04 锁定中文提示词和 `video_task_spec.json` -> Step05 渠道执行、下载、媒体探测、内容 QA、交付。
+6. 每完成一个节点都要把精确文件路径、SHA256、验证状态、QA 接受状态写入 `artifact_ledger.json`，然后重新计算 `route_decision.json`。不能只改 dashboard 或口头说完成。
+7. 没有我在当前任务的明确授权，不得真实提交 provider、付费、消耗额度、发送、发布或交付。本地修图也必须得到我对本次具体操作的明确授权；默认用我认可的 Image2 渠道重新生成。
+
+加载并自测后，先回复：`转绘 Skill 与项目 Harness 已加载，自测结果如下。` 然后列出测试结果、任务目录、已收到输入、缺失输入、当前最早 blocker 和下一动作。不要虚构成片或完成状态。

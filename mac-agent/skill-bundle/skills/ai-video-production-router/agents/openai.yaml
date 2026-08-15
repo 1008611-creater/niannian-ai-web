@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI 视频生产总路由"
+  short_description: "按原片剧本商业参考原创叙事已有图片选择视频生产路线和执行边界"
+  default_prompt: "使用 $ai-video-production-router 为我的原片、剧本、商业参考、原创叙事或已有图片选择 AI 视频生产路线。"

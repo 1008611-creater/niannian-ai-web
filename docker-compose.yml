@@ -1,0 +1,178 @@
+services:
+  database:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-niannian}
+      POSTGRES_USER: ${POSTGRES_USER:-niannian}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    volumes:
+      - niannian-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-niannian} -d ${POSTGRES_DB:-niannian}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  redraw-redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - niannian-redraw-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+  app:
+    # The public workbench must run an explicitly selected release image.
+    # Rebuilding from the server checkout previously replaced newer UI work
+    # with an older source tree under the mutable `latest` tag.
+    image: ${NIANNIAN_APP_IMAGE:-niannian-ai-video-workbench:workbench-autodraft-20260730-01}
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://${POSTGRES_USER:-niannian}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB:-niannian}
+      DATABASE_SSL: "false"
+      AUTH_OTP_PEPPER: ${AUTH_OTP_PEPPER:?AUTH_OTP_PEPPER is required}
+      AUTH_SESSION_SECRET: ${AUTH_SESSION_SECRET:?AUTH_SESSION_SECRET is required}
+      AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:-false}
+      APP_ORIGIN: ${APP_ORIGIN:-http://localhost:3026}
+      SMTP_HOST: ${SMTP_HOST:?SMTP_HOST is required}
+      SMTP_PORT: ${SMTP_PORT:-465}
+      SMTP_USER: ${SMTP_USER:?SMTP_USER is required}
+      SMTP_PASS: ${SMTP_PASS:?SMTP_PASS is required}
+      SMTP_FROM: ${SMTP_FROM:?SMTP_FROM is required}
+      MIMO_BASE_URL: ${MIMO_BASE_URL:-https://fd.aancn.cn}
+      MIMO_USERNAME: ${MIMO_USERNAME:-}
+      MIMO_PASSWORD: ${MIMO_PASSWORD:-}
+      MIMO_TOKEN: ${MIMO_TOKEN:-}
+      MIORA_BASE_URL: ${MIORA_BASE_URL:-https://miora.design}
+      MIORA_CDP_URL: ${MIORA_CDP_URL:-http://host.docker.internal:9415}
+      MIORA_COOKIE: ${MIORA_COOKIE:-}
+      MIORA_PROVIDER_SUBMIT_ENABLED: ${MIORA_PROVIDER_SUBMIT_ENABLED:-false}
+      VIDEO_SERVER_DISPATCH_URL: ${VIDEO_SERVER_DISPATCH_URL:-}
+      MAC_CODEX_AGENT_TOKEN: ${MAC_CODEX_AGENT_TOKEN:-}
+      DOLA_CODEX_AGENT_TOKEN: ${DOLA_CODEX_AGENT_TOKEN:-}
+      MIMO_WINDOWS_AGENT_TOKEN: ${MIMO_WINDOWS_AGENT_TOKEN:-}
+      ASTORIE_WINDOWS_AGENT_TOKEN: ${ASTORIE_WINDOWS_AGENT_TOKEN:-}
+      MAC_CODEX_LEASE_SECONDS: ${MAC_CODEX_LEASE_SECONDS:-1200}
+      MAC_CODEX_HEARTBEAT_TTL_SECONDS: ${MAC_CODEX_HEARTBEAT_TTL_SECONDS:-120}
+      MAC_CODEX_READINESS_TTL_SECONDS: ${MAC_CODEX_READINESS_TTL_SECONDS:-180}
+      DOLA_CODEX_LEASE_SECONDS: ${DOLA_CODEX_LEASE_SECONDS:-1200}
+      DOLA_CODEX_READINESS_TTL_SECONDS: ${DOLA_CODEX_READINESS_TTL_SECONDS:-180}
+      MIMO_WINDOWS_LEASE_SECONDS: ${MIMO_WINDOWS_LEASE_SECONDS:-1200}
+      MIMO_WINDOWS_READINESS_TTL_SECONDS: ${MIMO_WINDOWS_READINESS_TTL_SECONDS:-180}
+      REDRAW_REDIS_URL: redis://redraw-redis:6379
+      LDXP_SHOP_URL: ${LDXP_SHOP_URL:-}
+      LDXP_REDEEM_SECRET: ${LDXP_REDEEM_SECRET:-}
+      MEDIA_EDGE_SHARED_SECRET: ${MEDIA_EDGE_SHARED_SECRET:-}
+    ports:
+      - "127.0.0.1:18084:3026"
+    volumes:
+      - niannian-data:/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3026/api/health >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  database-init:
+    build: .
+    command: ["/bin/sh", "-c", "status=$(wget --server-response --post-data='{\"email\":\"bootstrap@invalid.local\",\"password\":\"bootstrap-not-a-password\"}' --header='Origin: https://sd2.cauai.fun' --header='Content-Type: application/json' -O /dev/null http://app:3026/api/auth/login 2>&1 | awk '/^  HTTP/{print $2}' | tail -1); test \"$$status\" = 401"]
+    restart: "no"
+    depends_on:
+      app:
+        condition: service_healthy
+  video-worker:
+    build: .
+    command: ["npm", "run", "worker:video"]
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+      database-init:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://${POSTGRES_USER:-niannian}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB:-niannian}
+      DATABASE_SSL: "false"
+      VIDEO_WORKER_MODES: server_auto
+      VIDEO_WORKER_POLL_MS: ${VIDEO_WORKER_POLL_MS:-5000}
+      VIDEO_SERVER_DISPATCH_URL: ${VIDEO_SERVER_DISPATCH_URL:-}
+      VIDEO_SERVER_DISPATCH_TOKEN: ${VIDEO_SERVER_DISPATCH_TOKEN:-}
+      MIMO_BASE_URL: ${MIMO_BASE_URL:-https://fd.aancn.cn}
+      MIMO_USERNAME: ${MIMO_USERNAME:-}
+      MIMO_PASSWORD: ${MIMO_PASSWORD:-}
+      MIMO_TOKEN: ${MIMO_TOKEN:-}
+      MIORA_BASE_URL: ${MIORA_BASE_URL:-https://miora.design}
+      MIORA_CDP_URL: ${MIORA_CDP_URL:-http://host.docker.internal:9415}
+      MIORA_COOKIE: ${MIORA_COOKIE:-}
+      MIORA_PROVIDER_SUBMIT_ENABLED: ${MIORA_PROVIDER_SUBMIT_ENABLED:-false}
+    volumes:
+      - niannian-data:/app/data
+  harness-dispatcher:
+    build: .
+    command: ["node", "/app/scripts/video-workbench-harness-dispatcher-runner.mjs", "--run-loop", "--claim-resume", "--controller-id", "tencent-niannian-dispatcher-20260728-01", "--harness-root", "/dispatcher/harness"]
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+      database-init:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      NIANNIAN_DISPATCHER_READONLY_DATABASE_URL: postgres://${POSTGRES_USER:-niannian}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB:-niannian}
+      NIANNIAN_DISPATCHER_DATA_ROOT: /app/data
+      NIANNIAN_HARNESS_LEGACY_OUTBOX_CUTOFF_REVISION: "59"
+      NIANNIAN_DISPATCHER_POLL_MS: "30000"
+    volumes:
+      - niannian-data:/app/data:ro
+      - ./dispatcher-candidates/revision-54:/dispatcher
+      - ./dispatcher-candidates/revision-54/scripts:/app/scripts:ro
+  redraw-worker:
+    build: .
+    command: ["npm", "run", "worker:redraw"]
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+      redraw-redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://${POSTGRES_USER:-niannian}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB:-niannian}
+      DATABASE_SSL: "false"
+      REDRAW_REDIS_URL: redis://redraw-redis:6379
+      REDRAW_WORKER_CONCURRENCY: ${REDRAW_WORKER_CONCURRENCY:-1}
+      REDRAW_CLAIM_RECOVERY_MS: ${REDRAW_CLAIM_RECOVERY_MS:-900000}
+      REDRAW_SKILL_BUNDLE_VERSION: ${REDRAW_SKILL_BUNDLE_VERSION:-redraw-runtime-1}
+      NIANNIAN_GPT_API_BASE_URL: ${NIANNIAN_GPT_API_BASE_URL:-https://www.mcgrox.top}
+      NIANNIAN_GPT_RESPONSES_PATH: ${NIANNIAN_GPT_RESPONSES_PATH:-/responses}
+      NIANNIAN_GPT_API_KEY: ${NIANNIAN_GPT_API_KEY:?NIANNIAN_GPT_API_KEY is required}
+      NIANNIAN_GPT56_MODEL: ${NIANNIAN_GPT56_MODEL:-gpt-5.6}
+      RUNNINGHUB_BASE_URL: ${RUNNINGHUB_BASE_URL:-https://www.runninghub.cn}
+      RUNNINGHUB_API_KEY: ${RUNNINGHUB_API_KEY:?RUNNINGHUB_API_KEY is required}
+      TENCENT_COS_SECRET_ID: ${TENCENT_COS_SECRET_ID:?TENCENT_COS_SECRET_ID is required}
+      TENCENT_COS_SECRET_KEY: ${TENCENT_COS_SECRET_KEY:?TENCENT_COS_SECRET_KEY is required}
+      TENCENT_COS_SECURITY_TOKEN: ${TENCENT_COS_SECURITY_TOKEN:-}
+      TENCENT_COS_BUCKET: ${TENCENT_COS_BUCKET:?TENCENT_COS_BUCKET is required}
+      TENCENT_COS_REGION: ${TENCENT_COS_REGION:?TENCENT_COS_REGION is required}
+    volumes:
+      - niannian-data:/app/data
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+
+volumes:
+  niannian-postgres:
+  niannian-data:
+  niannian-redraw-redis:

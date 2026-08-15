@@ -1,0 +1,98 @@
+{
+  "handoff_id": "NIANNIAN-MIMO-EFFICIENCY-C11-C17-20260728",
+  "project_id": "niannian-ai-web",
+  "artifact_scope": "Local C11-C17 website and Windows Mimo contract implementation only",
+  "owner_ref": "mimo_efficiency_writer",
+  "owners": ["mimo_efficiency_writer"],
+  "source_thread": "/root",
+  "receiving_thread": "/root/mimo_efficiency_writer",
+  "objective": "Implement decisions 1A, 2A, 3A, and 4B with focused evidence and no production or Provider side effects.",
+  "current_node": "C11",
+  "earliest_blocker": null,
+  "skills": [
+    {"name": "commerce-production-harness", "version": "current", "references": ["commerce-dag.md", "node-contract.md", "handoff-packet.md"]},
+    {"name": "sd2-video-generation", "version": "current", "references": ["SKILL.md"]},
+    {"name": "mimo-8001-video-channel", "version": "current", "references": ["SKILL.md"]},
+    {"name": "niannian-delivery-control", "version": "current", "references": ["SKILL.md"]},
+    {"name": "post-coding-review", "version": "current", "references": ["SKILL.md"]}
+  ],
+  "exact_inputs": [
+    {"path": "E:\\codex\\aisp\\aidaihuo\\niannian-ai-web\\lib\\video-tasks.ts", "sha256": "8ea1bf0b12eecef94f77e36893bfb9abd1500a4a4c9743305a6ecb498f11afa5", "bytes": 31013},
+    {"path": "E:\\codex\\aisp\\aidaihuo\\niannian-ai-web\\lib\\mimo-windows-worker.ts", "sha256": "95507ef0c880d8b82e561deec83a097e7fd28a3fa1b3248bb56f956f65e14fec", "bytes": 27273},
+    {"path": "E:\\codex\\aisp\\aidaihuo\\niannian-ai-web\\lib\\video-task-public-state.ts", "sha256": "74aba94521538e97061b1d403d4877053f4fd0740d12fa63950b18d551e5feef", "bytes": 2225},
+    {"path": "E:\\codex\\aisp\\aidaihuo\\niannian-ai-web\\app\\home\\page.tsx", "sha256": "aa084bbc3ea2765d3110f9e3ab89977f20b22d01be07630c64888e18fb63f7b7", "bytes": 24244},
+    {"path": "E:\\codex\\aisp\\aidaihuo\\niannian-ai-web\\app\\projects\\page.tsx", "sha256": "7a93d65aac4b0768833eec4d6482d53a00738985a8a2a804bc8cda3c23becd2e", "bytes": 8722},
+    {"path": "E:\\codex\\aisp\\aidaihuo\\niannian-ai-web\\scripts\\niannian-windows-mimo-agent.mjs", "sha256": "e6329f0f1c3d5e2572f462c3d969801d3a076369f0bdd5e56402e673f4f8b1c7", "bytes": 19596}
+  ],
+  "allowed_files": [
+    "lib/video-tasks.ts",
+    "lib/mimo-windows-worker.ts",
+    "lib/video-task-public-state.ts",
+    "lib/video-task-execution-stage.ts",
+    "app/api/assets/route.ts",
+    "app/api/video-tasks/route.ts",
+    "app/api/video-tasks/[id]/authorize-execution/route.ts",
+    "app/api/internal/windows-mimo/claim/route.ts",
+    "app/api/internal/windows-mimo/tasks/[id]/result/route.ts",
+    "app/home/page.tsx",
+    "app/projects/page.tsx",
+    "scripts/niannian-windows-mimo-agent.mjs",
+    "windows-mimo-agent/mimo-chrome-cdp-submit.mjs",
+    "windows-mimo-agent/mimo-chrome-cdp-sync.mjs",
+    "scripts/*.test.mjs",
+    "package.json",
+    "README.md",
+    "docs/agent-team/mimo-efficiency-worker-report-20260728.md",
+    "POST_CODING_REVIEW_MIMO_EFFICIENCY_20260728.md",
+    "AUTOMATION_AI_4_MEMORY.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "data/**",
+    "deploy/**",
+    "release-candidates/**",
+    "lib/legacy-mimo-delivery-backfill.mjs",
+    "scripts/legacy-mimo-delivery-backfill.test.mjs"
+  ],
+  "hosts": [],
+  "external_effects": [],
+  "non_goals": [
+    "Production deployment or service restart",
+    "Database migration or historical task mutation",
+    "Provider submission, upload, Generate, spend, or real task creation",
+    "Dola, Miora, Mac, retry, fallback, concurrency, or visual QA"
+  ],
+  "idempotency_identities": ["NIANNIAN-MIMO-EFFICIENCY-C11-C17-20260728"],
+  "parallelism_budget": 1,
+  "parallel_tasks": [],
+  "commands": [
+    "focused node tests for provider cost, asset reuse, progress, and delivery gates",
+    "npm run lint",
+    "npm run build",
+    "mandatory post-coding-review Level 2"
+  ],
+  "entrypoints": [
+    "POST /api/video-tasks",
+    "GET /api/assets",
+    "Windows Mimo claim/submit/sync/result path",
+    "/home",
+    "/projects"
+  ],
+  "expected_outputs": [
+    "Typed Provider cost contract and evidence",
+    "Existing owned asset library reuse",
+    "Persisted progress milestones with elapsed-time projection",
+    "Focused tests and worker report",
+    "Level 2 post-coding review"
+  ],
+  "acceptance_criteria_ids": ["AC-001", "AC-002", "AC-003", "AC-004", "AC-005", "AC-006", "AC-007", "AC-008", "AC-009"],
+  "evidence_paths": [
+    "docs/agent-team/mimo-efficiency-worker-report-20260728.md",
+    "POST_CODING_REVIEW_MIMO_EFFICIENCY_20260728.md",
+    "AUTOMATION_AI_4_MEMORY.md"
+  ],
+  "rollback": "No production rollback is needed. Preserve user files; revert only the exact writer-owned local changes using their pre-edit contents recorded by the writer.",
+  "completion_boundary": "Local candidate is complete only after AC-001 through AC-009 pass. It is not production-complete until separately authorized deployment and live browser/Worker readback.",
+  "return_format": "Executable check, changed files, commands with results, AC matrix, risks, verified level, and exact unverified production boundary.",
+  "notification_target": "/root"
+}

@@ -1,0 +1,18 @@
+[Unit]
+Description=NianNian Video Workbench Harness Dispatcher
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=niannian
+WorkingDirectory=/opt/niannian-ai-web
+EnvironmentFile=/etc/niannian/video-workbench-dispatcher.env
+ExecStart=/usr/bin/node /opt/niannian-ai-web/scripts/video-workbench-harness-dispatcher-runner.mjs --run-loop --claim-resume --controller-id video-workbench-server-1 --harness-root /var/lib/niannian/video-workbench-harness
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

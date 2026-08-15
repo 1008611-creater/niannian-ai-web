@@ -1,0 +1,37 @@
+{
+  "schema_version": "niannian_video_workbench_delivery_manager_v1",
+  "project_id": "niannian-ai-video-workbench",
+  "task_id": "AS-RECOVER-eqn9UpeUX3dFGba2vXFo0xtU-20260730",
+  "created_at": "2026-07-30T00:00:00+08:00",
+  "manager": {
+    "role": "唯一生产写入者",
+    "owner": "video-workbench-delivery-manager",
+    "return_events": ["status_update", "final_delivery", "external_blocked", "decision_required"]
+  },
+  "outcome_contract": {
+    "user_visible_result": "用户可在 https://sd2.cauai.fun/projects 播放并下载任务 eqn9UpeUX3dFGba2vXFo0xtU 对应的 4 秒、720x1280、9:16 AStorie 成片。",
+    "not_delivery": ["Provider submitted", "错误规格成片", "本地 MP4", "任务 running"],
+    "delivery_evidence": ["同一任务规格的成片", "ffprobe", "工作台项目页播放", "下载读回"]
+  },
+  "production_binding": {
+    "video_task_id": "eqn9UpeUX3dFGba2vXFo0xtU",
+    "channel": "astorie",
+    "expected_media": {"duration_seconds": 4, "aspect_ratio": "9:16", "resolution": "720P", "audio": "provider_native"},
+    "provider_submission": "forbidden: prior authorized submission already consumed"
+  },
+  "current_action": "已按用户明确选择交付现有 4.096 秒、1280x720、16:9 AStorie 成片；不得将本次规格偏差作为后续默认。",
+  "writer_surfaces": ["video_task_eqn9UpeUX3dFGba2vXFo0xtU", "astorie_delivery_recovery"],
+  "observed_evidence": {
+    "canvas_url": "https://astorie.ai/zh-CN/projects/8feafe40-9e7f-4840-934e-69f5dcc93aa9",
+    "history": [
+      {"url": "https://s3.astorie.ai/req/req_c799a26ddb3a4120a97b/0.mp4", "duration_seconds": 7.104, "width": 720, "height": 1280},
+      {"url": "https://s3.astorie.ai/req/req_3ceea08dc1ab4b849855/0.mp4", "duration_seconds": 4.096, "width": 1280, "height": 720}
+    ],
+    "finding": "User explicitly accepted req_3ceea08dc1ab4b849855 for this one delivery despite the 16:9 override."
+  },
+  "slots": {
+    "implementation": {"task_id": "AS-RECOVER-IMPLEMENT-01", "scope": ["same AStorie canvas", "task status reconciliation"], "expected_evidence": "matching result or provider-side explicit failure", "parent_continues_when": "matching media identity is established"},
+    "evidence_repair": {"task_id": "AS-RECOVER-EVIDENCE-01", "scope": ["AStorie history metadata", "workbench task events"], "expected_evidence": "duration and dimensions tied to expected task", "parent_continues_when": "delivery identity is unambiguous"},
+    "acceptance": {"task_id": "AS-RECOVER-ACCEPTANCE-01", "scope": ["workbench playback and download"], "expected_evidence": "same object plays and downloads from projects page", "parent_continues_when": "final_delivery or external_blocked"}
+  }
+}
