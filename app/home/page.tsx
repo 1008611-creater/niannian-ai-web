@@ -133,6 +133,7 @@ export default function HomePage() {
     : <span key={`text-${index}`}>{part}</span>), [prompt]);
 
   function insertPromptMention(assetIndex: number) {
+    if (promptAssetsDisabled) return;
     const input = promptRef.current;
     const token = `@图片${assetIndex + 1}`;
     const start = input?.selectionStart ?? prompt.length;
@@ -213,6 +214,7 @@ export default function HomePage() {
 
   const ziyuProductSelected = product.startsWith("ziyu:");
   const selectedZiyuModel = ziyuModels.find((model) => product === `ziyu:${model.id}`);
+  const promptAssetsDisabled = ziyuProductSelected && ziyuMode === "t2v";
   const resolution = selectedZiyuModel
     ? displayResolution(selectedZiyuModel.resolution, "渠道默认")
     : "720p";
@@ -265,6 +267,10 @@ export default function HomePage() {
   );
 
   async function openAssetPicker() {
+    if (promptAssetsDisabled) {
+      setMessage("文生视频模式不能添加素材，已有素材会保留");
+      return;
+    }
     setShowAssetPicker(true);
     setLibraryLoading(true);
     try {
@@ -280,6 +286,10 @@ export default function HomePage() {
   }
 
   function addLibraryAsset(asset: LibraryAsset) {
+    if (promptAssetsDisabled) {
+      setMessage("文生视频模式不能添加素材，已有素材会保留");
+      return;
+    }
     const imageLimit = selectedZiyuModel?.assetLimits.image ?? (ziyuProductSelected ? 0 : 12);
     if (ziyuProductSelected && !selectedZiyuModel?.allowedAssetTypes.includes("image")) {
       setMessage("当前渠道不支持图片参考素材");
@@ -318,6 +328,11 @@ export default function HomePage() {
   );
 
   function selectAsset(role: AssetRole, event: ChangeEvent<HTMLInputElement>) {
+    if (promptAssetsDisabled) {
+      setMessage("文生视频模式不能添加素材，已有素材会保留");
+      event.target.value = "";
+      return;
+    }
     const file = event.target.files?.[0];
     if (!file) return;
     const expectedType = role === "reference_video" ? file.type.startsWith("video/") : file.type.startsWith("image/");
@@ -381,11 +396,13 @@ export default function HomePage() {
   async function createZiyuTask() {
     if (!selectedZiyuModel) throw new Error("ZIYU_MODEL_UNAVAILABLE");
     const sourceAssets: Array<{ type: "image" | "video" | "audio"; name: string; data: string }> = [];
-    for (const references of Object.values(assets)) {
-      for (const asset of references) {
-        const type = asset.type.startsWith("video/") ? "video" : asset.type.startsWith("audio/") ? "audio" : "image";
-        if (!selectedZiyuModel.allowedAssetTypes.includes(type)) throw new Error(`当前渠道不支持${type === "image" ? "图片" : type === "video" ? "视频" : "音频"}参考素材`);
-        sourceAssets.push({ type, name: asset.name, data: await assetData(asset) });
+    if (ziyuMode !== "t2v") {
+      for (const references of Object.values(assets)) {
+        for (const asset of references) {
+          const type = asset.type.startsWith("video/") ? "video" : asset.type.startsWith("audio/") ? "audio" : "image";
+          if (!selectedZiyuModel.allowedAssetTypes.includes(type)) throw new Error(`当前渠道不支持${type === "image" ? "图片" : type === "video" ? "视频" : "音频"}参考素材`);
+          sourceAssets.push({ type, name: asset.name, data: await assetData(asset) });
+        }
       }
     }
     for (const type of selectedZiyuModel.allowedAssetTypes) {
@@ -528,7 +545,7 @@ export default function HomePage() {
                     value={prompt}
                     onChange={(event) => {
                       setPrompt(event.target.value);
-                      setShowMentionPicker(event.target.value.slice(0, event.target.selectionStart).endsWith("@") && promptImages.length > 0);
+                      setShowMentionPicker(!promptAssetsDisabled && event.target.value.slice(0, event.target.selectionStart).endsWith("@") && promptImages.length > 0);
                     }}
                     onKeyDown={(event) => { if (event.key === "Escape") setShowMentionPicker(false); }}
                     placeholder="描述主体、服装或商品、场景、镜头运动和动作节奏。"
@@ -537,8 +554,8 @@ export default function HomePage() {
                     {promptImages.map(({ asset }, index) => <button key={asset.assetId ?? asset.url} type="button" role="option" onMouseDown={(event) => event.preventDefault()} onClick={() => insertPromptMention(index)}><img src={asset.url} alt="" /><span>@图片{index + 1}</span><b>{asset.name}</b></button>)}
                   </div> : null}
                 </div>
-                <div className="generator-prompt-assets">
-                  <button className="generator-prompt-library-button" type="button" aria-label="从素材库添加图片素材" title="从素材库添加图片素材" onClick={() => { void openAssetPicker(); }}>
+                <div className={`generator-prompt-assets${promptAssetsDisabled ? " is-disabled" : ""}`} aria-disabled={promptAssetsDisabled}>
+                  <button className="generator-prompt-library-button" type="button" disabled={promptAssetsDisabled} aria-label="从素材库添加图片素材" title={promptAssetsDisabled ? "文生视频模式不能添加素材" : "从素材库添加图片素材"} onClick={() => { void openAssetPicker(); }}>
                     <PlusIcon />
                   </button>
                   {promptImages.map(({ role, asset, index }) => (
@@ -681,7 +698,7 @@ export default function HomePage() {
           {libraryLoading ? <div className="asset-picker-empty">正在读取素材库…</div> : libraryAssets.filter((asset) => !asset.hidden).length ? <div className="asset-picker-grid">
             {libraryAssets.filter((asset) => !asset.hidden).map((asset) => {
               const selected = assets[asset.role].some((entry) => entry.assetId === asset.id);
-              return <button className={`asset-picker-item${selected ? " is-selected" : ""}`} type="button" key={asset.id} onClick={() => addLibraryAsset(asset)}>
+              return <button className={`asset-picker-item${selected ? " is-selected" : ""}${promptAssetsDisabled ? " is-disabled" : ""}`} disabled={promptAssetsDisabled} type="button" key={asset.id} onClick={() => addLibraryAsset(asset)}>
                 <img src={asset.previewUrl} alt="" />
                 <span>{assetRoleNames[asset.role]}</span>
                 <b title={asset.name}>{asset.name}</b>

@@ -721,6 +721,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .generator-prompt { grid-template-rows: auto auto auto !important; }
 .generator-prompt-heading > small { position: static; }
 .generator-prompt-assets { position: relative; left: auto; right: auto; bottom: auto; min-height: 42px; max-width: 100%; margin-top: 2px; overflow-x: auto; }
+.generator-prompt-assets.is-disabled { opacity: .42; filter: grayscale(1); }
+.generator-prompt-assets.is-disabled .generator-prompt-asset { cursor: default; }
+.asset-picker-item.is-disabled { opacity: .42; filter: grayscale(1); cursor: not-allowed; }
 
 /* Keep the reference-material row outside the bounded prompt editor. */
 .generator-prompt { grid-template-rows: auto auto auto !important; }
