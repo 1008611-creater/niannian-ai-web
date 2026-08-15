@@ -557,7 +557,7 @@ export default function HomePage() {
                   </label>
                 </div>
                 <div className="generator-production-policy" aria-label="任务计费">
-                  <b>{imageProductSelected ? "即将开放" : `${credits?.pricing.automatic[String(durationSeconds)] ?? "--"} 积分`}</b>
+                  <b>{imageProductSelected ? "即将开放" : ziyuProductSelected ? `${ziyuCost ?? "--"} 紫域积分` : `${credits?.pricing.automatic[String(durationSeconds)] ?? "--"} 积分`}</b>
                 </div>
                 {message ? <div className="generator-message" role="status">{message}</div> : null}
                 <div className="generator-submit">
@@ -593,7 +593,7 @@ export default function HomePage() {
               )}
             </div>
             <footer>
-              <span>标准模式</span>
+              <span>{ziyuProductSelected ? (ziyuMode === "i2v" ? "图生视频" : ziyuMode === "t2v" ? "文生视频" : "文生图") : "标准模式"}</span>
               <span>{resolution}</span>
               <span>{duration}</span>
             </footer>
