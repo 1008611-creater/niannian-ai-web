@@ -226,6 +226,17 @@ export default function HomePage() {
   }, [aspectRatio, duration, product, prompt]);
 
   useEffect(() => {
+    const textarea = promptRef.current;
+    if (!textarea) return;
+    const minHeight = 120;
+    const maxHeight = 360;
+    textarea.style.height = "auto";
+    const nextHeight = Math.min(Math.max(textarea.scrollHeight, minHeight), maxHeight);
+    textarea.style.height = `${nextHeight}px`;
+    textarea.style.overflowY = textarea.scrollHeight > maxHeight ? "auto" : "hidden";
+  }, [prompt, selectedZiyuModel?.id]);
+
+  useEffect(() => {
     if (!user) return;
     const interval = window.setInterval(() => { loadTasks().catch(() => undefined); loadCredits().catch(() => undefined); }, 15_000);
     return () => window.clearInterval(interval);
