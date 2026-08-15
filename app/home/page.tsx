@@ -260,7 +260,16 @@ export default function HomePage() {
   }
 
   function addLibraryAsset(asset: LibraryAsset) {
-    if (readyAssetCount >= 12) {
+    const imageLimit = selectedZiyuModel?.assetLimits.image ?? (ziyuProductSelected ? 0 : 12);
+    if (ziyuProductSelected && !selectedZiyuModel?.allowedAssetTypes.includes("image")) {
+      setMessage("当前渠道不支持图片参考素材");
+      return;
+    }
+    if (selectedZiyuModel && assets.character.length + assets.product.length + assets.scene.length >= imageLimit) {
+      setMessage(`当前渠道最多上传 ${imageLimit} 张图片参考素材`);
+      return;
+    }
+    if (!ziyuProductSelected && readyAssetCount >= 12) {
       setMessage("一次任务最多添加 12 份参考素材，请先移除不需要的素材");
       return;
     }
@@ -355,7 +364,7 @@ export default function HomePage() {
     for (const references of Object.values(assets)) {
       for (const asset of references) {
         const type = asset.type.startsWith("video/") ? "video" : asset.type.startsWith("audio/") ? "audio" : "image";
-        if (!selectedZiyuModel.allowedAssetTypes.includes(type)) continue;
+        if (!selectedZiyuModel.allowedAssetTypes.includes(type)) throw new Error(`当前渠道不支持${type === "image" ? "图片" : type === "video" ? "视频" : "音频"}参考素材`);
         sourceAssets.push({ type, name: asset.name, data: await assetData(asset) });
       }
     }
@@ -539,6 +548,11 @@ export default function HomePage() {
                     <option value="image_g">全能图片 G</option>
                     {ziyuModels.length ? <optgroup label="智能渠道">{ziyuModels.map((model) => <option key={model.id} value={`ziyu:${model.id}`}>{model.name}</option>)}</optgroup> : null}
                   </select></label>
+                  {ziyuProductSelected && selectedZiyuModel ? <div className="generator-channel-contract" aria-label="渠道规格">
+                    <span>模式：{selectedZiyuModel.modes.map((item) => item === "i2v" ? "图生视频" : item === "t2v" ? "文生视频" : "文生图").join("、")}</span>
+                    <span>费用：{ziyuCost ?? "--"} 积分{selectedZiyuModel.costPerSecond ? " / 秒" : " / 次"}</span>
+                    <span>参考：{selectedZiyuModel.allowedAssetTypes.length ? selectedZiyuModel.allowedAssetTypes.map((type) => `${type === "image" ? "图片" : type === "video" ? "视频" : "音频"} ${selectedZiyuModel.assetLimits[type] ?? "-"}个`).join("、") : "无需素材"}</span>
+                  </div> : null}
                 </div>
                 <div className="generator-options">
                   {ziyuProductSelected && selectedZiyuModel ? <label><span>模式</span><select value={ziyuMode} onChange={(event) => setZiyuMode(event.target.value as ZiyuMode)}>{selectedZiyuModel.modes.map((item) => <option key={item} value={item}>{item === "i2v" ? "图生视频" : item === "t2v" ? "文生视频" : "文生图"}</option>)}</select></label> : <div className="generator-fixed-option"><span>模式</span><b>标准</b></div>}
