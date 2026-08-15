@@ -717,6 +717,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .generator-three-column .generator-form-card .generator-prompt textarea { height: auto; min-height: 120px; max-height: 360px; }
 }
 
+/* Keep the reference-material row outside the bounded prompt editor. */
+.generator-prompt { grid-template-rows: auto auto auto !important; }
+.generator-prompt-heading > small { position: static; }
+.generator-prompt-assets { position: relative; left: auto; right: auto; bottom: auto; min-height: 42px; max-width: 100%; margin-top: 2px; overflow-x: auto; }
+
+/* Keep the reference-material row outside the bounded prompt editor. */
+.generator-prompt { grid-template-rows: auto auto auto !important; }
+.generator-prompt-heading > small { position: static; }
+.generator-prompt-assets { position: relative; left: auto; right: auto; bottom: auto; min-height: 42px; max-width: 100%; margin-top: 2px; overflow-x: auto; }
+
 /* Public conversion homepage */
 .landing-page { min-height: 100dvh; overflow: hidden; background: #101113; color: var(--text); }.landing-hero { width: min(1380px,calc(100% - 64px)); min-height: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0,.9fr) minmax(500px,1.1fr); align-items: center; gap: clamp(48px,7vw,110px); padding: 78px 0 72px; }.landing-hero-copy > p,.landing-section-heading > p,.landing-guarantee > div > p,.landing-final-cta > p { margin: 0 0 15px; color: var(--accent); font-size: 10px; font-weight: 850; letter-spacing: .17em; }.landing-hero h1 { max-width: 720px; margin: 0; font-size: clamp(42px,5vw,72px); line-height: 1.08; letter-spacing: -.045em; }.landing-hero-copy > span { display: block; max-width: 640px; margin-top: 24px; color: #9a9ba3; font-size: 16px; line-height: 1.85; }.landing-cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; }.landing-primary,.landing-secondary { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; border-radius: 7px; padding: 0 20px; text-decoration: none; font-size: 13px; font-weight: 760; }.landing-primary { border: 1px solid var(--accent); background: var(--accent); color: #fff; }.landing-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }.landing-secondary { border: 1px solid var(--line-strong); color: var(--text); }.landing-secondary:hover { border-color: var(--accent); background: var(--accent-soft); }.landing-proof-row { display: flex; flex-wrap: wrap; gap: 16px 24px; margin-top: 25px; color: #777982; font-size: 11px; }.landing-proof-row i { color: var(--success); font-style: normal; }
 .landing-use-grid article { min-height: 104px; }.landing-use-grid article > div { grid-template-columns: 1fr; }.landing-steps article { min-height: 148px; align-content: center; gap: 18px; }.landing-price-grid article { min-height: 172px; }.guide-page .guide-steps article { min-height: 152px; }.real-work-copy h2 { margin-bottom: 0; }
@@ -1590,3 +1600,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .generator-three-column .generator-form-card .generator-prompt { height: auto; flex: 0 0 auto; display: grid; grid-template-rows: auto auto; }
   .generator-three-column .generator-form-card .generator-prompt textarea { height: auto; min-height: 120px; max-height: 360px; }
 }
+
+/* Keep the reference-material row outside the bounded prompt editor. */
+.generator-prompt { grid-template-rows: auto auto auto !important; }
+.generator-prompt-heading > small { position: static; }
+.generator-prompt-assets { position: relative; left: auto; right: auto; bottom: auto; min-height: 42px; max-width: 100%; margin-top: 2px; overflow-x: auto; }
