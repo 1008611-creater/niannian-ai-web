@@ -1,5 +1,5 @@
 export type ProviderKind = "text" | "image" | "video" | "speech";
-export type LogicalModelId = "gpt-5.5" | "gpt-5.6" | "seedance-2" | "image-provider" | "speech-provider";
+export type LogicalModelId = "gpt-5.5" | "gpt-5.6" | "seedance-2" | "ziyu" | "image-provider" | "speech-provider";
 
 export interface GenerationRequest {
   projectId: string;
@@ -39,6 +39,7 @@ export const providerDescriptors: ProviderDescriptor[] = [
   { id: "gpt-5.5", label: "GPT-5.5", kind: "text", purpose: "证据整理、剧本拆解与初稿", apiBaseEnv: "NIANNIAN_GPT_API_BASE_URL", apiKeyEnv: "NIANNIAN_GPT_API_KEY", modelEnv: "NIANNIAN_GPT55_MODEL", configured: false },
   { id: "gpt-5.6", label: "GPT-5.6", kind: "text", purpose: "本土化、连续性与导演级复核", apiBaseEnv: "NIANNIAN_GPT_API_BASE_URL", apiKeyEnv: "NIANNIAN_GPT_API_KEY", modelEnv: "NIANNIAN_GPT56_MODEL", configured: false },
   { id: "seedance-2", label: "Seedance 2", kind: "video", purpose: "已授权镜头的视频生成", apiBaseEnv: "NIANNIAN_SEEDANCE_API_BASE_URL", apiKeyEnv: "NIANNIAN_SEEDANCE_API_KEY", modelEnv: "NIANNIAN_SEEDANCE2_MODEL", configured: false },
+  { id: "ziyu", label: "紫域动态模型", kind: "video", purpose: "紫域 API（接口）提供的全部实时模型与生成模式", apiBaseEnv: "ZIYU_BASE_URL", apiKeyEnv: "ZIYU_API_KEY", modelEnv: "ZIYU_DYNAMIC_MODELS", configured: false },
 ];
 
 export const providerSlots = [
