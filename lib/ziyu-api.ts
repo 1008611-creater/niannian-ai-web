@@ -9,8 +9,13 @@ export interface ZiyuModel {
   modes: ZiyuMode[];
   allowedDurations: number[];
   allowedRatios: string[];
+  allowedAssetTypes: string[];
+  assetLimits: Record<string, number>;
   resolution: string;
   promptMaxLength: number;
+  cost: number | null;
+  costPerSecond: number | null;
+  durationCosts: Record<string, number>;
 }
 
 export interface ZiyuJobInput {
@@ -77,8 +82,13 @@ function normalizeModel(model: Partial<ZiyuModel>): ZiyuModel | null {
     modes,
     allowedDurations: Array.isArray(model.allowedDurations) ? model.allowedDurations.filter((value): value is number => typeof value === "number") : [],
     allowedRatios: Array.isArray(model.allowedRatios) ? model.allowedRatios.filter((value): value is string => typeof value === "string") : [],
+    allowedAssetTypes: Array.isArray(model.allowedAssetTypes) ? model.allowedAssetTypes.filter((value): value is string => typeof value === "string") : [],
+    assetLimits: model.assetLimits && typeof model.assetLimits === "object" ? Object.fromEntries(Object.entries(model.assetLimits).filter(([, value]) => typeof value === "number")) as Record<string, number> : {},
     resolution: typeof model.resolution === "string" ? model.resolution : "",
     promptMaxLength: typeof model.promptMaxLength === "number" ? model.promptMaxLength : 0,
+    cost: typeof model.cost === "number" ? model.cost : null,
+    costPerSecond: typeof model.costPerSecond === "number" ? model.costPerSecond : null,
+    durationCosts: model.durationCosts && typeof model.durationCosts === "object" ? Object.fromEntries(Object.entries(model.durationCosts).filter(([, value]) => typeof value === "number")) as Record<string, number> : {},
   };
 }
 
