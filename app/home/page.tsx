@@ -56,6 +56,12 @@ function keepFreshMediaUrl(previous: VideoTask | undefined, next: VideoTask) {
   return next;
 }
 type StudioProduct = "video_s" | "video_smini" | "image_g";
+type ZiyuMode = "i2v" | "t2v" | "t2i";
+type ZiyuModel = {
+  id: string; name: string; modes: ZiyuMode[]; allowedDurations: number[]; allowedRatios: string[];
+  allowedAssetTypes: ("image" | "video" | "audio")[]; assetLimits: Record<string, number>;
+  resolution: string; promptMaxLength: number; cost: number | null; costPerSecond: number | null; durationCosts: Record<string, number>;
+};
 
 type CreditSummary = {
   balance: number;
@@ -93,7 +99,8 @@ export default function HomePage() {
   const draftHydrated = useRef(false);
   const [user, setUser] = useState<SessionUser | null>();
   const [prompt, setPrompt] = useState("");
-  const resolution = "720P";
+  const [ziyuModels, setZiyuModels] = useState<ZiyuModel[]>([]);
+  const [ziyuMode, setZiyuMode] = useState<ZiyuMode>("i2v");
   const [duration, setDuration] = useState("5 秒");
   const [aspectRatio, setAspectRatio] = useState("9:16");
   const [product, setProduct] = useState<StudioProduct>("video_s");
@@ -158,6 +165,9 @@ export default function HomePage() {
         setUser(data.user);
         loadTasks().catch(() => undefined);
         loadCredits().catch(() => undefined);
+        fetch("/api/providers", { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then((payload) => {
+          setZiyuModels(Array.isArray(payload?.ziyu?.models) ? payload.ziyu.models as ZiyuModel[] : []);
+        }).catch(() => undefined);
       fetch("/library/assets", { cache: "no-store" })
           .then(async (response) => response.ok ? response.json() : { assets: [] })
           .then((payload) => {
@@ -193,6 +203,19 @@ export default function HomePage() {
     }
     draftHydrated.current = true;
   }, [loadCredits, loadTasks, router]);
+
+  const ziyuProductSelected = product.startsWith("ziyu:");
+  const selectedZiyuModel = ziyuModels.find((model) => product === `ziyu:${model.id}`);
+  const resolution = selectedZiyuModel?.resolution || "720P";
+  const durationOptions = selectedZiyuModel?.allowedDurations.length ? selectedZiyuModel.allowedDurations.map((value) => `${value} 秒`) : Array.from({ length: 12 }, (_, index) => `${index + 4} 秒`);
+  const ratioOptions = selectedZiyuModel?.allowedRatios.length ? selectedZiyuModel.allowedRatios : ["9:16", "16:9", "1:1"];
+
+  useEffect(() => {
+    if (!selectedZiyuModel) return;
+    setZiyuMode((current) => selectedZiyuModel.modes.includes(current) ? current : selectedZiyuModel.modes[0]);
+    setDuration((current) => selectedZiyuModel.allowedDurations.includes(Number(current.replace(/\D/g, ""))) ? current : durationOptions[0] ?? "");
+    setAspectRatio((current) => selectedZiyuModel.allowedRatios.includes(current) ? current : ratioOptions[0] ?? "");
+  }, [selectedZiyuModel?.id]);
 
   useEffect(() => {
     if (!draftHydrated.current) return;
@@ -254,11 +277,12 @@ export default function HomePage() {
 
   const durationSeconds = Number(duration.replace(/\D/g, ""));
   const imageProductSelected = product === "image_g";
-  const currentCreditCost = credits?.pricing.automatic[String(durationSeconds)] ?? 0;
+  const currentCreditCost = ziyuProductSelected ? 0 : credits?.pricing.automatic[String(durationSeconds)] ?? 0;
+  const ziyuCost = selectedZiyuModel ? duration ? selectedZiyuModel.durationCosts[String(durationSeconds)] ?? (selectedZiyuModel.costPerSecond ? selectedZiyuModel.costPerSecond * durationSeconds : selectedZiyuModel.cost) : selectedZiyuModel.cost : null;
   const hasEnoughCredits = Boolean(credits && currentCreditCost > 0 && credits.balance >= currentCreditCost);
   const missingCredits = Math.max(0, currentCreditCost - (credits?.balance ?? 0));
-  const validationMessage = imageProductSelected ? "全能图片 G 即将开放" : !prompt.trim() ? "请先填写视频描述" : !credits ? "正在读取积分余额" : currentCreditCost <= 0 ? "当前时长暂时不可用" : !hasEnoughCredits ? `积分不足，还需要 ${missingCredits} 积分` : "";
-  const canCreate = Boolean(!imageProductSelected && prompt.trim() && hasEnoughCredits && !submitting);
+  const validationMessage = imageProductSelected ? "全能图片 G 即将开放" : ziyuProductSelected && !selectedZiyuModel ? "正在读取紫域模型目录" : !prompt.trim() ? "请先填写视频描述" : !ziyuProductSelected && !credits ? "正在读取积分余额" : !ziyuProductSelected && currentCreditCost <= 0 ? "当前时长暂时不可用" : !ziyuProductSelected && !hasEnoughCredits ? `积分不足，还需要 ${missingCredits} 积分` : "";
+  const canCreate = Boolean(!imageProductSelected && prompt.trim() && (ziyuProductSelected ? selectedZiyuModel : hasEnoughCredits) && !submitting);
   const selectedOutputTask = useMemo(
     () => tasks.find((task) => task.id === selectedTaskId && task.outputReady && task.outputUrl) ?? null,
     [selectedTaskId, tasks],
@@ -307,6 +331,53 @@ export default function HomePage() {
     });
   }
 
+  async function assetData(asset: PendingAsset) {
+    if (asset.file) return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error("ASSET_READ_FAILED"));
+      reader.readAsDataURL(asset.file as File);
+    });
+    const response = await fetch(asset.url);
+    if (!response.ok) throw new Error("ASSET_READ_FAILED");
+    const blob = await response.blob();
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error("ASSET_READ_FAILED"));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function createZiyuTask() {
+    if (!selectedZiyuModel) throw new Error("ZIYU_MODEL_UNAVAILABLE");
+    const sourceAssets: Array<{ type: "image" | "video" | "audio"; name: string; data: string }> = [];
+    for (const references of Object.values(assets)) {
+      for (const asset of references) {
+        const type = asset.type.startsWith("video/") ? "video" : asset.type.startsWith("audio/") ? "audio" : "image";
+        if (!selectedZiyuModel.allowedAssetTypes.includes(type)) continue;
+        sourceAssets.push({ type, name: asset.name, data: await assetData(asset) });
+      }
+    }
+    for (const type of selectedZiyuModel.allowedAssetTypes) {
+      const limit = selectedZiyuModel.assetLimits[type] ?? 10;
+      if (sourceAssets.filter((asset) => asset.type === type).length > limit) throw new Error(`${type} 参考素材最多 ${limit} 个`);
+    }
+    if (ziyuMode === "i2v" && selectedZiyuModel.allowedAssetTypes.length > 0 && sourceAssets.length === 0) throw new Error("图生视频模式需要先添加参考素材");
+    const uploaded: Record<"image" | "video" | "audio", Array<{ url: string }>> = { image: [], video: [], audio: [] };
+    if (sourceAssets.length) {
+      const uploadResponse = await fetch("/api/ziyu/uploads", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ files: sourceAssets }) });
+      const uploadPayload = await uploadResponse.json().catch(() => ({}));
+      if (!uploadResponse.ok) throw new Error(uploadPayload.error || "ZIYU_UPLOAD_FAILED");
+      (uploadPayload.assets ?? []).forEach((asset: { url?: string }, index: number) => { if (asset.url && sourceAssets[index]) uploaded[sourceAssets[index].type].push({ url: asset.url }); });
+    }
+    const response = await fetch("/api/ziyu/jobs", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelId: selectedZiyuModel.id, mode: ziyuMode, prompt: prompt.trim(), ratio: aspectRatio || undefined, duration: durationSeconds ? String(durationSeconds) : undefined, assets: uploaded }) });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(payload.error || "ZIYU_JOB_CREATE_FAILED");
+    setMessage(`紫域任务已创建${payload.job?.id ? `：${payload.job.id}` : ""}，可在紫域渠道查看结果。`);
+    setAssets(emptyAssets);
+  }
+
   async function createTask() {
     if (!prompt.trim()) {
       setMessage("请先填写视频描述");
@@ -314,6 +385,12 @@ export default function HomePage() {
     }
     if (imageProductSelected) {
       setMessage("全能图片 G 即将开放");
+      return;
+    }
+    if (ziyuProductSelected) {
+      setSubmitting(true);
+      setMessage("正在上传素材并创建紫域任务…");
+      try { await createZiyuTask(); } catch (error) { setMessage(error instanceof Error ? `创建失败：${error.message}` : "创建失败，请稍后重试"); } finally { setSubmitting(false); }
       return;
     }
     if (!credits) {
@@ -411,14 +488,14 @@ export default function HomePage() {
               <div className="generator-field generator-prompt">
                 <div className="generator-prompt-heading">
                   <label htmlFor="video-prompt">视频描述 <em>*</em></label>
-                  <small>{prompt.length} / 2000</small>
+                  <small>{prompt.length} / {selectedZiyuModel?.promptMaxLength || 2000}</small>
                 </div>
                 <div className="generator-prompt-editor">
                   <div className="generator-prompt-highlight" aria-hidden="true">{highlightedPrompt}</div>
                   <textarea
                     ref={promptRef}
                     id="video-prompt"
-                    maxLength={2000}
+                    maxLength={selectedZiyuModel?.promptMaxLength || 2000}
                     value={prompt}
                     onChange={(event) => {
                       setPrompt(event.target.value);
@@ -460,23 +537,22 @@ export default function HomePage() {
                     <option value="video_s">全能视频 S</option>
                     <option value="video_smini">全能视频 Smini</option>
                     <option value="image_g">全能图片 G</option>
+                    {ziyuModels.length ? <optgroup label="紫域渠道">{ziyuModels.map((model) => <option key={model.id} value={`ziyu:${model.id}`}>{model.name}</option>)}</optgroup> : null}
                   </select></label>
                 </div>
                 <div className="generator-options">
-                  <div className="generator-fixed-option"><span>模式</span><b>标准</b></div>
+                  {ziyuProductSelected && selectedZiyuModel ? <label><span>模式</span><select value={ziyuMode} onChange={(event) => setZiyuMode(event.target.value as ZiyuMode)}>{selectedZiyuModel.modes.map((item) => <option key={item} value={item}>{item === "i2v" ? "图生视频" : item === "t2v" ? "文生视频" : "文生图"}</option>)}</select></label> : <div className="generator-fixed-option"><span>模式</span><b>标准</b></div>}
                   <div className="generator-fixed-option"><span>分辨率</span><b>{resolution}</b></div>
                   <label>
                     <span>时长</span>
-                    <select value={duration} disabled={imageProductSelected} onChange={(event) => setDuration(event.target.value)}>
-                      {Array.from({ length: 12 }, (_, index) => <option key={index + 4}>{index + 4} 秒</option>)}
+                    <select value={duration} disabled={imageProductSelected || Boolean(selectedZiyuModel && !selectedZiyuModel.allowedDurations.length)} onChange={(event) => setDuration(event.target.value)}>
+                      {durationOptions.map((item) => <option key={item}>{item}</option>)}
                     </select>
                   </label>
                   <label>
                     <span>比例</span>
                     <select value={aspectRatio} disabled={imageProductSelected} onChange={(event) => setAspectRatio(event.target.value)}>
-                      <option>9:16</option>
-                      <option>16:9</option>
-                      <option>1:1</option>
+                      {ratioOptions.map((item) => <option key={item}>{item}</option>)}
                     </select>
                   </label>
                 </div>
