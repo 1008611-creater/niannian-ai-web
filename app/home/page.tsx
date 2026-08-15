@@ -39,6 +39,7 @@ type VideoTask = {
   thumbnailUrl: string | null;
   createdAt: string;
 };
+type ZiyuJobState = { id: string; status: string; previewUrl: string | null; failureReason: string | null; message: string | null };
 
 function keepFreshMediaUrl(previous: VideoTask | undefined, next: VideoTask) {
   if (!previous?.outputUrl || !next.outputUrl || previous.outputUrl === next.outputUrl) return next;
@@ -116,6 +117,7 @@ export default function HomePage() {
   const [showAssetPicker, setShowAssetPicker] = useState(false);
   const [libraryLoading, setLibraryLoading] = useState(false);
   const [tasks, setTasks] = useState<VideoTask[]>([]);
+  const [ziyuJob, setZiyuJob] = useState<ZiyuJobState | null>(null);
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
@@ -252,6 +254,33 @@ export default function HomePage() {
     const interval = window.setInterval(() => { loadTasks().catch(() => undefined); loadCredits().catch(() => undefined); }, 15_000);
     return () => window.clearInterval(interval);
   }, [loadCredits, loadTasks, user]);
+
+  useEffect(() => {
+    if (!user || ziyuJob) return;
+    fetch("/api/ziyu/jobs?limit=1", { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then((payload) => {
+      const job = payload?.jobs?.[0];
+      if (job?.id) setZiyuJob({ id: job.id, status: job.status ?? "processing", previewUrl: job.previewUrl ?? null, failureReason: job.failureReason ?? null, message: job.message ?? null });
+    }).catch(() => undefined);
+  }, [user, ziyuJob]);
+
+  useEffect(() => {
+    if (!ziyuJob?.id || ["completed", "failed", "cancelled"].includes(ziyuJob.status)) return;
+    let cancelled = false;
+    const poll = async () => {
+      const response = await fetch(`/api/ziyu/jobs/${encodeURIComponent(ziyuJob.id)}`, { cache: "no-store" });
+      if (!response.ok) return;
+      const payload = await response.json().catch(() => ({}));
+      const job = payload.job;
+      if (!cancelled && job?.id) {
+        setZiyuJob({ id: job.id, status: job.status ?? "processing", previewUrl: job.previewUrl ?? null, failureReason: job.failureReason ?? null, message: job.message ?? null });
+        if (job.status === "completed") setMessage("视频已生成，可在预览区播放或下载。");
+        if (["failed", "cancelled"].includes(job.status)) setMessage(`视频生成${job.status === "cancelled" ? "已取消" : "失败"}${job.failureReason ? `：${job.failureReason}` : ""}`);
+      }
+    };
+    void poll();
+    const interval = window.setInterval(() => { void poll(); }, 4_000);
+    return () => { cancelled = true; window.clearInterval(interval); };
+  }, [ziyuJob?.id, ziyuJob?.status]);
 
   useEffect(() => {
     const urls = objectUrls.current;
@@ -428,6 +457,7 @@ export default function HomePage() {
     const response = await fetch("/api/ziyu/jobs", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelId: selectedZiyuModel.id, mode: ziyuMode, prompt: prompt.trim(), ratio: aspectRatio || undefined, duration: ziyuMode === "t2i" ? undefined : "15", assets: uploaded }) });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || "ZIYU_JOB_CREATE_FAILED");
+    if (payload.job?.id) setZiyuJob({ id: payload.job.id, status: payload.job.status ?? "queued", previewUrl: payload.job.previewUrl ?? null, failureReason: null, message: null });
     setMessage(`任务已创建${payload.job?.id ? `：${payload.job.id}` : ""}，正在处理中。`);
     setAssets(emptyAssets);
   }
@@ -636,6 +666,8 @@ export default function HomePage() {
             <div className="generator-preview">
               {selectedOutputTask ? (
                 <video key={selectedOutputTask.id} className="generator-result-preview" autoPlay muted controls playsInline preload="auto" src={selectedOutputTask.outputUrl ?? undefined} />
+              ) : ziyuJob?.previewUrl ? (
+                <div className="generator-ziyu-result"><video key={ziyuJob.id} className="generator-result-preview" autoPlay muted controls playsInline preload="auto" src={`/api/ziyu/jobs/${encodeURIComponent(ziyuJob.id)}/media`} /><a href={`/api/ziyu/jobs/${encodeURIComponent(ziyuJob.id)}/media`} download>下载视频</a></div>
               ) : assets.character[0] || assets.scene[0] ? (
                 <div className="preview-composition">
                   {assets.scene[0] ? <img className="preview-scene" src={assets.scene[0].url} alt="场景预览" /> : null}
@@ -656,6 +688,7 @@ export default function HomePage() {
               <span>{resolution}</span>
               <span>{duration}</span>
             </footer>
+            {ziyuJob && !ziyuJob.previewUrl ? <div className="generator-preview-status">紫域任务：{ziyuJob.status === "queued" ? "排队中" : ziyuJob.status === "processing" ? "生成中" : ziyuJob.status === "failed" ? "失败" : ziyuJob.status}</div> : null}
           </section>
 
           <section className="generator-card generator-history-card" ref={taskStatusRef}>

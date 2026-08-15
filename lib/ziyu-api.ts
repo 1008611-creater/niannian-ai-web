@@ -120,6 +120,17 @@ export async function getZiyuJob(jobId: string) {
   return requestJson<{ job?: { id?: string; status?: string; previewUrl?: string; failureReason?: string; message?: string } }>(`/api/v1/jobs/${encodeURIComponent(jobId)}`);
 }
 
+export async function getZiyuPreview(jobId: string) {
+  const payload = await getZiyuJob(jobId);
+  const previewUrl = payload.job?.previewUrl;
+  if (!previewUrl) return null;
+  const key = configuredKey();
+  if (!key) throw new ZiyuApiError(503, "ZIYU_API_KEY is not configured");
+  const response = await fetch(previewUrl, { headers: { Authorization: `Bearer ${key}` }, cache: "no-store" });
+  if (!response.ok) throw new ZiyuApiError(response.status, "紫域视频暂时无法读取");
+  return { body: response.body, contentType: response.headers.get("content-type") || "video/mp4" };
+}
+
 export async function listZiyuJobs(limit = 50) {
   const boundedLimit = Math.max(1, Math.min(100, Math.floor(limit)));
   return requestJson<{ jobs?: Array<{ id?: string; status?: string; previewUrl?: string }> }>(`/api/v1/jobs?limit=${boundedLimit}`);
