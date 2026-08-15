@@ -93,6 +93,13 @@ function taskStatusLabel(status: string) {
   return labels[status] ?? status;
 }
 
+function displayResolution(value: string, fallback: string) {
+  const normalized = value.trim();
+  if (!normalized) return fallback;
+  const match = normalized.match(/^(\d+)\s*[pP]$/);
+  return match ? `${match[1]}p` : normalized;
+}
+
 export default function HomePage() {
   const router = useRouter();
   const objectUrls = useRef(new Set<string>());
@@ -206,7 +213,9 @@ export default function HomePage() {
 
   const ziyuProductSelected = product.startsWith("ziyu:");
   const selectedZiyuModel = ziyuModels.find((model) => product === `ziyu:${model.id}`);
-  const resolution = selectedZiyuModel?.resolution || "720P";
+  const resolution = selectedZiyuModel
+    ? displayResolution(selectedZiyuModel.resolution, "渠道默认")
+    : "720p";
   const durationOptions = selectedZiyuModel?.allowedDurations.length ? selectedZiyuModel.allowedDurations.map((value) => `${value} 秒`) : Array.from({ length: 12 }, (_, index) => `${index + 4} 秒`);
   const ratioOptions = selectedZiyuModel?.allowedRatios.length ? selectedZiyuModel.allowedRatios : ["9:16", "16:9", "1:1"];
 
