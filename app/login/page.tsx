@@ -39,6 +39,7 @@ export default function LoginPage() {
   const [view, setView] = useState<View>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [code, setCode] = useState("");
   const [notice, setNotice] = useState("");
   const [pending, setPending] = useState(false);
@@ -71,6 +72,7 @@ export default function LoginPage() {
     setNotice("");
     setCode("");
     setCooldown(0);
+    setShowPassword(false);
   }
 
   function showError(error: unknown) {
@@ -183,7 +185,12 @@ export default function LoginPage() {
             <label htmlFor="reset-email">邮箱</label>
             <input id="reset-email" autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="请输入注册邮箱" />
             <label htmlFor="reset-password">新密码</label>
-            <input id="reset-password" autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="至少 8 位，包含字母和数字" />
+            <div className="auth-password-field">
+              <input id="reset-password" autoComplete="new-password" type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="至少 8 位，包含字母和数字" />
+              <button className="auth-password-toggle" type="button" aria-label={showPassword ? "隐藏密码" : "显示密码"} onClick={() => setShowPassword((value) => !value)}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d={showPassword ? "M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.2A10.7 10.7 0 0 1 12 5c5.2 0 8.7 4.3 9.8 7a15.5 15.5 0 0 1-3.1 4.5M6.2 6.2C3.8 7.7 2.5 10 2.2 12c.5 1.2 1.6 3 3.8 4.7A10.7 10.7 0 0 0 12 19c1 0 1.9-.1 2.8-.4" : "M2.2 12C3.3 9.3 6.8 5 12 5s8.7 4.3 9.8 7c-1.1 2.7-4.6 7-9.8 7s-8.7-4.3-9.8-7Z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"} /></svg>
+              </button>
+            </div>
             {notice ? <p className="auth-notice" role="status">{notice}</p> : null}
             <button className="auth-submit" disabled={pending} type="submit">{pending ? "发送中..." : "发送重置验证码"}</button>
           </form>
@@ -207,7 +214,12 @@ export default function LoginPage() {
           <label htmlFor="email">邮箱</label>
           <input id="email" autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="请输入邮箱" />
           <label htmlFor="password">密码</label>
-          <input id="password" autoComplete={isLogin ? "current-password" : "new-password"} type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder={isLogin ? "请输入密码" : "至少 8 位，包含字母和数字"} />
+          <div className="auth-password-field">
+            <input id="password" autoComplete={isLogin ? "current-password" : "new-password"} type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder={isLogin ? "请输入密码" : "至少 8 位，包含字母和数字"} />
+            <button className="auth-password-toggle" type="button" aria-label={showPassword ? "隐藏密码" : "显示密码"} onClick={() => setShowPassword((value) => !value)}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d={showPassword ? "M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.2A10.7 10.7 0 0 1 12 5c5.2 0 8.7 4.3 9.8 7a15.5 15.5 0 0 1-3.1 4.5M6.2 6.2C3.8 7.7 2.5 10 2.2 12c.5 1.2 1.6 3 3.8 4.7A10.7 10.7 0 0 0 12 19c1 0 1.9-.1 2.8-.4" : "M2.2 12C3.3 9.3 6.8 5 12 5s8.7 4.3 9.8 7c-1.1 2.7-4.6 7-9.8 7s-8.7-4.3-9.8-7Z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"} /></svg>
+            </button>
+          </div>
           {notice ? <p className="auth-notice" role="status">{notice}</p> : null}
           <button className="auth-submit" disabled={pending} type="submit">{pending ? "请稍候..." : isLogin ? "登录" : "注册并获取验证码"}</button>
         </form>
