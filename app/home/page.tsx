@@ -281,7 +281,7 @@ export default function HomePage() {
   const ziyuCost = selectedZiyuModel ? duration ? selectedZiyuModel.durationCosts[String(durationSeconds)] ?? (selectedZiyuModel.costPerSecond ? selectedZiyuModel.costPerSecond * durationSeconds : selectedZiyuModel.cost) : selectedZiyuModel.cost : null;
   const hasEnoughCredits = Boolean(credits && currentCreditCost > 0 && credits.balance >= currentCreditCost);
   const missingCredits = Math.max(0, currentCreditCost - (credits?.balance ?? 0));
-  const validationMessage = imageProductSelected ? "全能图片 G 即将开放" : ziyuProductSelected && !selectedZiyuModel ? "正在读取紫域模型目录" : !prompt.trim() ? "请先填写视频描述" : !ziyuProductSelected && !credits ? "正在读取积分余额" : !ziyuProductSelected && currentCreditCost <= 0 ? "当前时长暂时不可用" : !ziyuProductSelected && !hasEnoughCredits ? `积分不足，还需要 ${missingCredits} 积分` : "";
+  const validationMessage = imageProductSelected ? "全能图片 G 即将开放" : ziyuProductSelected && !selectedZiyuModel ? "正在读取可用渠道" : !prompt.trim() ? "请先填写视频描述" : !ziyuProductSelected && !credits ? "正在读取积分余额" : !ziyuProductSelected && currentCreditCost <= 0 ? "当前时长暂时不可用" : !ziyuProductSelected && !hasEnoughCredits ? `积分不足，还需要 ${missingCredits} 积分` : "";
   const canCreate = Boolean(!imageProductSelected && prompt.trim() && (ziyuProductSelected ? selectedZiyuModel : hasEnoughCredits) && !submitting);
   const selectedOutputTask = useMemo(
     () => tasks.find((task) => task.id === selectedTaskId && task.outputReady && task.outputUrl) ?? null,
@@ -374,7 +374,7 @@ export default function HomePage() {
     const response = await fetch("/api/ziyu/jobs", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelId: selectedZiyuModel.id, mode: ziyuMode, prompt: prompt.trim(), ratio: aspectRatio || undefined, duration: durationSeconds ? String(durationSeconds) : undefined, assets: uploaded }) });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || "ZIYU_JOB_CREATE_FAILED");
-    setMessage(`紫域任务已创建${payload.job?.id ? `：${payload.job.id}` : ""}，可在紫域渠道查看结果。`);
+    setMessage(`任务已创建${payload.job?.id ? `：${payload.job.id}` : ""}，正在处理中。`);
     setAssets(emptyAssets);
   }
 
@@ -389,7 +389,7 @@ export default function HomePage() {
     }
     if (ziyuProductSelected) {
       setSubmitting(true);
-      setMessage("正在上传素材并创建紫域任务…");
+      setMessage("正在上传素材并创建任务…");
       try { await createZiyuTask(); } catch (error) { setMessage(error instanceof Error ? `创建失败：${error.message}` : "创建失败，请稍后重试"); } finally { setSubmitting(false); }
       return;
     }
@@ -537,7 +537,7 @@ export default function HomePage() {
                     <option value="video_s">全能视频 S</option>
                     <option value="video_smini">全能视频 Smini</option>
                     <option value="image_g">全能图片 G</option>
-                    {ziyuModels.length ? <optgroup label="紫域渠道">{ziyuModels.map((model) => <option key={model.id} value={`ziyu:${model.id}`}>{model.name}</option>)}</optgroup> : null}
+                    {ziyuModels.length ? <optgroup label="智能渠道">{ziyuModels.map((model, index) => <option key={model.id} value={`ziyu:${model.id}`}>{model.modes.every((item) => item === "t2i") ? `图像渠道 ${String(index + 1).padStart(2, "0")}` : `视频渠道 ${String(index + 1).padStart(2, "0")}`}</option>)}</optgroup> : null}
                   </select></label>
                 </div>
                 <div className="generator-options">
@@ -557,7 +557,7 @@ export default function HomePage() {
                   </label>
                 </div>
                 <div className="generator-production-policy" aria-label="任务计费">
-                  <b>{imageProductSelected ? "即将开放" : ziyuProductSelected ? `${ziyuCost ?? "--"} 紫域积分` : `${credits?.pricing.automatic[String(durationSeconds)] ?? "--"} 积分`}</b>
+                  <b>{imageProductSelected ? "即将开放" : ziyuProductSelected ? `${ziyuCost ?? "--"} 积分` : `${credits?.pricing.automatic[String(durationSeconds)] ?? "--"} 积分`}</b>
                 </div>
                 {message ? <div className="generator-message" role="status">{message}</div> : null}
                 <div className="generator-submit">
