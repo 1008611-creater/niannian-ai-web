@@ -470,7 +470,8 @@ button { color: inherit; }
 /* Auth page mirrors the reference product's quiet, centered entry screen. */
 .niannian-auth { min-height: 100dvh; display: grid; place-items: center; padding: 24px; background: linear-gradient(180deg, #11112e 0%, #202054 100%); color: #f4f4ff; font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; }
 .auth-card { width: min(100%, 380px); min-height: 539px; padding: 51px 36px 36px; border: 1px solid rgba(180, 177, 255, .22); border-radius: 20px; background: rgba(77, 74, 129, .68); box-shadow: 0 22px 45px rgba(5, 5, 28, .25), inset 0 1px 0 rgba(255,255,255,.035); }
-.auth-mark { height: 32px; display: grid; place-items: center; margin-bottom: 17px; color: #8f86ff; font-size: 31px; line-height: 1; }
+.auth-mark { height: 40px; display: grid; place-items: center; margin-bottom: 17px; color: #8f86ff; font-size: 31px; line-height: 1; }
+.auth-mark img { width: 40px; height: 40px; display: block; object-fit: contain; }
 .auth-card h1 { margin: 0; color: #fff; font-size: 24px; font-weight: 750; line-height: 1.2; text-align: center; }
 .auth-subtitle { margin: 6px 0 31px; color: #b9b7d8; font-size: 14px; text-align: center; }
 .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid rgba(209, 207, 251, .18); }
@@ -731,7 +732,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .niannian-auth { position: relative; overflow: hidden; background: #101113; color: var(--text); font-family: "Microsoft YaHei UI", "PingFang SC", system-ui, sans-serif; }
 .niannian-auth::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 32px 32px; mask-image: linear-gradient(to bottom, rgba(0,0,0,.42), transparent 72%); }
 .auth-card { position: relative; min-height: 0; padding: 42px 38px 34px; border-color: var(--line-strong); border-radius: 10px; background: #1a1b1f; box-shadow: 0 24px 70px rgba(0,0,0,.22); }
-.auth-mark { color: var(--accent); font-size: 28px; }.auth-card h1 { color: var(--text); font-size: 23px; }.auth-subtitle { color: var(--muted); }
+.auth-mark { color: var(--accent); font-size: 28px; }.auth-mark img { width: 40px; height: 40px; }.auth-card h1 { color: var(--text); font-size: 23px; }.auth-subtitle { color: var(--muted); }
 .auth-tabs { border-bottom-color: var(--line); }.auth-tabs button { color: var(--muted); }.auth-tabs button.active { color: var(--text); }.auth-tabs button.active::after { background: var(--accent); }
 .auth-form label { color: #d9dadd; }.auth-form input { border-color: var(--line-strong); border-radius: 6px; background: #121316; color: var(--text); }.auth-form input::placeholder { color: var(--muted-2); }.auth-form input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .auth-notice { color: #f1b6c2; }.auth-submit { border-radius: 6px; background: var(--accent); }.auth-submit:hover { background: var(--accent-hover); }.auth-switch { color: var(--muted); }.auth-switch button, .auth-forgot button { color: #f192a8; }.auth-success { border-radius: 7px; border-color: rgba(100,195,154,.28); background: rgba(100,195,154,.1); color: #b7e8d1; }

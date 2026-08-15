@@ -156,7 +156,7 @@ export default function LoginPage() {
     return (
       <main className="niannian-auth">
         <section className="auth-card" aria-labelledby="verify-title">
-          <div className="auth-mark" aria-hidden="true">✦</div>
+          <div className="auth-mark"><img src="/niannian-ai-mark-transparent.svg" alt="念念 AI" /></div>
           <h1 id="verify-title">{reset ? "验证重置密码" : "验证邮箱"}</h1>
           <p className="auth-subtitle">验证码已发送至 {email}</p>
           <form className="auth-form" onSubmit={verifyCode}>
@@ -176,7 +176,7 @@ export default function LoginPage() {
     return (
       <main className="niannian-auth">
         <section className="auth-card" aria-labelledby="reset-title">
-          <div className="auth-mark" aria-hidden="true">✦</div>
+          <div className="auth-mark"><img src="/niannian-ai-mark-transparent.svg" alt="念念 AI" /></div>
           <h1 id="reset-title">重置密码</h1>
           <p className="auth-subtitle">验证码会发送到你的注册邮箱</p>
           <form className="auth-form" onSubmit={submitReset}>
@@ -197,7 +197,7 @@ export default function LoginPage() {
   return (
     <main className="niannian-auth">
       <section className="auth-card" aria-labelledby="auth-title">
-        <div className="auth-mark" aria-hidden="true">✦</div>
+        <div className="auth-mark"><img src="/niannian-ai-mark-transparent.svg" alt="念念 AI" /></div>
         <h1 id="auth-title">念念AI视频工作台</h1>
         <div className="auth-tabs" role="tablist" aria-label="账户操作">
           <button className={isLogin ? "active" : ""} type="button" role="tab" aria-selected={isLogin} onClick={() => changeView("login")}>登录</button>
