@@ -265,6 +265,14 @@ export default function HomePage() {
     () => Object.values(assets).reduce((total, entries) => total + entries.length, 0),
     [assets],
   );
+  const imageAssetCount = useMemo(
+    () => assets.character.length + assets.product.length + assets.scene.length,
+    [assets.character.length, assets.product.length, assets.scene.length],
+  );
+  const imageAssetLimit = selectedZiyuModel?.assetLimits.image ?? (ziyuProductSelected ? 0 : 12);
+  const imageAssetsAllowed = !ziyuProductSelected || Boolean(selectedZiyuModel?.allowedAssetTypes.includes("image"));
+  const imageAssetLimitReached = imageAssetCount >= imageAssetLimit;
+  const canAddImageAsset = !promptAssetsDisabled && imageAssetsAllowed && !imageAssetLimitReached;
 
   async function openAssetPicker() {
     if (promptAssetsDisabled) {
@@ -290,7 +298,7 @@ export default function HomePage() {
       setMessage("文生视频模式不能添加素材，已有素材会保留");
       return;
     }
-    const imageLimit = selectedZiyuModel?.assetLimits.image ?? (ziyuProductSelected ? 0 : 12);
+    const imageLimit = imageAssetLimit;
     if (ziyuProductSelected && !selectedZiyuModel?.allowedAssetTypes.includes("image")) {
       setMessage("当前渠道不支持图片参考素材");
       return;
@@ -555,7 +563,7 @@ export default function HomePage() {
                   </div> : null}
                 </div>
                 <div className={`generator-prompt-assets${promptAssetsDisabled ? " is-disabled" : ""}`} aria-disabled={promptAssetsDisabled}>
-                  <button className="generator-prompt-library-button" type="button" disabled={promptAssetsDisabled} aria-label="从素材库添加图片素材" title={promptAssetsDisabled ? "文生视频模式不能添加素材" : "从素材库添加图片素材"} onClick={() => { void openAssetPicker(); }}>
+                  <button className="generator-prompt-library-button" type="button" disabled={!canAddImageAsset} aria-label="从素材库添加图片素材" title={promptAssetsDisabled ? "文生视频模式不能添加素材" : !imageAssetsAllowed ? "当前渠道不支持图片素材" : imageAssetLimitReached ? `当前渠道最多 ${imageAssetLimit} 张图片素材` : "从素材库添加图片素材"} onClick={() => { void openAssetPicker(); }}>
                     <PlusIcon />
                   </button>
                   {promptImages.map(({ role, asset, index }) => (
@@ -588,7 +596,7 @@ export default function HomePage() {
                   {ziyuProductSelected && selectedZiyuModel ? <div className="generator-channel-contract" aria-label="渠道规格">
                     <span>模式：{selectedZiyuModel.modes.map((item) => item === "i2v" ? "图生视频" : item === "t2v" ? "文生视频" : "文生图").join("、")}</span>
                     <span>费用：{ziyuCost ?? "--"} 积分{selectedZiyuModel.costPerSecond ? " / 秒" : " / 次"}</span>
-                    <span>参考：{selectedZiyuModel.allowedAssetTypes.length ? selectedZiyuModel.allowedAssetTypes.map((type) => `${type === "image" ? "图片" : type === "video" ? "视频" : "音频"} ${selectedZiyuModel.assetLimits[type] ?? "-"}个`).join("、") : "无需素材"}</span>
+                    <span>参考：{selectedZiyuModel.allowedAssetTypes.length ? selectedZiyuModel.allowedAssetTypes.map((type) => `${type === "image" ? "图片" : type === "video" ? "视频" : "音频"} ${type === "image" ? imageAssetCount : 0}/${selectedZiyuModel.assetLimits[type] ?? "-"}个`).join("、") : "无需素材"}</span>
                   </div> : null}
                 </div>
                 <div className="generator-options">

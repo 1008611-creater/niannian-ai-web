@@ -28,6 +28,17 @@ export async function POST(request: NextRequest) {
       if (!model || !model.modes.includes(mode)) return NextResponse.json({ error: "MODEL_MODE_NOT_ALLOWED" }, { status: 400 });
       if (body.duration && model.allowedDurations.length && !model.allowedDurations.includes(Number.parseInt(String(body.duration), 10))) return NextResponse.json({ error: "DURATION_NOT_ALLOWED" }, { status: 400 });
       if (body.ratio && model.allowedRatios.length && !model.allowedRatios.includes(String(body.ratio))) return NextResponse.json({ error: "RATIO_NOT_ALLOWED" }, { status: 400 });
+      const requestedAssets = body.assets && typeof body.assets === "object" ? body.assets as Record<string, unknown> : {};
+      const assetTypes = ["image", "video", "audio"] as const;
+      if (mode === "t2v" && assetTypes.some((type) => Array.isArray(requestedAssets[type]) && requestedAssets[type].length > 0)) {
+        return NextResponse.json({ error: "TEXT_TO_VIDEO_DOES_NOT_ACCEPT_ASSETS" }, { status: 400 });
+      }
+      for (const type of assetTypes) {
+        const entries = Array.isArray(requestedAssets[type]) ? requestedAssets[type] : [];
+        if (entries.length && !model.allowedAssetTypes.includes(type)) return NextResponse.json({ error: `ASSET_TYPE_NOT_ALLOWED:${type}` }, { status: 400 });
+        const limit = model.assetLimits[type];
+        if (typeof limit === "number" && entries.length > limit) return NextResponse.json({ error: `ASSET_LIMIT_EXCEEDED:${type}` }, { status: 400 });
+      }
     }
     const result = await createZiyuJob({ modelId: typeof body.modelId === "string" ? body.modelId : undefined, mode, prompt, ratio: typeof body.ratio === "string" ? body.ratio : undefined, duration: typeof body.duration === "string" ? body.duration : undefined, assets: body.assets });
     return NextResponse.json(result, { status: 202 });
