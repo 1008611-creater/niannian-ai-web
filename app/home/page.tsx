@@ -587,6 +587,16 @@ export default function HomePage() {
         }
       }
     }
+    const mentionPattern = /@(图片|图|视频|音频)(\d+)/g;
+    for (const match of prompt.matchAll(mentionPattern)) {
+      const mentionType = match[1] === "图片" || match[1] === "图" ? "image" : match[1] === "视频" ? "video" : "audio";
+      const mentionIndex = Number(match[2]);
+      const availableCount = sourceAssets.filter((asset) => asset.type === mentionType).length;
+      if (mentionIndex > availableCount) {
+        const label = mentionType === "image" ? "图片" : mentionType === "video" ? "视频" : "音频";
+        throw new Error(`提示词引用了@${label}${mentionIndex}，但当前只有 ${availableCount} 个${label}素材`);
+      }
+    }
     for (const type of selectedZiyuModel.allowedAssetTypes) {
       const limit = selectedZiyuModel.assetLimits[type] ?? 10;
       if (sourceAssets.filter((asset) => asset.type === type).length > limit) throw new Error(`${type} 参考素材最多 ${limit} 个`);
