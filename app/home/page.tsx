@@ -138,6 +138,8 @@ export default function HomePage() {
   const promptImages = useMemo(() => (Object.entries(assets) as [AssetRole, PendingAsset[]][])
     .flatMap(([role, entries]) => entries.map((asset, index) => ({ role, asset, index })))
     .filter(({ asset }) => asset.type.startsWith("image/")), [assets]);
+  const promptAssets = useMemo(() => (Object.entries(assets) as [AssetRole, PendingAsset[]][])
+    .flatMap(([role, entries]) => entries.map((asset, index) => ({ role, asset, index }))), [assets]);
   const highlightedPrompt = useMemo(() => prompt.split(/(@图片\d+)/g).map((part, index) => /^@图片\d+$/.test(part)
     ? <mark key={`${part}-${index}`}>{part}</mark>
     : <span key={`text-${index}`}>{part}</span>), [prompt]);
@@ -689,9 +691,12 @@ export default function HomePage() {
                   <button className="generator-prompt-library-button" type="button" disabled={!canOpenAssetPicker} aria-label="从素材库添加素材" title={promptAssetsDisabled ? "文生视频模式不能添加素材" : !allowedPickerTypes.length ? "当前渠道无需素材" : !canOpenAssetPicker ? "当前渠道的素材已达到上限" : "从素材库添加素材"} onClick={() => { void openAssetPicker(); }}>
                     <PlusIcon />
                   </button>
-                  {promptImages.map(({ role, asset, index }) => (
-                    <span className="generator-prompt-asset" key={asset.assetId ?? asset.url} title={`插入 @图片${index + 1}：${asset.name}`} onClick={() => insertPromptMention(index)}>
-                      <img src={asset.url} alt={asset.name} />
+                  {promptAssets.map(({ role, asset, index }) => {
+                    const isAudio = asset.type.startsWith("audio/");
+                    const isVideo = asset.type.startsWith("video/");
+                    const imageIndex = promptImages.findIndex((entry) => entry.role === role && entry.index === index);
+                    return <span className={`generator-prompt-asset${isAudio ? " generator-prompt-asset-audio" : ""}`} key={asset.assetId ?? asset.url} title={isAudio ? `音频参考：${asset.name}` : `插入 @图片${imageIndex + 1}：${asset.name}`} onClick={() => { if (!isAudio) insertPromptMention(imageIndex); }}>
+                      {isAudio ? <><span className="generator-prompt-audio-icon">♫</span><b>{asset.name}</b></> : isVideo ? <video src={asset.url} muted playsInline preload="metadata" /> : <img src={asset.url} alt={asset.name} />}
                       <button
                         type="button"
                         aria-label={`移除素材：${asset.name}`}
@@ -704,7 +709,7 @@ export default function HomePage() {
                         ×
                       </button>
                     </span>
-                  ))}
+                  })}
                 </div>
               </div>
 

@@ -990,7 +990,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .generator-prompt-asset img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .generator-prompt-asset button { position: absolute; top: 3px; right: 3px; width: 17px; height: 17px; display: grid; place-items: center; border: 0; border-radius: 4px; background: rgba(8,9,11,.82); color: #fff; cursor: pointer; font: 16px/1 Arial, sans-serif; opacity: 0; transform: scale(.85); transition: opacity .14s ease, transform .14s ease; }
   .generator-prompt-asset:hover button, .generator-prompt-asset:focus-within button { opacity: 1; transform: scale(1); }
-  .generator-prompt-asset button:hover { background: var(--accent); }
+.generator-prompt-asset button:hover { background: var(--accent); }
+.generator-prompt-asset > video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.generator-prompt-asset-audio { width: 132px; display: flex; align-items: center; gap: 7px; padding: 0 24px 0 9px; background: linear-gradient(135deg, rgba(230,117,154,.22), rgba(99,84,148,.2)); }
+.generator-prompt-audio-icon { flex: 0 0 auto; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: #fff; background: rgba(230,117,154,.7); font-size: 16px; line-height: 1; }
+.generator-prompt-asset-audio b { min-width: 0; overflow: hidden; color: #f3dce6; font-size: 10px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
   .generator-three-column .generator-asset-grid { column-gap: 10px; row-gap: 6px; }
   .generator-three-column .generator-reference-group { gap: 3px; }
   .generator-three-column .generator-reference-group-heading b { font-size: 11px; }
