@@ -722,6 +722,35 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .generator-prompt-heading > small { position: static; }
 .generator-prompt-assets { position: relative; left: auto; right: auto; bottom: auto; min-height: 42px; max-width: 100%; margin-top: 2px; overflow-x: auto; }
 
+/* Let long prompts grow the workbench page instead of adding a second scrollbar to the left card. */
+@media (min-width: 821px) {
+  .generator-page:not(.generator-loading):not(:has(.generator-three-column.is-form-fullscreen)) {
+    height: auto;
+    min-height: 100dvh;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .generator-page:not(.generator-loading):not(:has(.generator-three-column.is-form-fullscreen)) .generator-shell {
+    height: auto;
+    min-height: calc(100dvh - 64px);
+    overflow: visible;
+  }
+  .generator-page:not(.generator-loading) .generator-three-column:not(.is-form-fullscreen) {
+    height: auto;
+    min-height: 0;
+    grid-template-rows: auto;
+    align-items: start;
+  }
+  .generator-page:not(.generator-loading) .generator-three-column:not(.is-form-fullscreen) .generator-card {
+    height: auto;
+    min-height: 0;
+  }
+  .generator-page:not(.generator-loading) .generator-three-column:not(.is-form-fullscreen) .generator-form-card .generator-card-body {
+    overflow: visible;
+  }
+}
+
 /* Product channel picker: keep the menu aligned with the compact generator controls. */
 .channel-picker-field { position: relative; z-index: 20; min-width: 0; }
 .channel-picker { position: relative; min-width: 0; }
