@@ -110,6 +110,7 @@ export default function HomePage() {
   const router = useRouter();
   const objectUrls = useRef(new Set<string>());
   const draftHydrated = useRef(false);
+  const assetsHydrated = useRef(false);
   const [user, setUser] = useState<SessionUser | null>();
   const [prompt, setPrompt] = useState("");
   const [ziyuModels, setZiyuModels] = useState<ZiyuModel[]>([]);
@@ -198,8 +199,21 @@ export default function HomePage() {
           .then((payload) => {
             const availableAssets = Array.isArray(payload.assets) ? payload.assets as LibraryAsset[] : [];
             setLibraryAssets(availableAssets);
+            const storedDraft = JSON.parse(window.localStorage.getItem("niannian-generator-draft") || "null");
+            const savedAssetIds = new Set<string>(Object.values(storedDraft?.assets ?? {}).flatMap((entries) => Array.isArray(entries) ? entries.map((entry: { assetId?: string }) => entry.assetId).filter((id): id is string => typeof id === "string") : []));
+            if (savedAssetIds.size) {
+              setAssets((current) => {
+                const restored = { ...current };
+                for (const asset of availableAssets.filter((entry) => savedAssetIds.has(entry.id))) {
+                  const role = asset.role in assetConfig ? asset.role as AssetRole : asset.mimeType.startsWith("audio/") ? "reference_audio" : "scene";
+                  if (!restored[role].some((entry) => entry.assetId === asset.id)) restored[role] = [...restored[role], { assetId: asset.id, name: asset.name, url: asset.previewUrl, type: asset.mimeType, file: null, referenceIntent: assetConfig[role].referenceIntent }];
+                }
+                return restored;
+              });
+            }
             const selectedAssetId = window.localStorage.getItem("niannian-library-selected-asset");
             const asset = availableAssets.find((entry) => entry.id === selectedAssetId);
+            assetsHydrated.current = true;
             if (!asset) return;
             window.localStorage.removeItem("niannian-library-selected-asset");
             setAssets((current) => ({
@@ -210,7 +224,7 @@ export default function HomePage() {
             }));
             setMessage(`已从素材库加入：${asset.name}`);
           })
-          .catch(() => undefined);
+          .catch(() => { assetsHydrated.current = true; });
       })
       .catch(() => router.replace("/login?next=/home"));
 
@@ -246,12 +260,13 @@ export default function HomePage() {
   }, [selectedZiyuModel?.id]);
 
   useEffect(() => {
-    if (!draftHydrated.current) return;
+    if (!draftHydrated.current || !assetsHydrated.current) return;
     const timer = window.setTimeout(() => {
-      window.localStorage.setItem("niannian-generator-draft", JSON.stringify({ prompt, duration, aspectRatio, product }));
+      const savedAssets = Object.fromEntries((Object.entries(assets) as [AssetRole, PendingAsset[]][]).map(([role, entries]) => [role, entries.filter((asset) => asset.assetId).map((asset) => ({ assetId: asset.assetId }))]));
+      window.localStorage.setItem("niannian-generator-draft", JSON.stringify({ prompt, duration, aspectRatio, product, assets: savedAssets }));
     }, 300);
     return () => window.clearTimeout(timer);
-  }, [aspectRatio, duration, product, prompt]);
+  }, [aspectRatio, assets, duration, product, prompt]);
 
   useEffect(() => {
     const textarea = promptRef.current;
@@ -409,7 +424,7 @@ export default function HomePage() {
     [selectedTaskId, tasks],
   );
 
-  async function persistAssetToLibrary(role: AssetRole, file: File) {
+  async function persistAssetToLibrary(role: AssetRole, file: File): Promise<string | null> {
     try {
       let projectId = archiveProjectIdRef.current;
       if (!projectId) {
@@ -431,9 +446,12 @@ export default function HomePage() {
       form.set("file", file);
       const uploadResponse = await fetch(`/api/projects/${encodeURIComponent(projectId)}/assets`, { method: "POST", body: form });
       if (!uploadResponse.ok) throw new Error("ASSET_LIBRARY_UPLOAD_FAILED");
+      const uploadPayload = await uploadResponse.json().catch(() => ({}));
       setMessage("素材已添加，并自动归入“工作台自动素材”分组");
+      return typeof uploadPayload.asset?.id === "string" ? uploadPayload.asset.id : null;
     } catch {
       setMessage("素材已加入当前任务，但自动归档失败，请稍后在素材库重试");
+      return null;
     }
   }
 
@@ -477,7 +495,10 @@ export default function HomePage() {
         [role]: [...current[role], { assetId: null, name: file.name, url, type: file.type, file, referenceIntent: assetConfig[role].referenceIntent }],
       };
     });
-    void persistAssetToLibrary(role, file);
+    void persistAssetToLibrary(role, file).then((assetId) => {
+      if (!assetId) return;
+      setAssets((current) => ({ ...current, [role]: current[role].map((entry) => entry.file === file ? { ...entry, assetId } : entry) }));
+    });
     setMessage("");
     event.target.value = "";
   }
