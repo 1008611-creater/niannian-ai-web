@@ -8,8 +8,6 @@ import { MenuIcon } from "./Icons";
 import { MineralFlowBackground } from "./MineralFlowBackground";
 
 const navItems = [
-  { href: "/projects", label: "项目" },
-  { href: "/tasks", label: "任务" },
   { href: "/credits", label: "积分" },
   { href: "/assets", label: "素材库" },
   { href: "/showcase", label: "真实作品" },
