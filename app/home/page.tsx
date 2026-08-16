@@ -11,6 +11,7 @@ const assetConfig = {
   product: { title: "关键资产图", accept: "image/*", referenceIntent: "asset_lock" },
   scene: { title: "场景图", accept: "image/*", referenceIntent: "scene" },
   reference_video: { title: "视频参考（可选）", accept: "video/*", referenceIntent: "overall_expression" },
+  reference_audio: { title: "音频参考（可选）", accept: "audio/*", referenceIntent: "audio_sync" },
 } as const;
 
 type AssetRole = keyof typeof assetConfig;
@@ -81,8 +82,9 @@ const emptyAssets: Record<AssetRole, PendingAsset[]> = {
   product: [],
   scene: [],
   reference_video: [],
+  reference_audio: [],
 };
-const assetRoleNames = { character: "人物图", product: "关键资产图", scene: "场景图" };
+const assetRoleNames = { character: "人物图", product: "关键资产图", scene: "场景图", reference_audio: "音频参考" };
 
 function taskStatusLabel(status: string) {
   const labels: Record<string, string> = {
@@ -199,7 +201,7 @@ export default function HomePage() {
             window.localStorage.removeItem("niannian-library-selected-asset");
             setAssets((current) => ({
               ...current,
-              [asset.role]: current[asset.role as AssetRole].some((entry) => entry.assetId === asset.id)
+                [asset.role]: current[asset.role as AssetRole].some((entry) => entry.assetId === asset.id)
                 ? current[asset.role as AssetRole]
                 : [...current[asset.role as AssetRole], { assetId: asset.id, name: asset.name, url: asset.previewUrl, type: asset.mimeType, file: null, referenceIntent: assetConfig[asset.role as AssetRole].referenceIntent }],
             }));
@@ -306,8 +308,8 @@ export default function HomePage() {
   const assetCountByType = useMemo(() => ({
     image: assets.character.length + assets.product.length + assets.scene.length,
     video: assets.reference_video.length,
-    audio: 0,
-  }), [assets.character.length, assets.product.length, assets.scene.length, assets.reference_video.length]);
+    audio: assets.reference_audio.length,
+  }), [assets.character.length, assets.product.length, assets.scene.length, assets.reference_video.length, assets.reference_audio.length]);
 
   function assetType(asset: LibraryAsset | PendingAsset): "image" | "video" | "audio" {
     const mimeType = "mimeType" in asset ? asset.mimeType : asset.type;
@@ -319,13 +321,13 @@ export default function HomePage() {
 
   const pickerAssets = useMemo(() => libraryProjects.find((group) => group.id === activeAssetProjectId)?.assets ?? libraryAssets.filter((asset) => !asset.hidden), [activeAssetProjectId, libraryAssets, libraryProjects]);
   const allowedPickerTypes = selectedZiyuModel?.allowedAssetTypes ?? (ziyuProductSelected ? [] : ["image"]);
-  const pickerAssetCount = (type: "image" | "video" | "audio") => assets.character.concat(assets.product, assets.scene, assets.reference_video).filter((asset) => assetType(asset) === type).length;
+  const pickerAssetCount = (type: "image" | "video" | "audio") => assets.character.concat(assets.product, assets.scene, assets.reference_video, assets.reference_audio).filter((asset) => assetType(asset) === type).length;
   const pickerAssetLimit = (type: "image" | "video" | "audio") => selectedZiyuModel?.assetLimits[type] ?? (type === "image" && !ziyuProductSelected ? 12 : 0);
   const canOpenAssetPicker = !promptAssetsDisabled && allowedPickerTypes.some((type) => pickerAssetCount(type) < pickerAssetLimit(type));
 
   function pickerRoleFor(asset: LibraryAsset, targetType: "image" | "video" | "audio") {
     if (targetType === "video") return "reference_video" as AssetRole;
-    if (targetType === "audio") return null;
+    if (targetType === "audio") return "reference_audio" as AssetRole;
     return asset.role === "character" || asset.role === "product" || asset.role === "scene" ? asset.role : "scene";
   }
 
@@ -379,10 +381,6 @@ export default function HomePage() {
       return;
     }
     const role = pickerRoleFor(asset, type);
-    if (!role) {
-      setMessage("音频素材请直接上传到对应投放区域");
-      return;
-    }
     setAssets((current) => {
       if (current[role].some((entry) => entry.assetId === asset.id)) return current;
       return {
@@ -416,9 +414,9 @@ export default function HomePage() {
     }
     const file = event.target.files?.[0];
     if (!file) return;
-    const expectedType = role === "reference_video" ? file.type.startsWith("video/") : file.type.startsWith("image/");
+    const expectedType = role === "reference_video" ? file.type.startsWith("video/") : role === "reference_audio" ? file.type.startsWith("audio/") : file.type.startsWith("image/");
     if (!expectedType) {
-      setMessage(role === "reference_video" ? "视频参考需要上传视频文件" : "人物、关键资产和场景需要上传图片文件");
+      setMessage(role === "reference_video" ? "视频参考需要上传视频文件" : role === "reference_audio" ? "音频参考需要上传音频文件" : "人物、关键资产和场景需要上传图片文件");
       event.target.value = "";
       return;
     }
@@ -428,7 +426,7 @@ export default function HomePage() {
       return;
     }
 
-    const uploadedType = role === "reference_video" ? "video" : "image";
+    const uploadedType = role === "reference_video" ? "video" : role === "reference_audio" ? "audio" : "image";
     if (selectedZiyuModel && !selectedZiyuModel.allowedAssetTypes.includes(uploadedType)) {
       setMessage(`当前渠道不支持${uploadedType === "video" ? "视频" : "图片"}参考素材`);
       event.target.value = "";
@@ -436,7 +434,7 @@ export default function HomePage() {
     }
     const typeLimit = selectedZiyuModel?.assetLimits[uploadedType] ?? (ziyuProductSelected ? 0 : 12);
     if (assetCountByType[uploadedType] >= typeLimit) {
-      setMessage(`当前渠道最多添加 ${typeLimit} 个${uploadedType === "video" ? "视频" : "图片"}素材`);
+      setMessage(`当前渠道最多添加 ${typeLimit} 个${uploadedType === "video" ? "视频" : uploadedType === "audio" ? "音频" : "图片"}素材`);
       event.target.value = "";
       return;
     }
@@ -470,9 +468,11 @@ export default function HomePage() {
     setAspectRatio(job.ratio ?? "9:16");
     setDuration("15 秒");
     if (job.assets) {
-      const nextAssets: Record<AssetRole, PendingAsset[]> = { character: [], product: [], scene: [], reference_video: [] };
+      const nextAssets: Record<AssetRole, PendingAsset[]> = { character: [], product: [], scene: [], reference_video: [], reference_audio: [] };
       const images = job.assets.image ?? [];
+      const audio = job.assets.audio ?? [];
       nextAssets.scene = images.map((asset, index) => ({ assetId: null, name: `复用图片${index + 1}`, url: asset.url, type: asset.type ?? "image/*", file: null, referenceIntent: assetConfig.scene.referenceIntent }));
+      nextAssets.reference_audio = audio.map((asset, index) => ({ assetId: null, name: `复用音频${index + 1}`, url: asset.url, type: asset.type ?? "audio/*", file: null, referenceIntent: assetConfig.reference_audio.referenceIntent }));
       setAssets(nextAssets);
     }
     setMessage("已复用历史任务的提示词和参考素材，可直接调整后提交。");
@@ -487,7 +487,7 @@ export default function HomePage() {
       const response = await fetch("/library/assets", { cache: "no-store" });
       const payload = await response.json().catch(() => ({ assets: [] }));
       const available = Array.isArray(payload.assets) ? payload.assets as LibraryAsset[] : [];
-      const nextAssets: Record<AssetRole, PendingAsset[]> = { character: [], product: [], scene: [], reference_video: [] };
+      const nextAssets: Record<AssetRole, PendingAsset[]> = { character: [], product: [], scene: [], reference_video: [], reference_audio: [] };
       for (const asset of available.filter((entry) => task.assetIds.includes(entry.id))) {
         const role = asset.role in assetConfig ? asset.role as AssetRole : "reference_video";
         nextAssets[role].push({ assetId: asset.id, name: asset.name, url: asset.previewUrl, type: asset.mimeType, file: null, referenceIntent: assetConfig[role].referenceIntent });
@@ -842,7 +842,8 @@ export default function HomePage() {
                   const limit = pickerAssetLimit(typed);
                   const count = pickerAssetCount(typed);
                   const label = typed === "image" ? "图片参考" : typed === "video" ? "视频参考" : "音频参考";
-                  return <div className={`asset-drop-zone${count >= limit ? " is-full" : ""}`} key={typed} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); const asset = pickerAssets.find((entry) => entry.id === event.dataTransfer.getData("text/plain")); if (asset) addLibraryAsset(asset, typed); }}><span>{label}</span><b>{count} / {limit}</b><small>{count >= limit ? "已达到渠道上限" : `将${label}拖到这里`}</small></div>;
+                  const uploadRole = typed === "video" ? "reference_video" : typed === "audio" ? "reference_audio" : "scene";
+                  return <div className={`asset-drop-zone${count >= limit ? " is-full" : ""}`} key={typed} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); const asset = pickerAssets.find((entry) => entry.id === event.dataTransfer.getData("text/plain")); if (asset) addLibraryAsset(asset, typed); }}><span>{label}</span><b>{count} / {limit}</b><small>{count >= limit ? "已达到渠道上限" : `将${label}拖到这里`}</small><label className="asset-drop-zone-upload">添加{typed === "video" ? "视频" : typed === "audio" ? "音频" : "图片"}<input type="file" accept={typed === "video" ? "video/*" : typed === "audio" ? "audio/*" : "image/*"} disabled={count >= limit} onChange={(event) => selectAsset(uploadRole, event)} /></label></div>;
                 })}
               </div>
               {pickerAssets.length ? <div className="asset-picker-grid">
