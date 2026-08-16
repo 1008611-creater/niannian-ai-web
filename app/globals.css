@@ -722,6 +722,25 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .generator-prompt-heading > small { position: static; }
 .generator-prompt-assets { position: relative; left: auto; right: auto; bottom: auto; min-height: 42px; max-width: 100%; margin-top: 2px; overflow-x: auto; }
 
+/* Product channel picker: keep the menu aligned with the compact generator controls. */
+.channel-picker-field { position: relative; z-index: 20; min-width: 0; }
+.channel-picker { position: relative; min-width: 0; }
+.channel-picker.is-open { z-index: 40; }
+.channel-picker-trigger { display: flex; width: 100%; min-height: 40px; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid var(--line-strong); border-radius: 6px; background: #121316; color: var(--text); padding: 0 11px; text-align: left; cursor: pointer; }
+.channel-picker-trigger:hover, .channel-picker.is-open .channel-picker-trigger { border-color: var(--accent); background: var(--accent-soft); }
+.channel-picker-trigger > span { min-width: 0; overflow: hidden; color: var(--text); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.channel-picker-trigger svg { flex: 0 0 auto; width: 15px; height: 15px; color: var(--muted); transition: transform .18s ease; }
+.channel-picker.is-open .channel-picker-trigger svg { transform: rotate(180deg); color: var(--accent); }
+.channel-picker-menu { position: absolute; right: 0; bottom: calc(100% + 6px); left: 0; z-index: 50; max-height: 280px; overflow-y: auto; padding: 5px; border: 1px solid var(--line-strong); border-radius: 7px; background: #17181c; box-shadow: 0 18px 44px rgba(0,0,0,.5); }
+.channel-picker-option { display: grid; width: 100%; gap: 3px; border: 0; border-radius: 5px; background: transparent; color: var(--text); padding: 9px 10px; text-align: left; cursor: pointer; }
+.channel-picker-option:hover, .channel-picker-option.is-selected { background: var(--accent-soft); color: #fff; }
+.channel-picker-option > span { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.channel-picker-option small { overflow: hidden; color: var(--muted); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.channel-picker-option.is-selected small { color: #f2b5c5; }
+.channel-picker-empty { padding: 12px 10px; color: var(--muted); font-size: 11px; }
+.channel-picker-menu::-webkit-scrollbar { width: 8px; }
+.channel-picker-menu::-webkit-scrollbar-thumb { border: 2px solid transparent; border-radius: 8px; background: rgba(230,117,154,.58); background-clip: padding-box; }
+
 /* Refined prompt editor: a quiet writing surface with a deliberate scroll track. */
 .generator-prompt-editor { overflow: hidden; border: 1px solid rgba(218,207,226,.17); border-radius: 10px; background: linear-gradient(145deg, rgba(28,29,35,.84), rgba(13,14,18,.92)); box-shadow: inset 0 1px 0 rgba(255,255,255,.045), 0 10px 24px rgba(0,0,0,.16); }
 .generator-prompt-editor:focus-within { border-color: rgba(230,117,154,.72); box-shadow: 0 0 0 3px rgba(230,117,154,.1), inset 0 1px 0 rgba(255,255,255,.055); }

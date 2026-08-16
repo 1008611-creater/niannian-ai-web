@@ -16,4 +16,5 @@ export function CloseIcon(props: IconProps) { return <IconBase {...props}><path 
 export function DownloadIcon(props: IconProps) { return <IconBase {...props}><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" /></IconBase>; }
 export function ExpandIcon(props: IconProps) { return <IconBase {...props}><path d="M8 4H4v4m12-4h4v4M8 20H4v-4m16 4h-4v-4" /></IconBase>; }
 export function ChevronLeftIcon(props: IconProps) { return <IconBase {...props}><path d="m14 6-6 6 6 6" /></IconBase>; }
+export function ChevronDownIcon(props: IconProps) { return <IconBase {...props}><path d="m6 9 6 6 6-6" /></IconBase>; }
 export function PlusIcon(props: IconProps) { return <IconBase {...props}><path d="M12 5v14M5 12h14" /></IconBase>; }

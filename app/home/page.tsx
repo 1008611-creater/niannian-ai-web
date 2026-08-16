@@ -3,7 +3,7 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SiteHeader } from "@/components/SiteHeader";
-import { ChevronLeftIcon, ClockIcon, CloseIcon, ExpandIcon, PlusIcon, SparkIcon, UploadIcon } from "@/components/Icons";
+import { ChevronDownIcon, ChevronLeftIcon, ClockIcon, CloseIcon, ExpandIcon, PlusIcon, SparkIcon, UploadIcon } from "@/components/Icons";
 import { formatDateTime } from "@/lib/date-display";
 
 const assetConfig = {
@@ -118,6 +118,7 @@ export default function HomePage() {
   const [duration, setDuration] = useState("15 秒");
   const [aspectRatio, setAspectRatio] = useState("9:16");
   const [product, setProduct] = useState<StudioProduct>("");
+  const [productMenuOpen, setProductMenuOpen] = useState(false);
   const [assets, setAssets] = useState<Record<AssetRole, PendingAsset[]>>(emptyAssets);
   const [libraryAssets, setLibraryAssets] = useState<LibraryAsset[]>([]);
   const [libraryProjects, setLibraryProjects] = useState<AssetProjectGroup[]>([]);
@@ -766,10 +767,37 @@ export default function HomePage() {
 
               <div className="generator-create-controls">
                 <div className="generator-options" aria-label="产品">
-                  <label><span>产品</span><select value={product} onChange={(event) => setProduct(event.target.value as StudioProduct)}>
-                    {!product ? <option value="">正在读取可用渠道</option> : null}
-                    {ziyuModels.length ? <optgroup label="智能渠道">{ziyuModels.map((model) => <option key={model.id} value={`ziyu:${model.id}`}>{model.name}</option>)}</optgroup> : null}
-                  </select></label>
+                  <label className="channel-picker-field"><span>产品</span>
+                    <div className={`channel-picker${productMenuOpen ? " is-open" : ""}`}>
+                      <button
+                        type="button"
+                        className="channel-picker-trigger"
+                        aria-haspopup="listbox"
+                        aria-expanded={productMenuOpen}
+                        onClick={() => setProductMenuOpen((current) => !current)}
+                      >
+                        <span>{selectedZiyuModel?.name ?? (product ? product.replace(/^ziyu:/, "") : ziyuModels.length ? "选择渠道" : "正在读取可用渠道")}</span>
+                        <ChevronDownIcon aria-hidden="true" />
+                      </button>
+                      {productMenuOpen ? <div className="channel-picker-menu" role="listbox" aria-label="产品渠道">
+                        {ziyuModels.map((model) => {
+                          const value = `ziyu:${model.id}`;
+                          return <button
+                            type="button"
+                            role="option"
+                            aria-selected={product === value}
+                            className={`channel-picker-option${product === value ? " is-selected" : ""}`}
+                            key={model.id}
+                            onClick={() => { setProduct(value); setProductMenuOpen(false); }}
+                          >
+                            <span>{model.name}</span>
+                            <small>{model.modes.map((item) => item === "i2v" ? "图生视频" : item === "t2v" ? "文生视频" : "文生图").join("、")}</small>
+                          </button>;
+                        })}
+                        {!ziyuModels.length ? <div className="channel-picker-empty">正在读取可用渠道</div> : null}
+                      </div> : null}
+                    </div>
+                  </label>
                   {ziyuProductSelected && selectedZiyuModel ? <div className="generator-channel-contract" aria-label="渠道规格">
                     <span>模式：{selectedZiyuModel.modes.map((item) => item === "i2v" ? "图生视频" : item === "t2v" ? "文生视频" : "文生图").join("、")}</span>
                     <span>费用：{customerZiyuCost ?? "--"} 积分 / 次</span>
