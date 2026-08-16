@@ -35,11 +35,13 @@ type VideoTask = {
   outputUrl: string | null;
   executionNotice: string | null;
   durationSeconds: number;
+  aspectRatio: string;
   creditCost: number;
   thumbnailUrl: string | null;
   createdAt: string;
+  assetIds: string[];
 };
-type ZiyuJobState = { id: string; status: string; previewUrl: string | null; failureReason: string | null; message: string | null; prompt?: string; model?: string; createdAt?: string };
+type ZiyuJobState = { id: string; status: string; previewUrl: string | null; failureReason: string | null; message: string | null; prompt?: string; model?: string; modelId?: string; mode?: ZiyuMode; ratio?: string; createdAt?: string; assets?: Record<string, Array<{ url: string; type?: string }>> };
 
 function keepFreshMediaUrl(previous: VideoTask | undefined, next: VideoTask) {
   if (!previous?.outputUrl || !next.outputUrl || previous.outputUrl === next.outputUrl) return next;
@@ -260,7 +262,7 @@ export default function HomePage() {
     if (!user || ziyuJob) return;
     fetch("/api/ziyu/jobs?limit=20", { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then((payload) => {
       const jobs = Array.isArray(payload?.jobs) ? payload.jobs : [];
-      const normalized = jobs.filter((job: { id?: string }) => job.id).map((job: ZiyuJobState) => ({ id: job.id, status: job.status ?? "processing", previewUrl: job.previewUrl ?? null, failureReason: job.failureReason ?? null, message: job.message ?? null, prompt: job.prompt, model: job.model, createdAt: job.createdAt }));
+      const normalized = jobs.filter((job: { id?: string }) => job.id).map((job: ZiyuJobState) => ({ id: job.id, status: job.status ?? "processing", previewUrl: job.previewUrl ?? null, failureReason: job.failureReason ?? null, message: job.message ?? null, prompt: job.prompt, model: job.model, modelId: job.modelId, mode: job.mode, ratio: job.ratio, assets: job.assets, createdAt: job.createdAt }));
       if (normalized.length) { setZiyuHistory(normalized); setZiyuJob(normalized[0]); }
     }).catch(() => undefined);
   }, [user, ziyuJob]);
@@ -274,7 +276,7 @@ export default function HomePage() {
       const payload = await response.json().catch(() => ({}));
       const job = payload.job;
       if (!cancelled && job?.id) {
-        const nextJob = { id: job.id, status: job.status ?? "processing", previewUrl: job.previewUrl ?? null, failureReason: job.failureReason ?? null, message: job.message ?? null, prompt: job.prompt, model: job.model, createdAt: job.createdAt };
+        const nextJob = { id: job.id, status: job.status ?? "processing", previewUrl: job.previewUrl ?? null, failureReason: job.failureReason ?? null, message: job.message ?? null, prompt: job.prompt, model: job.model, modelId: job.modelId, mode: job.mode, ratio: job.ratio, assets: job.assets, createdAt: job.createdAt };
         setZiyuJob(nextJob);
         setZiyuHistory((current) => [nextJob, ...current.filter((item) => item.id !== nextJob.id)]);
         if (job.status === "completed") setMessage("视频已生成，可在预览区播放或下载。");
@@ -416,6 +418,43 @@ export default function HomePage() {
     });
   }
 
+  async function reuseZiyuJob(job: ZiyuJobState) {
+    setPrompt(job.prompt ?? "");
+    setProduct(job.modelId && ziyuModels.some((model) => model.id === job.modelId) ? `ziyu:${job.modelId}` as StudioProduct : product);
+    if (job.mode) setZiyuMode(job.mode);
+    setAspectRatio(job.ratio ?? "9:16");
+    setDuration("15 秒");
+    if (job.assets) {
+      const nextAssets: Record<AssetRole, PendingAsset[]> = { character: [], product: [], scene: [], reference_video: [] };
+      const images = job.assets.image ?? [];
+      nextAssets.scene = images.map((asset, index) => ({ assetId: null, name: `复用图片${index + 1}`, url: asset.url, type: asset.type ?? "image/*", file: null, referenceIntent: assetConfig.scene.referenceIntent }));
+      setAssets(nextAssets);
+    }
+    setMessage("已复用历史任务的提示词和参考素材，可直接调整后提交。");
+  }
+
+  async function reuseVideoTask(task: VideoTask) {
+    setProduct("video_s");
+    setPrompt(task.prompt);
+    setAspectRatio(task.aspectRatio || "9:16");
+    setDuration("15 秒");
+    if (task.assetIds?.length) {
+      const response = await fetch("/library/assets", { cache: "no-store" });
+      const payload = await response.json().catch(() => ({ assets: [] }));
+      const available = Array.isArray(payload.assets) ? payload.assets as LibraryAsset[] : [];
+      const nextAssets: Record<AssetRole, PendingAsset[]> = { character: [], product: [], scene: [], reference_video: [] };
+      for (const asset of available.filter((entry) => task.assetIds.includes(entry.id))) {
+        nextAssets[asset.role].push({ assetId: asset.id, name: asset.name, url: asset.previewUrl, type: asset.mimeType, file: null, referenceIntent: assetConfig[asset.role].referenceIntent });
+      }
+      setAssets(nextAssets);
+      if (nextAssets.character.length + nextAssets.product.length + nextAssets.scene.length < task.assetIds.length) setMessage("提示词已复用，部分历史素材已不在素材库中。");
+      else setMessage("已复用历史任务的提示词和参考素材，可直接调整后提交。");
+    } else {
+      setAssets(emptyAssets);
+      setMessage("已复用历史任务的提示词，可直接调整后提交。");
+    }
+  }
+
   async function assetData(asset: PendingAsset) {
     if (asset.file) return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
@@ -462,7 +501,7 @@ export default function HomePage() {
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || "ZIYU_JOB_CREATE_FAILED");
     if (payload.job?.id) {
-      const nextJob = { id: payload.job.id, status: payload.job.status ?? "queued", previewUrl: payload.job.previewUrl ?? null, failureReason: null, message: null, prompt: prompt.trim(), model: selectedZiyuModel.name, createdAt: new Date().toISOString() };
+      const nextJob = { id: payload.job.id, status: payload.job.status ?? "queued", previewUrl: payload.job.previewUrl ?? null, failureReason: null, message: null, prompt: prompt.trim(), model: selectedZiyuModel.name, modelId: selectedZiyuModel.id, mode: ziyuMode, ratio: aspectRatio, assets: uploaded, createdAt: new Date().toISOString() };
       setZiyuJob(nextJob);
       setZiyuHistory((current) => [nextJob, ...current.filter((item) => item.id !== nextJob.id)]);
     }
@@ -706,7 +745,7 @@ export default function HomePage() {
             </header>
             {ziyuHistory.length || tasks.length ? (
               <div className="generator-task-list">
-                {ziyuHistory.map((job) => <button type="button" key={`ziyu-${job.id}`} className={`generator-task-record ziyu-history-record${job.previewUrl ? " is-previewable" : ""}`} disabled={!job.previewUrl} onClick={() => setZiyuJob(job)}>
+                {ziyuHistory.map((job) => <button type="button" key={`ziyu-${job.id}`} className={`generator-task-record ziyu-history-record${job.previewUrl ? " is-previewable" : ""}`} aria-label="复用智能渠道任务" title="复用此任务" onClick={() => { void reuseZiyuJob(job); }}>
                   <span className="generator-task-content"><span className="generator-task-head"><b>智能渠道任务</b><em>{job.status === "completed" ? "已完成" : job.status === "failed" ? "失败" : "处理中"}</em></span><span className="generator-task-prompt">{job.prompt || job.id}</span><small>{job.model || "智能渠道"} · {job.id}</small></span>
                 </button>)}
                 {tasks.map((task) => {
@@ -716,9 +755,9 @@ export default function HomePage() {
                     type="button"
                     key={task.id}
                     className={`generator-task-record${canPreviewTask ? " is-previewable" : ""}${isSelected ? " is-selected" : ""}`}
-                    disabled={!canPreviewTask}
-                    aria-label={canPreviewTask ? "在预览区播放成片" : undefined}
-                    onClick={() => setSelectedTaskId(task.id)}
+                    aria-label="复用历史任务"
+                    title="复用此任务"
+                    onClick={() => { void reuseVideoTask(task); }}
                   >
                     {task.thumbnailUrl ? <img className="generator-task-thumbnail" src={task.thumbnailUrl} alt="任务素材" /> : null}
                     <span className="generator-task-content">

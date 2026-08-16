@@ -850,6 +850,7 @@ export async function publicVideoTask(task: VideoTaskRecord, options: { mimoRead
     aspectRatio: task.aspect_ratio,
     creditCost: creditSpent,
     thumbnailUrl: thumbnailAssetId ? `/api/assets?id=${encodeURIComponent(thumbnailAssetId)}` : null,
+    assetIds: manifest.map((asset) => typeof asset.id === "string" ? asset.id : "").filter(Boolean),
     status: task.channel === "mimo" && task.status === "approved_for_execution" && options.mimoReadyToClaim === false
       ? "queued"
       : publicTaskStatus(task.status, task.blocker),
