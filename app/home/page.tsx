@@ -303,18 +303,11 @@ export default function HomePage() {
     };
   }, []);
 
-  const readyAssetCount = useMemo(
-    () => Object.values(assets).reduce((total, entries) => total + entries.length, 0),
-    [assets],
-  );
-  const imageAssetCount = useMemo(
-    () => assets.character.length + assets.product.length + assets.scene.length,
-    [assets.character.length, assets.product.length, assets.scene.length],
-  );
-  const imageAssetLimit = selectedZiyuModel?.assetLimits.image ?? (ziyuProductSelected ? 0 : 12);
-  const imageAssetsAllowed = !ziyuProductSelected || Boolean(selectedZiyuModel?.allowedAssetTypes.includes("image"));
-  const imageAssetLimitReached = imageAssetCount >= imageAssetLimit;
-  const canAddImageAsset = !promptAssetsDisabled && imageAssetsAllowed && !imageAssetLimitReached;
+  const assetCountByType = useMemo(() => ({
+    image: assets.character.length + assets.product.length + assets.scene.length,
+    video: assets.reference_video.length,
+    audio: 0,
+  }), [assets.character.length, assets.product.length, assets.scene.length, assets.reference_video.length]);
 
   function assetType(asset: LibraryAsset | PendingAsset): "image" | "video" | "audio" {
     const mimeType = "mimeType" in asset ? asset.mimeType : asset.type;
@@ -328,6 +321,7 @@ export default function HomePage() {
   const allowedPickerTypes = selectedZiyuModel?.allowedAssetTypes ?? (ziyuProductSelected ? [] : ["image"]);
   const pickerAssetCount = (type: "image" | "video" | "audio") => assets.character.concat(assets.product, assets.scene, assets.reference_video).filter((asset) => assetType(asset) === type).length;
   const pickerAssetLimit = (type: "image" | "video" | "audio") => selectedZiyuModel?.assetLimits[type] ?? (type === "image" && !ziyuProductSelected ? 12 : 0);
+  const canOpenAssetPicker = !promptAssetsDisabled && allowedPickerTypes.some((type) => pickerAssetCount(type) < pickerAssetLimit(type));
 
   function pickerRoleFor(asset: LibraryAsset, targetType: "image" | "video" | "audio") {
     if (targetType === "video") return "reference_video" as AssetRole;
@@ -384,10 +378,6 @@ export default function HomePage() {
       setMessage(`当前渠道最多添加 ${limit} 个${type === "image" ? "图片" : type === "video" ? "视频" : "音频"}素材`);
       return;
     }
-    if (!ziyuProductSelected && readyAssetCount >= 12) {
-      setMessage("一次任务最多添加 12 份参考素材，请先移除不需要的素材");
-      return;
-    }
     const role = pickerRoleFor(asset, type);
     if (!role) {
       setMessage("音频素材请直接上传到对应投放区域");
@@ -438,8 +428,15 @@ export default function HomePage() {
       return;
     }
 
-    if (readyAssetCount >= 12) {
-      setMessage("一次任务最多添加 12 份参考素材，请移除不需要的补充参考后再上传");
+    const uploadedType = role === "reference_video" ? "video" : "image";
+    if (selectedZiyuModel && !selectedZiyuModel.allowedAssetTypes.includes(uploadedType)) {
+      setMessage(`当前渠道不支持${uploadedType === "video" ? "视频" : "图片"}参考素材`);
+      event.target.value = "";
+      return;
+    }
+    const typeLimit = selectedZiyuModel?.assetLimits[uploadedType] ?? (ziyuProductSelected ? 0 : 12);
+    if (assetCountByType[uploadedType] >= typeLimit) {
+      setMessage(`当前渠道最多添加 ${typeLimit} 个${uploadedType === "video" ? "视频" : "图片"}素材`);
       event.target.value = "";
       return;
     }
@@ -689,7 +686,7 @@ export default function HomePage() {
                   </div> : null}
                 </div>
                 <div className={`generator-prompt-assets${promptAssetsDisabled ? " is-disabled" : ""}`} aria-disabled={promptAssetsDisabled}>
-                  <button className="generator-prompt-library-button" type="button" disabled={!canAddImageAsset} aria-label="从素材库添加图片素材" title={promptAssetsDisabled ? "文生视频模式不能添加素材" : !imageAssetsAllowed ? "当前渠道不支持图片素材" : imageAssetLimitReached ? `当前渠道最多 ${imageAssetLimit} 张图片素材` : "从素材库添加图片素材"} onClick={() => { void openAssetPicker(); }}>
+                  <button className="generator-prompt-library-button" type="button" disabled={!canOpenAssetPicker} aria-label="从素材库添加素材" title={promptAssetsDisabled ? "文生视频模式不能添加素材" : !allowedPickerTypes.length ? "当前渠道无需素材" : !canOpenAssetPicker ? "当前渠道的素材已达到上限" : "从素材库添加素材"} onClick={() => { void openAssetPicker(); }}>
                     <PlusIcon />
                   </button>
                   {promptImages.map(({ role, asset, index }) => (
@@ -720,7 +717,7 @@ export default function HomePage() {
                   {ziyuProductSelected && selectedZiyuModel ? <div className="generator-channel-contract" aria-label="渠道规格">
                     <span>模式：{selectedZiyuModel.modes.map((item) => item === "i2v" ? "图生视频" : item === "t2v" ? "文生视频" : "文生图").join("、")}</span>
                     <span>费用：{customerZiyuCost ?? "--"} 积分 / 次</span>
-                    <span>参考：{selectedZiyuModel.allowedAssetTypes.length ? selectedZiyuModel.allowedAssetTypes.map((type) => `${type === "image" ? "图片" : type === "video" ? "视频" : "音频"} ${type === "image" ? imageAssetCount : 0}/${selectedZiyuModel.assetLimits[type] ?? "-"}个`).join("、") : "无需素材"}</span>
+                    <span>参考：{selectedZiyuModel.allowedAssetTypes.length ? selectedZiyuModel.allowedAssetTypes.map((type) => `${type === "image" ? "图片" : type === "video" ? "视频" : "音频"} ${assetCountByType[type]}/${selectedZiyuModel.assetLimits[type] ?? "-"}个`).join("、") : "无需素材"}</span>
                   </div> : null}
                 </div>
                 <div className="generator-options">
