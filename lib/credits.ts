@@ -21,6 +21,16 @@ const automaticCosts: Record<number, number> = {
 const manualCosts: Record<number, number> = automaticCosts;
 const ldxpPackages = [100, 300, 500, 1000] as const;
 const rechargeStatuses = ["pending", "approved", "rejected"] as const;
+const channelCreditMultiplier = 1.5;
+
+function customerCosts(costs: Record<number, number>) {
+  return Object.fromEntries(
+    Object.entries(costs).map(([duration, cost]) => [duration, Math.ceil(cost * channelCreditMultiplier)]),
+  ) as Record<number, number>;
+}
+
+const customerAutomaticCosts = customerCosts(automaticCosts);
+const customerManualCosts = customerCosts(manualCosts);
 
 type WalletRow = { balance: number | string };
 type LedgerRow = {
@@ -55,7 +65,7 @@ export function validServiceMode(value: unknown): ServiceMode | null {
 }
 
 export function taskCreditCost(serviceMode: ServiceMode, durationSeconds: number) {
-  const costs = serviceMode === "manual" ? manualCosts : automaticCosts;
+  const costs = serviceMode === "manual" ? customerManualCosts : customerAutomaticCosts;
   const cost = costs[durationSeconds];
   if (!Number.isInteger(cost) || cost <= 0) throw new Error("CREDIT_QUOTE_INVALID");
   return cost;
@@ -64,10 +74,10 @@ export function taskCreditCost(serviceMode: ServiceMode, durationSeconds: number
 export function creditPricing() {
   const shopUrl = process.env.LDXP_SHOP_URL?.trim() || null;
   return {
-    automatic: automaticCosts,
-    manual: manualCosts,
+    automatic: customerAutomaticCosts,
+    manual: customerManualCosts,
     recharge: {
-      yuanPerCredit: 0.1,
+      yuanPerCredit: 0.01,
       packages: ldxpPackages,
       fulfillment: "ldxp_card_code" as const,
       shopUrl,
