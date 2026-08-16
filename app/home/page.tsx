@@ -58,7 +58,7 @@ function keepFreshMediaUrl(previous: VideoTask | undefined, next: VideoTask) {
   }
   return next;
 }
-type StudioProduct = "video_s" | "video_smini" | "image_g";
+type StudioProduct = string;
 type ZiyuMode = "i2v" | "t2v" | "t2i";
 type ZiyuModel = {
   id: string; name: string; modes: ZiyuMode[]; allowedDurations: number[]; allowedRatios: string[];
@@ -113,7 +113,7 @@ export default function HomePage() {
   const [ziyuMode, setZiyuMode] = useState<ZiyuMode>("i2v");
   const [duration, setDuration] = useState("15 秒");
   const [aspectRatio, setAspectRatio] = useState("9:16");
-  const [product, setProduct] = useState<StudioProduct>("video_s");
+  const [product, setProduct] = useState<StudioProduct>("");
   const [assets, setAssets] = useState<Record<AssetRole, PendingAsset[]>>(emptyAssets);
   const [libraryAssets, setLibraryAssets] = useState<LibraryAsset[]>([]);
   const [showAssetPicker, setShowAssetPicker] = useState(false);
@@ -179,7 +179,11 @@ export default function HomePage() {
         loadTasks().catch(() => undefined);
         loadCredits().catch(() => undefined);
         fetch("/api/providers", { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then((payload) => {
-          setZiyuModels(Array.isArray(payload?.ziyu?.models) ? payload.ziyu.models as ZiyuModel[] : []);
+          const models = Array.isArray(payload?.ziyu?.models) ? payload.ziyu.models as ZiyuModel[] : [];
+          setZiyuModels(models);
+          setProduct((current) => current.startsWith("ziyu:") && models.some((model) => current === `ziyu:${model.id}`)
+            ? current
+            : models[0] ? `ziyu:${models[0].id}` : "");
         }).catch(() => undefined);
       fetch("/library/assets", { cache: "no-store" })
           .then(async (response) => response.ok ? response.json() : { assets: [] })
@@ -209,7 +213,7 @@ export default function HomePage() {
         setPrompt(draft.prompt ?? "");
         setDuration("15 秒");
         setAspectRatio(draft.aspectRatio ?? "9:16");
-        setProduct(draft.product ?? "video_s");
+        setProduct(typeof draft.product === "string" && draft.product.startsWith("ziyu:") ? draft.product : "");
       } catch {
         window.localStorage.removeItem("niannian-generator-draft");
       }
@@ -435,7 +439,7 @@ export default function HomePage() {
   }
 
   async function reuseVideoTask(task: VideoTask) {
-    setProduct("video_s");
+    setProduct(ziyuModels[0] ? `ziyu:${ziyuModels[0].id}` : "");
     setPrompt(task.prompt);
     setAspectRatio(task.aspectRatio || "9:16");
     setDuration("15 秒");
@@ -666,9 +670,7 @@ export default function HomePage() {
               <div className="generator-create-controls">
                 <div className="generator-options" aria-label="产品">
                   <label><span>产品</span><select value={product} onChange={(event) => setProduct(event.target.value as StudioProduct)}>
-                    <option value="video_s">全能视频 S</option>
-                    <option value="video_smini">全能视频 Smini</option>
-                    <option value="image_g">全能图片 G</option>
+                    {!product ? <option value="">正在读取可用渠道</option> : null}
                     {ziyuModels.length ? <optgroup label="智能渠道">{ziyuModels.map((model) => <option key={model.id} value={`ziyu:${model.id}`}>{model.name}</option>)}</optgroup> : null}
                   </select></label>
                   {ziyuProductSelected && selectedZiyuModel ? <div className="generator-channel-contract" aria-label="渠道规格">
