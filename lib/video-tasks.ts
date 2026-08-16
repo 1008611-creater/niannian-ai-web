@@ -15,7 +15,7 @@ import { executionStageStartedAt, mimoProviderCostContract, publicTaskExecutionS
 
 // `motion` remains readable for tasks created before reference videos became
 // semantic inputs. New customer uploads use `reference_video` instead.
-export const assetRoles = ["character", "product", "scene", "motion", "reference_video"] as const;
+export const assetRoles = ["character", "product", "scene", "motion", "reference_video", "reference_audio"] as const;
 // New Mimo customer jobs are dispatched as channel-isolated codex_skill work
 // for the trusted Windows CDP Agent. mac_codex remains for historical tasks;
 // the server-side worker is reserved for explicitly routed legacy/system jobs.
@@ -33,6 +33,7 @@ export const referenceIntents = [
   "dynamics",
   "atmosphere",
   "overall_expression",
+  "audio_sync",
 ] as const;
 export const MAX_TASK_REFERENCES = 12;
 
@@ -92,6 +93,9 @@ function extensionFor(file: File) {
   if (file.type === "image/webp") return ".webp";
   if (file.type === "video/mp4") return ".mp4";
   if (file.type === "video/quicktime") return ".mov";
+  if (file.type === "audio/mpeg") return ".mp3";
+  if (file.type === "audio/wav" || file.type === "audio/x-wav") return ".wav";
+  if (file.type === "audio/mp4") return ".m4a";
   return ".bin";
 }
 
@@ -117,10 +121,15 @@ function isVideoRole(role: AssetRole) {
   return role === "motion" || role === "reference_video";
 }
 
+function isAudioRole(role: AssetRole) {
+  return role === "reference_audio";
+}
+
 function defaultReferenceIntent(role: AssetRole): ReferenceIntent {
   if (role === "character") return "identity";
   if (role === "product") return "asset_lock";
   if (role === "scene") return "scene";
+  if (role === "reference_audio") return "audio_sync";
   // Historical `motion` rows are interpreted explicitly as performance
   // references. A video itself never chooses the final channel operation.
   return "motion_performance";
@@ -138,6 +147,7 @@ function defaultReferenceDuty(role: AssetRole, intent: ReferenceIntent) {
     dynamics: "动态表现参考视频",
     atmosphere: "氛围参考视频",
     overall_expression: "整体视频表达参考",
+    audio_sync: "音频节奏与口型参考",
   };
   return byIntent[intent] || (isVideoRole(role) ? "视频参考" : "图片参考");
 }
@@ -150,7 +160,9 @@ function referenceRole(role: AssetRole, intent: ReferenceIntent) {
 }
 
 function referenceType(asset: AssetRecord) {
-  return asset.mime_type.startsWith("video/") ? "video" : "image";
+  if (asset.mime_type.startsWith("video/")) return "video";
+  if (asset.mime_type.startsWith("audio/")) return "audio";
+  return "image";
 }
 
 function normalizeSortOrder(value: unknown) {
@@ -167,7 +179,8 @@ export async function saveUploadedAsset(
   const bytes = Buffer.from(await file.arrayBuffer());
   const isImage = file.type.startsWith("image/");
   const isVideo = file.type.startsWith("video/");
-  if ((isVideoRole(role) && !isVideo) || (!isVideoRole(role) && !isImage)) throw new Error("ASSET_TYPE_INVALID");
+  const isAudio = file.type.startsWith("audio/");
+  if ((isVideoRole(role) && !isVideo) || (isAudioRole(role) && !isAudio) || (!isVideoRole(role) && !isAudioRole(role) && !isImage)) throw new Error("ASSET_TYPE_INVALID");
   if (bytes.length < 1 || bytes.length > 100 * 1024 * 1024) throw new Error("ASSET_SIZE_INVALID");
 
   const assetId = createId();
@@ -220,8 +233,8 @@ export async function listReusableImageAssets(userId: string) {
     `SELECT uploaded_assets.*, COALESCE(asset_library_visibility.hidden, 0) AS hidden
      FROM uploaded_assets
      LEFT JOIN asset_library_visibility ON asset_library_visibility.asset_id = uploaded_assets.id
-     WHERE uploaded_assets.user_id = ? AND uploaded_assets.role IN ('character','product','scene')
-       AND uploaded_assets.mime_type IN ('image/jpeg','image/png','image/webp') AND uploaded_assets.byte_size > 0
+       WHERE uploaded_assets.user_id = ? AND uploaded_assets.role IN ('character','product','scene','reference_video','reference_audio')
+       AND uploaded_assets.mime_type LIKE '%/%' AND uploaded_assets.byte_size > 0
      ORDER BY created_at DESC LIMIT 60`,
     [userId],
   );
@@ -240,8 +253,8 @@ export async function listReusableImageAssets(userId: string) {
 async function ownedReusableImage(userId: string, assetId: string) {
   return dbOne<AssetRecord>(
     `SELECT * FROM uploaded_assets WHERE id = ? AND user_id = ?
-     AND role IN ('character','product','scene')
-     AND mime_type IN ('image/jpeg','image/png','image/webp') AND byte_size > 0 LIMIT 1`,
+     AND role IN ('character','product','scene','reference_video','reference_audio')
+     AND mime_type LIKE '%/%' AND byte_size > 0 LIMIT 1`,
     [assetId, userId],
   );
 }

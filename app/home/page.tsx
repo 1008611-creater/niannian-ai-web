@@ -25,7 +25,7 @@ type PendingAsset = {
   file: File | null;
   referenceIntent: string;
 };
-type LibraryAsset = { id: string; role: "character" | "product" | "scene" | "motion" | "reference_video"; name: string; mimeType: string; hidden: boolean; previewUrl: string; projectId?: string; projectTitle?: string };
+type LibraryAsset = { id: string; role: "character" | "product" | "scene" | "motion" | "reference_video" | "reference_audio"; name: string; mimeType: string; hidden: boolean; previewUrl: string; projectId?: string; projectTitle?: string };
 type AssetProjectGroup = { id: string; title: string; assets: LibraryAsset[] };
 
 type VideoTask = {
@@ -134,6 +134,7 @@ export default function HomePage() {
   const [showMentionPicker, setShowMentionPicker] = useState(false);
   const taskStatusRef = useRef<HTMLElement>(null);
   const promptRef = useRef<HTMLTextAreaElement>(null);
+  const archiveProjectIdRef = useRef<string | null>(null);
 
   const promptImages = useMemo(() => (Object.entries(assets) as [AssetRole, PendingAsset[]][])
     .flatMap(([role, entries]) => entries.map((asset, index) => ({ role, asset, index })))
@@ -408,7 +409,35 @@ export default function HomePage() {
     [selectedTaskId, tasks],
   );
 
-  function selectAsset(role: AssetRole, event: ChangeEvent<HTMLInputElement>) {
+  async function persistAssetToLibrary(role: AssetRole, file: File) {
+    try {
+      let projectId = archiveProjectIdRef.current;
+      if (!projectId) {
+        const projectsResponse = await fetch("/api/projects", { cache: "no-store" });
+        const projectsPayload = await projectsResponse.json().catch(() => ({ projects: [] }));
+        const existing = Array.isArray(projectsPayload.projects) ? projectsPayload.projects.find((project: { title?: string }) => project.title === "工作台自动素材") : null;
+        projectId = existing?.id ?? null;
+      }
+      if (!projectId) {
+        const createResponse = await fetch("/api/projects", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ title: "工作台自动素材", type: "广告片" }) });
+        const createPayload = await createResponse.json().catch(() => ({}));
+        projectId = createPayload.project?.id ?? null;
+      }
+      if (!projectId) throw new Error("PROJECT_CREATE_FAILED");
+      archiveProjectIdRef.current = projectId;
+      const form = new FormData();
+      form.set("role", role);
+      form.set("referenceIntent", assetConfig[role].referenceIntent);
+      form.set("file", file);
+      const uploadResponse = await fetch(`/api/projects/${encodeURIComponent(projectId)}/assets`, { method: "POST", body: form });
+      if (!uploadResponse.ok) throw new Error("ASSET_LIBRARY_UPLOAD_FAILED");
+      setMessage("素材已添加，并自动归入“工作台自动素材”分组");
+    } catch {
+      setMessage("素材已加入当前任务，但自动归档失败，请稍后在素材库重试");
+    }
+  }
+
+  async function selectAsset(role: AssetRole, event: ChangeEvent<HTMLInputElement>) {
     if (promptAssetsDisabled) {
       setMessage("文生视频模式不能添加素材，已有素材会保留");
       event.target.value = "";
@@ -448,6 +477,7 @@ export default function HomePage() {
         [role]: [...current[role], { assetId: null, name: file.name, url, type: file.type, file, referenceIntent: assetConfig[role].referenceIntent }],
       };
     });
+    void persistAssetToLibrary(role, file);
     setMessage("");
     event.target.value = "";
   }
