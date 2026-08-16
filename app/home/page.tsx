@@ -24,7 +24,8 @@ type PendingAsset = {
   file: File | null;
   referenceIntent: string;
 };
-type LibraryAsset = { id: string; role: "character" | "product" | "scene"; name: string; mimeType: string; hidden: boolean; previewUrl: string };
+type LibraryAsset = { id: string; role: "character" | "product" | "scene" | "motion" | "reference_video"; name: string; mimeType: string; hidden: boolean; previewUrl: string; projectId?: string; projectTitle?: string };
+type AssetProjectGroup = { id: string; title: string; assets: LibraryAsset[] };
 
 type VideoTask = {
   id: string;
@@ -81,7 +82,7 @@ const emptyAssets: Record<AssetRole, PendingAsset[]> = {
   scene: [],
   reference_video: [],
 };
-const assetRoleNames: Record<LibraryAsset["role"], string> = { character: "人物图", product: "关键资产图", scene: "场景图" };
+const assetRoleNames = { character: "人物图", product: "关键资产图", scene: "场景图" };
 
 function taskStatusLabel(status: string) {
   const labels: Record<string, string> = {
@@ -116,6 +117,8 @@ export default function HomePage() {
   const [product, setProduct] = useState<StudioProduct>("");
   const [assets, setAssets] = useState<Record<AssetRole, PendingAsset[]>>(emptyAssets);
   const [libraryAssets, setLibraryAssets] = useState<LibraryAsset[]>([]);
+  const [libraryProjects, setLibraryProjects] = useState<AssetProjectGroup[]>([]);
+  const [activeAssetProjectId, setActiveAssetProjectId] = useState("all");
   const [showAssetPicker, setShowAssetPicker] = useState(false);
   const [libraryLoading, setLibraryLoading] = useState(false);
   const [tasks, setTasks] = useState<VideoTask[]>([]);
@@ -313,6 +316,25 @@ export default function HomePage() {
   const imageAssetLimitReached = imageAssetCount >= imageAssetLimit;
   const canAddImageAsset = !promptAssetsDisabled && imageAssetsAllowed && !imageAssetLimitReached;
 
+  function assetType(asset: LibraryAsset | PendingAsset): "image" | "video" | "audio" {
+    const mimeType = "mimeType" in asset ? asset.mimeType : asset.type;
+    const role = "role" in asset ? asset.role : "";
+    if (mimeType.startsWith("video/") || role === "motion" || role === "reference_video") return "video";
+    if (mimeType.startsWith("audio/")) return "audio";
+    return "image";
+  }
+
+  const pickerAssets = useMemo(() => libraryProjects.find((group) => group.id === activeAssetProjectId)?.assets ?? libraryAssets.filter((asset) => !asset.hidden), [activeAssetProjectId, libraryAssets, libraryProjects]);
+  const allowedPickerTypes = selectedZiyuModel?.allowedAssetTypes ?? (ziyuProductSelected ? [] : ["image"]);
+  const pickerAssetCount = (type: "image" | "video" | "audio") => assets.character.concat(assets.product, assets.scene, assets.reference_video).filter((asset) => assetType(asset) === type).length;
+  const pickerAssetLimit = (type: "image" | "video" | "audio") => selectedZiyuModel?.assetLimits[type] ?? (type === "image" && !ziyuProductSelected ? 12 : 0);
+
+  function pickerRoleFor(asset: LibraryAsset, targetType: "image" | "video" | "audio") {
+    if (targetType === "video") return "reference_video" as AssetRole;
+    if (targetType === "audio") return null;
+    return asset.role === "character" || asset.role === "product" || asset.role === "scene" ? asset.role : "scene";
+  }
+
   async function openAssetPicker() {
     if (promptAssetsDisabled) {
       setMessage("文生视频模式不能添加素材，已有素材会保留");
@@ -321,10 +343,20 @@ export default function HomePage() {
     setShowAssetPicker(true);
     setLibraryLoading(true);
     try {
-      const response = await fetch("/library/assets", { cache: "no-store" });
-      const payload = await response.json().catch(() => ({ assets: [] }));
-      if (!response.ok) throw new Error("ASSET_LIBRARY_UNAVAILABLE");
-      setLibraryAssets(Array.isArray(payload.assets) ? payload.assets : []);
+      const [assetResponse, projectResponse] = await Promise.all([fetch("/library/assets", { cache: "no-store" }), fetch("/api/projects", { cache: "no-store" })]);
+      const assetPayload = await assetResponse.json().catch(() => ({ assets: [] }));
+      const projectPayload = await projectResponse.json().catch(() => ({ projects: [] }));
+      if (!assetResponse.ok) throw new Error("ASSET_LIBRARY_UNAVAILABLE");
+      const globalAssets = (Array.isArray(assetPayload.assets) ? assetPayload.assets : []).filter((asset: LibraryAsset) => !asset.hidden);
+      const projects = Array.isArray(projectPayload.projects) ? projectPayload.projects : [];
+      const projectGroups = await Promise.all(projects.map(async (project: { id: string; title: string }) => {
+        const response = await fetch(`/api/projects/${encodeURIComponent(project.id)}/assets`, { cache: "no-store" });
+        const payload = await response.json().catch(() => ({ assets: [] }));
+        return { id: project.id, title: project.title, assets: (Array.isArray(payload.assets) ? payload.assets : []).filter((asset: LibraryAsset) => !asset.hidden).map((asset: LibraryAsset) => ({ ...asset, projectId: project.id, projectTitle: project.title })) };
+      }));
+      setLibraryAssets(globalAssets);
+      setLibraryProjects([{ id: "all", title: "全部素材", assets: globalAssets }, ...projectGroups]);
+      setActiveAssetProjectId("all");
     } catch {
       setMessage("素材库暂时无法读取，请稍后重试");
     } finally {
@@ -332,29 +364,40 @@ export default function HomePage() {
     }
   }
 
-  function addLibraryAsset(asset: LibraryAsset) {
+  function addLibraryAsset(asset: LibraryAsset, targetType: "image" | "video" | "audio" = "image") {
     if (promptAssetsDisabled) {
       setMessage("文生视频模式不能添加素材，已有素材会保留");
       return;
     }
-    const imageLimit = imageAssetLimit;
-    if (ziyuProductSelected && !selectedZiyuModel?.allowedAssetTypes.includes("image")) {
-      setMessage("当前渠道不支持图片参考素材");
+    const type = assetType(asset);
+    if (!allowedPickerTypes.includes(type)) {
+      setMessage(`当前渠道不支持${type === "image" ? "图片" : type === "video" ? "视频" : "音频"}参考素材`);
       return;
     }
-    if (selectedZiyuModel && assets.character.length + assets.product.length + assets.scene.length >= imageLimit) {
-      setMessage(`当前渠道最多上传 ${imageLimit} 张图片参考素材`);
+    const effectiveType = targetType === "image" ? type : targetType;
+    const limit = pickerAssetLimit(effectiveType);
+    if (effectiveType !== type) {
+      setMessage("请将素材拖到匹配的投放区域");
+      return;
+    }
+    if (pickerAssetCount(type) >= limit) {
+      setMessage(`当前渠道最多添加 ${limit} 个${type === "image" ? "图片" : type === "video" ? "视频" : "音频"}素材`);
       return;
     }
     if (!ziyuProductSelected && readyAssetCount >= 12) {
       setMessage("一次任务最多添加 12 份参考素材，请先移除不需要的素材");
       return;
     }
+    const role = pickerRoleFor(asset, type);
+    if (!role) {
+      setMessage("音频素材请直接上传到对应投放区域");
+      return;
+    }
     setAssets((current) => {
-      if (current[asset.role].some((entry) => entry.assetId === asset.id)) return current;
+      if (current[role].some((entry) => entry.assetId === asset.id)) return current;
       return {
         ...current,
-        [asset.role]: [...current[asset.role], { assetId: asset.id, name: asset.name, url: asset.previewUrl, type: asset.mimeType, file: null, referenceIntent: assetConfig[asset.role].referenceIntent }],
+        [role]: [...current[role], { assetId: asset.id, name: asset.name, url: asset.previewUrl, type: asset.mimeType, file: null, referenceIntent: assetConfig[role].referenceIntent }],
       };
     });
     setShowAssetPicker(false);
@@ -449,7 +492,8 @@ export default function HomePage() {
       const available = Array.isArray(payload.assets) ? payload.assets as LibraryAsset[] : [];
       const nextAssets: Record<AssetRole, PendingAsset[]> = { character: [], product: [], scene: [], reference_video: [] };
       for (const asset of available.filter((entry) => task.assetIds.includes(entry.id))) {
-        nextAssets[asset.role].push({ assetId: asset.id, name: asset.name, url: asset.previewUrl, type: asset.mimeType, file: null, referenceIntent: assetConfig[asset.role].referenceIntent });
+        const role = asset.role in assetConfig ? asset.role as AssetRole : "reference_video";
+        nextAssets[role].push({ assetId: asset.id, name: asset.name, url: asset.previewUrl, type: asset.mimeType, file: null, referenceIntent: assetConfig[role].referenceIntent });
       }
       setAssets(nextAssets);
       if (nextAssets.character.length + nextAssets.product.length + nextAssets.scene.length < task.assetIds.length) setMessage("提示词已复用，部分历史素材已不在素材库中。");
@@ -788,17 +832,37 @@ export default function HomePage() {
 
       {showAssetPicker ? <div className="asset-picker-backdrop" role="presentation" onMouseDown={() => setShowAssetPicker(false)}>
         <section className="asset-picker-dialog" role="dialog" aria-modal="true" aria-labelledby="asset-picker-title" onMouseDown={(event) => event.stopPropagation()}>
-          <header><h2 id="asset-picker-title">素材库</h2><button type="button" aria-label="关闭素材库" onClick={() => setShowAssetPicker(false)}><CloseIcon /></button></header>
-          {libraryLoading ? <div className="asset-picker-empty">正在读取素材库…</div> : libraryAssets.filter((asset) => !asset.hidden).length ? <div className="asset-picker-grid">
-            {libraryAssets.filter((asset) => !asset.hidden).map((asset) => {
-              const selected = assets[asset.role].some((entry) => entry.assetId === asset.id);
-              return <button className={`asset-picker-item${selected ? " is-selected" : ""}${promptAssetsDisabled ? " is-disabled" : ""}`} disabled={promptAssetsDisabled} type="button" key={asset.id} onClick={() => addLibraryAsset(asset)}>
-                <img src={asset.previewUrl} alt="" />
-                <span>{assetRoleNames[asset.role]}</span>
-                <b title={asset.name}>{asset.name}</b>
-              </button>;
-            })}
-          </div> : <div className="asset-picker-empty">素材库还没有可用图片素材</div>}
+          <header><div><h2 id="asset-picker-title">素材库</h2><span className="asset-picker-subtitle">按项目整理素材，拖到下方对应投放区</span></div><button type="button" aria-label="关闭素材库" onClick={() => setShowAssetPicker(false)}><CloseIcon /></button></header>
+          {libraryLoading ? <div className="asset-picker-empty">正在读取素材库…</div> : <div className="asset-picker-layout">
+            <nav className="asset-project-list" aria-label="项目分组">
+              {libraryProjects.map((group) => <button type="button" key={group.id} className={activeAssetProjectId === group.id ? "active" : ""} onClick={() => setActiveAssetProjectId(group.id)}><span>{group.title}</span><b>{group.assets.length}</b></button>)}
+              {!libraryProjects.length ? <span className="asset-project-empty">暂无项目分组</span> : null}
+            </nav>
+            <div className="asset-picker-content">
+              <div className="asset-drop-zones" aria-label="渠道素材投放区">
+                {(allowedPickerTypes.length ? allowedPickerTypes : ["image"]).map((type) => {
+                  const typed = type as "image" | "video" | "audio";
+                  const limit = pickerAssetLimit(typed);
+                  const count = pickerAssetCount(typed);
+                  const label = typed === "image" ? "图片参考" : typed === "video" ? "视频参考" : "音频参考";
+                  return <div className={`asset-drop-zone${count >= limit ? " is-full" : ""}`} key={typed} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); const asset = pickerAssets.find((entry) => entry.id === event.dataTransfer.getData("text/plain")); if (asset) addLibraryAsset(asset, typed); }}><span>{label}</span><b>{count} / {limit}</b><small>{count >= limit ? "已达到渠道上限" : `将${label}拖到这里`}</small></div>;
+                })}
+              </div>
+              {pickerAssets.length ? <div className="asset-picker-grid">
+                {pickerAssets.map((asset) => {
+                  const type = assetType(asset);
+                  const role = pickerRoleFor(asset, type);
+                  const selected = role ? assets[role].some((entry) => entry.assetId === asset.id) : false;
+                  return <button className={`asset-picker-item${selected ? " is-selected" : ""}${promptAssetsDisabled || !allowedPickerTypes.includes(type) ? " is-disabled" : ""}`} disabled={promptAssetsDisabled || !allowedPickerTypes.includes(type)} draggable type="button" key={asset.id} onDragStart={(event) => event.dataTransfer.setData("text/plain", asset.id)} onClick={() => addLibraryAsset(asset, type)}>
+                    <img src={asset.previewUrl} alt="" />
+                    <span>{type === "image" ? assetRoleNames[asset.role as keyof typeof assetRoleNames] ?? "图片素材" : type === "video" ? "视频素材" : "音频素材"}</span>
+                    <b title={asset.name}>{asset.name}</b>
+                    {asset.projectTitle ? <small>{asset.projectTitle}</small> : null}
+                  </button>;
+                })}
+              </div> : <div className="asset-picker-empty">当前分组还没有可用素材</div>}
+            </div>
+          </div>}
         </section>
       </div> : null}
 
