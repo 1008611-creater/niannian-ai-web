@@ -1288,6 +1288,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .asset-library-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
 .asset-library-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); }
 .asset-library-card > img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: #17181b; }
+.asset-library-card > .asset-library-preview-media, .asset-library-card > .asset-library-preview-skeleton, .asset-library-card > .asset-library-audio-preview { width: 100%; aspect-ratio: 1 / 1; }
 .asset-library-card-body { display: grid; gap: 6px; padding: 11px 12px; }
 .asset-library-card-body > span { width: max-content; border-radius: 4px; background: var(--accent-soft); color: #f1b6c2; padding: 3px 5px; font-size: 9px; }
 .asset-library-card-body b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
@@ -1299,6 +1300,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .asset-library-card footer .asset-use-button:hover { background: var(--accent-hover); }
 .asset-library-empty { min-height: 280px; display: grid; place-content: center; justify-items: center; gap: 9px; color: var(--muted); text-align: center; font-size: 13px; }
 .asset-library-empty b { color: var(--text); }.asset-library-empty span { font-size: 12px; }.asset-library-empty a, .asset-empty-upload { margin-top: 6px; color: var(--text); border-bottom: 1px solid var(--accent); padding-bottom: 3px; cursor: pointer; }
+.asset-library-preview-media { display: block; width: 100%; height: 100%; object-fit: contain; background: #111318; }
+.asset-library-preview-skeleton { width: 100%; height: 100%; background: linear-gradient(110deg, #17191e 8%, #242731 18%, #17191e 33%); background-size: 200% 100%; animation: asset-preview-shimmer 1.25s linear infinite; }
+.asset-library-audio-preview { display: flex; align-items: center; justify-content: center; gap: 10px; height: 100%; padding: 16px; color: var(--text); background: radial-gradient(circle at 50% 25%, rgba(230,117,154,.2), transparent 58%), #111318; }.asset-library-audio-preview span { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: #fff; background: var(--accent); font-size: 24px; }.asset-library-audio-preview b { max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+@keyframes asset-preview-shimmer { to { background-position-x: -200%; } }
 .asset-picker-backdrop { position: fixed; z-index: 80; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(5,6,9,.76); }
 .asset-picker-dialog { width: min(1120px,100%); max-height: min(760px,calc(100dvh - 48px)); display: grid; grid-template-rows: auto minmax(0,1fr); overflow: hidden; border: 1px solid var(--line-strong); border-radius: 8px; background: #17181c; box-shadow: 0 28px 90px rgba(0,0,0,.52); }
 .asset-picker-dialog > header { min-height: 62px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; border-bottom: 1px solid var(--line); }.asset-picker-dialog h2 { margin: 0; font-size: 16px; }.asset-picker-subtitle { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; }.asset-picker-dialog > header button { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 5px; background: transparent; color: var(--muted); cursor: pointer; }.asset-picker-dialog > header button:hover { border-color: var(--accent); color: var(--text); }.asset-picker-dialog > header svg { width: 17px; height: 17px; }
