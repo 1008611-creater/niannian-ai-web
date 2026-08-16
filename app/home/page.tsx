@@ -838,13 +838,16 @@ export default function HomePage() {
           <section className="generator-card generator-preview-card">
             <header>
               <div><h2>预览</h2></div>
-              {selectedOutputTask ? <button type="button" onClick={() => setSelectedTaskId(null)}>素材预览</button> : null}
+              <div className="generator-preview-header-actions">
+                {ziyuJob?.previewUrl ? <a className="generator-download-link" href={`/api/ziyu/media?jobId=${encodeURIComponent(ziyuJob.id)}`} download>下载视频</a> : null}
+                {selectedOutputTask ? <button type="button" onClick={() => setSelectedTaskId(null)}>素材预览</button> : null}
+              </div>
             </header>
             <div className="generator-preview">
               {selectedOutputTask ? (
                 <video key={selectedOutputTask.id} className="generator-result-preview" autoPlay muted controls playsInline preload="auto" src={selectedOutputTask.outputUrl ?? undefined} />
               ) : ziyuJob?.previewUrl ? (
-                <div className="generator-ziyu-result"><video key={ziyuJob.id} className="generator-result-preview" autoPlay muted controls playsInline preload="auto" src={`/api/ziyu/media?jobId=${encodeURIComponent(ziyuJob.id)}`} /><a href={`/api/ziyu/media?jobId=${encodeURIComponent(ziyuJob.id)}`} download>下载视频</a></div>
+                <div className="generator-ziyu-result"><video key={ziyuJob.id} className="generator-result-preview" autoPlay muted controls playsInline preload="auto" src={`/api/ziyu/media?jobId=${encodeURIComponent(ziyuJob.id)}`} /></div>
               ) : assets.character[0] || assets.scene[0] ? (
                 <div className="preview-composition">
                   {assets.scene[0] ? <img className="preview-scene" src={assets.scene[0].url} alt="场景预览" /> : null}
