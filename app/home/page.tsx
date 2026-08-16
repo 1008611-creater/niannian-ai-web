@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ChevronDownIcon, ChevronLeftIcon, ClockIcon, CloseIcon, ExpandIcon, PlusIcon, SparkIcon, UploadIcon } from "@/components/Icons";
 import { formatDateTime } from "@/lib/date-display";
+import { ziyuPromptMaxLength } from "@/lib/ziyu-contract";
 
 const assetConfig = {
   character: { title: "人物图", accept: "image/*", referenceIntent: "identity" },
@@ -247,6 +248,7 @@ export default function HomePage() {
   const ziyuProductSelected = product.startsWith("ziyu:");
   const selectedZiyuModel = ziyuModels.find((model) => product === `ziyu:${model.id}`);
   const promptAssetsDisabled = ziyuProductSelected && ziyuMode === "t2v";
+  const promptMaxLength = ziyuProductSelected ? ziyuPromptMaxLength(selectedZiyuModel?.promptMaxLength) : 2000;
   const resolution = selectedZiyuModel
     ? displayResolution(selectedZiyuModel.resolution, "渠道默认")
     : "720p";
@@ -418,8 +420,8 @@ export default function HomePage() {
   const customerZiyuCost = ziyuCost === null ? null : Math.ceil(ziyuCost * 1.5);
   const hasEnoughCredits = Boolean(credits && currentCreditCost > 0 && credits.balance >= currentCreditCost);
   const missingCredits = Math.max(0, currentCreditCost - (credits?.balance ?? 0));
-  const validationMessage = imageProductSelected ? "全能图片 G 即将开放" : ziyuProductSelected && !selectedZiyuModel ? "正在读取可用渠道" : !prompt.trim() ? "请先填写视频描述" : !ziyuProductSelected && !credits ? "正在读取积分余额" : !ziyuProductSelected && currentCreditCost <= 0 ? "当前时长暂时不可用" : !ziyuProductSelected && !hasEnoughCredits ? `积分不足，还需要 ${missingCredits} 积分` : "";
-  const canCreate = Boolean(!imageProductSelected && prompt.trim() && (ziyuProductSelected ? selectedZiyuModel : hasEnoughCredits) && !submitting);
+  const validationMessage = imageProductSelected ? "全能图片 G 即将开放" : ziyuProductSelected && !selectedZiyuModel ? "正在读取可用渠道" : prompt.length > promptMaxLength ? `提示词不能超过 ${promptMaxLength} 字` : !prompt.trim() ? "请先填写视频描述" : !ziyuProductSelected && !credits ? "正在读取积分余额" : !ziyuProductSelected && currentCreditCost <= 0 ? "当前时长暂时不可用" : !ziyuProductSelected && !hasEnoughCredits ? `积分不足，还需要 ${missingCredits} 积分` : "";
+  const canCreate = Boolean(!imageProductSelected && prompt.trim() && prompt.length <= promptMaxLength && (ziyuProductSelected ? selectedZiyuModel : hasEnoughCredits) && !submitting);
   const selectedOutputTask = useMemo(
     () => tasks.find((task) => task.id === selectedTaskId && task.outputReady && task.outputUrl) ?? null,
     [selectedTaskId, tasks],
@@ -719,14 +721,14 @@ export default function HomePage() {
               <div className="generator-field generator-prompt">
                 <div className="generator-prompt-heading">
                   <label htmlFor="video-prompt">视频描述 <em>*</em></label>
-                  <small>{prompt.length} / {selectedZiyuModel?.promptMaxLength || 2000}</small>
+                  <small>{prompt.length} / {promptMaxLength}</small>
                 </div>
                 <div className="generator-prompt-editor">
                   <div className="generator-prompt-highlight" aria-hidden="true">{highlightedPrompt}</div>
                   <textarea
                     ref={promptRef}
                     id="video-prompt"
-                    maxLength={selectedZiyuModel?.promptMaxLength || 2000}
+                    maxLength={promptMaxLength}
                     value={prompt}
                     onChange={(event) => {
                       setPrompt(event.target.value);

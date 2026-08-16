@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authCookie, sessionFromToken, validRequestOrigin } from "@/lib/auth";
 import { createZiyuJob, listZiyuJobs, listZiyuModels, ZiyuApiError } from "@/lib/ziyu-api";
+import { ziyuPromptMaxLength } from "@/lib/ziyu-contract";
 
 export const runtime = "nodejs";
 
@@ -22,10 +23,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const mode = body?.mode;
     const prompt = typeof body?.prompt === "string" ? body.prompt.trim() : "";
-    if (!["i2v", "t2v", "t2i"].includes(mode) || !prompt || prompt.length > 10000) return NextResponse.json({ error: "JOB_REQUEST_INVALID" }, { status: 400 });
+    if (!["i2v", "t2v", "t2i"].includes(mode) || !prompt) return NextResponse.json({ error: "JOB_REQUEST_INVALID" }, { status: 400 });
+    let promptLimit = ziyuPromptMaxLength(undefined);
     if (body.modelId) {
       const model = (await listZiyuModels()).find((item) => item.id === body.modelId);
       if (!model || !model.modes.includes(mode)) return NextResponse.json({ error: "MODEL_MODE_NOT_ALLOWED" }, { status: 400 });
+      promptLimit = ziyuPromptMaxLength(model.promptMaxLength);
       if (body.duration && model.allowedDurations.length && !model.allowedDurations.includes(Number.parseInt(String(body.duration), 10))) return NextResponse.json({ error: "DURATION_NOT_ALLOWED" }, { status: 400 });
       if (body.ratio && model.allowedRatios.length && !model.allowedRatios.includes(String(body.ratio))) return NextResponse.json({ error: "RATIO_NOT_ALLOWED" }, { status: 400 });
       const requestedAssets = body.assets && typeof body.assets === "object" ? body.assets as Record<string, unknown> : {};
@@ -40,6 +43,7 @@ export async function POST(request: NextRequest) {
         if (typeof limit === "number" && entries.length > limit) return NextResponse.json({ error: `ASSET_LIMIT_EXCEEDED:${type}` }, { status: 400 });
       }
     }
+    if (prompt.length > promptLimit) return NextResponse.json({ error: "PROMPT_TOO_LONG" }, { status: 400 });
     const result = await createZiyuJob({ modelId: typeof body.modelId === "string" ? body.modelId : undefined, mode, prompt, ratio: typeof body.ratio === "string" ? body.ratio : undefined, duration: typeof body.duration === "string" ? body.duration : undefined, assets: body.assets });
     return NextResponse.json(result, { status: 202 });
   } catch (error) {
